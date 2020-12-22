@@ -4,15 +4,15 @@
     <title>Posts on song</title>
     <link>https://chenjiesong.github.io/posts/</link>
     <description>Recent content in Posts on song</description>
-    <generator>Hugo -- gohugo.io</generator><atom:link href="https://chenjiesong.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Tue, 22 Dec 2020 00:00:00 +0000</lastBuildDate><atom:link href="https://chenjiesong.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title></title>
+      <title>Spring5框架</title>
       <link>https://chenjiesong.github.io/posts/spring5%E5%AD%A6%E4%B9%A0/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <pubDate>Tue, 22 Dec 2020 00:00:00 +0000</pubDate>
       
       <guid>https://chenjiesong.github.io/posts/spring5%E5%AD%A6%E4%B9%A0/</guid>
-      <description>+++ title = &amp;ldquo;Spring5框架&amp;rdquo; tags = [&amp;ldquo;Spring5&amp;rdquo;] date = &amp;ldquo;2020-12-22&amp;rdquo;
-    Spring是轻量级的开源JavaEE框架
+      <description> Spring框架概述   Spring是轻量级的开源JavaEE框架
   Spring可以解决企业应用开发的复杂性
   Spring有两个核心部分：IOC和Aop
  IOC：控制反转，把创建对象过程交给Spring进行管理 Aop：面向切面，不修改源代码进行功能增强    Spring特点
