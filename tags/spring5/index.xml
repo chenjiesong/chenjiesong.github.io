@@ -17,8 +17,7 @@
   Spring有两个核心部分：IOC和Aop
  IOC：控制反转，把创建对象过程交给Spring进行管理 Aop：面向切面，不修改源代码进行功能增强    Spring特点
  方便解耦，简化开发 Aop编程支持 方便程序测试 方便和其他框架整合 方便进行事务操作 降低API开发难度    Spring 下载地址：https://repo.spring.io/release/org/springframework/spring/
-   Spring系统模块   系统结构
-   </description>
+   Spring系统模块 </description>
     </item>
     
   </channel>
