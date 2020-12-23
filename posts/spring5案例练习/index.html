@@ -15,6 +15,7 @@
 <meta name="twitter:title" content="Spring5案例练习"/>
 <meta name="twitter:description" content="下载最新的Spring5：
 官网下载地址：https://repo.spring.io/release/org/springframework/spring/
+日志jar包：http://commons.apache.org/proper/commons-logging/download_logging.cgi
 github（Spring5核心组件）：https://github.com/chenjiesong/img_study/tree/main/study
   idea创建普通Java工程
   创建文件夹lib，导入核心组件：
@@ -24,13 +25,14 @@ github（Spring5核心组件）：https://github.com/chenjiesong/img_study/tree/
   context：上下文
   expression：表达式
 ​	  点击文件-&gt; 项目结构 -&gt; 模块 -&gt; 依赖 -&gt; &ldquo;&#43;&rdquo; -&gt; 导入JAR -&gt; 选中lib下的jar包 -&gt; 确定
-​	  src创建包，在其创建普通类，输入简单代码
+  src创建包，在其创建普通类，输入简单代码
 ​	package spring; public class User { public void add() { System.out.println(&#34;test&#34;); } }   创建Spring配置文件，在配置文件配置创建的对象
 src新建xml -&gt; Spring配置文件 -&gt; 使用bean标签配置User对象创建"/>
 
     <meta property="og:title" content="Spring5案例练习" />
 <meta property="og:description" content="下载最新的Spring5：
 官网下载地址：https://repo.spring.io/release/org/springframework/spring/
+日志jar包：http://commons.apache.org/proper/commons-logging/download_logging.cgi
 github（Spring5核心组件）：https://github.com/chenjiesong/img_study/tree/main/study
   idea创建普通Java工程
   创建文件夹lib，导入核心组件：
@@ -40,7 +42,7 @@ github（Spring5核心组件）：https://github.com/chenjiesong/img_study/tree/
   context：上下文
   expression：表达式
 ​	  点击文件-&gt; 项目结构 -&gt; 模块 -&gt; 依赖 -&gt; &ldquo;&#43;&rdquo; -&gt; 导入JAR -&gt; 选中lib下的jar包 -&gt; 确定
-​	  src创建包，在其创建普通类，输入简单代码
+  src创建包，在其创建普通类，输入简单代码
 ​	package spring; public class User { public void add() { System.out.println(&#34;test&#34;); } }   创建Spring配置文件，在配置文件配置创建的对象
 src新建xml -&gt; Spring配置文件 -&gt; 使用bean标签配置User对象创建" />
 <meta property="og:type" content="article" />
@@ -110,6 +112,7 @@ src新建xml -&gt; Spring配置文件 -&gt; 使用bean标签配置User对象创�
 <li>
 <p>下载最新的Spring5：</p>
 <p>官网下载地址：https://repo.spring.io/release/org/springframework/spring/</p>
+<p>日志jar包：http://commons.apache.org/proper/commons-logging/download_logging.cgi</p>
 <p>github（Spring5核心组件）：https://github.com/chenjiesong/img_study/tree/main/study</p>
 </li>
 <li>
@@ -137,7 +140,7 @@ src新建xml -&gt; Spring配置文件 -&gt; 使用bean标签配置User对象创�
 </li>
 </ul>
 <p>点击文件-&gt; 项目结构 -&gt; 模块 -&gt; 依赖 -&gt; &ldquo;+&rdquo; -&gt; 导入JAR -&gt; 选中lib下的jar包 -&gt; 确定</p>
-<p>​	<img src="https://raw.githubusercontent.com/chenjiesong/img_study/main/img/%E6%A1%88%E4%BE%8B%E7%BB%83%E4%B9%A0/%E5%AF%BC%E5%85%A5jar%E5%8C%85.png" alt=""></p>
+<p><img src="https://raw.githubusercontent.com/chenjiesong/img_study/main/img/%E6%A1%88%E4%BE%8B%E7%BB%83%E4%B9%A0/%E5%AF%BC%E5%85%A5jar%E5%8C%85.png" alt=""></p>
 </li>
 <li>
 <p>src创建包，在其创建普通类，输入简单代码</p>
@@ -155,7 +158,7 @@ src新建xml -&gt; Spring配置文件 -&gt; 使用bean标签配置User对象创�
 <li>
 <p>创建Spring配置文件，在配置文件配置创建的对象</p>
 <p>src新建xml -&gt; Spring配置文件 -&gt; 使用bean标签配置User对象创建</p>
-<p>​	<img src="https://raw.githubusercontent.com/chenjiesong/img_study/main/img/%E6%A1%88%E4%BE%8B%E7%BB%83%E4%B9%A0/%E9%85%8D%E7%BD%AExml.png" alt=""></p>
+<p><img src="https://raw.githubusercontent.com/chenjiesong/img_study/main/img/%E6%A1%88%E4%BE%8B%E7%BB%83%E4%B9%A0/%E9%85%8D%E7%BD%AExml.png" alt=""></p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#75715e">&lt;?xml version=&#34;1.0&#34; encoding=&#34;UTF-8&#34;?&gt;</span>
 <span style="color:#f92672">&lt;beans</span> <span style="color:#a6e22e">xmlns=</span><span style="color:#e6db74">&#34;http://www.springframework.org/schema/beans&#34;</span>
        <span style="color:#a6e22e">xmlns:xsi=</span><span style="color:#e6db74">&#34;http://www.w3.org/2001/XMLSchema-instance&#34;</span>
@@ -194,6 +197,13 @@ src新建xml -&gt; Spring配置文件 -&gt; 使用bean标签配置User对象创�
    
 <span style="color:#f92672">}</span>
    
+</code></pre></div><p>ClassPathXmlApplicationContext（）用法</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">   
+<span style="color:#75715e">// ClassPathXmlApplicationContext 是读取 src 目录下的配置文件
+</span><span style="color:#75715e"></span>ApplicationContext app <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> ClassPathXmlApplicationContext<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;applicationContext.xml&#34;</span><span style="color:#f92672">);</span>
+   
+<span style="color:#75715e">// FileSystemXmlApplicationContext 即系统文件路径，文件的目录。
+</span><span style="color:#75715e"></span>ApplicationContext context <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> FileSystemXmlApplicationContext<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;WebRoot/WEB-INF/applicationContext.xml&#34;</span><span style="color:#f92672">);</span>
 </code></pre></div></li>
 </ol>
 

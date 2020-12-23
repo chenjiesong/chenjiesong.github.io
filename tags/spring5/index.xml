@@ -14,6 +14,7 @@
       <guid>https://chenjiesong.github.io/posts/spring5%E6%A1%88%E4%BE%8B%E7%BB%83%E4%B9%A0/</guid>
       <description>下载最新的Spring5：
 官网下载地址：https://repo.spring.io/release/org/springframework/spring/
+日志jar包：http://commons.apache.org/proper/commons-logging/download_logging.cgi
 github（Spring5核心组件）：https://github.com/chenjiesong/img_study/tree/main/study
   idea创建普通Java工程
   创建文件夹lib，导入核心组件：
@@ -23,7 +24,7 @@ github（Spring5核心组件）：https://github.com/chenjiesong/img_study/tree/
   context：上下文
   expression：表达式
 ​	  点击文件-&amp;gt; 项目结构 -&amp;gt; 模块 -&amp;gt; 依赖 -&amp;gt; &amp;ldquo;+&amp;rdquo; -&amp;gt; 导入JAR -&amp;gt; 选中lib下的jar包 -&amp;gt; 确定
-​	  src创建包，在其创建普通类，输入简单代码
+  src创建包，在其创建普通类，输入简单代码
 ​	package spring; public class User { public void add() { System.out.println(&amp;#34;test&amp;#34;); } }   创建Spring配置文件，在配置文件配置创建的对象
 src新建xml -&amp;gt; Spring配置文件 -&amp;gt; 使用bean标签配置User对象创建</description>
     </item>
