@@ -53,5 +53,14 @@ src新建xml -&amp;gt; Spring配置文件 -&amp;gt; 使用bean标签配置User�
  Data Access/Integration（数据访问及集成） Web Aspect Oriented Programming（面向切面编程） Instrmentation（设备支持） Messaging（报文发送） Core Container（核心容器） Test  </description>
     </item>
     
+    <item>
+      <title>Java基础</title>
+      <link>https://chenjiesong.github.io/posts/java%E5%9F%BA%E7%A1%80/</link>
+      <pubDate>Sun, 20 Dec 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://chenjiesong.github.io/posts/java%E5%9F%BA%E7%A1%80/</guid>
+      <description></description>
+    </item>
+    
   </channel>
 </rss>
