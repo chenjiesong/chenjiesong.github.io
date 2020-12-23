@@ -7,6 +7,15 @@
     <generator>Hugo -- gohugo.io</generator>
     <lastBuildDate>Wed, 23 Dec 2020 00:00:00 +0000</lastBuildDate><atom:link href="https://chenjiesong.github.io/tags/spring5/index.xml" rel="self" type="application/rss+xml" />
     <item>
+      <title>IOC容器底层原理</title>
+      <link>https://chenjiesong.github.io/posts/ioc%E5%AE%B9%E5%99%A8%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86/</link>
+      <pubDate>Wed, 23 Dec 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://chenjiesong.github.io/posts/ioc%E5%AE%B9%E5%99%A8%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86/</guid>
+      <description> </description>
+    </item>
+    
+    <item>
       <title>Spring5案例练习</title>
       <link>https://chenjiesong.github.io/posts/spring5%E6%A1%88%E4%BE%8B%E7%BB%83%E4%B9%A0/</link>
       <pubDate>Wed, 23 Dec 2020 00:00:00 +0000</pubDate>
