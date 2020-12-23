@@ -59,7 +59,13 @@ src新建xml -&amp;gt; Spring配置文件 -&amp;gt; 使用bean标签配置User�
       <pubDate>Sun, 20 Dec 2020 00:00:00 +0000</pubDate>
       
       <guid>https://chenjiesong.github.io/posts/java%E5%9F%BA%E7%A1%80/</guid>
-      <description></description>
+      <description> 一、格式要求   java程序编写-编译-运行的过程
+ 编写：java代码保存在以“.java”结尾的源文件中 编译：使用javac.exe命令编译我们的java源文件。格式：javac 源文件名.java 运行：使用java.exe命令解释运行我们的字节码文件。 格式： java 类名    在一个java源文件中可以声明多个class。但是，只能最多一个类声明为public的。而且要求声明为public的类的类名必须与源文件名相同
+  程序的入口是main()方法。格式是固定的
+  每一行执行语句以；为结尾
+  编译的过程：编译以后，会生成一个或多个字节码文件
+  hello world 样例代码
+public class main { public static void main(String[] args) { System.out.println(&amp;#34;Hello World&amp;#34;); } }   </description>
     </item>
     
   </channel>
