@@ -72,6 +72,20 @@ src新建xml -&amp;gt; Spring配置文件 -&amp;gt; 使用bean标签配置User�
     </item>
     
     <item>
+      <title>Java增强型for循环 for each</title>
+      <link>https://chenjiesong.github.io/posts/java%E5%A2%9E%E5%8A%A0%E5%9E%8Bfor%E5%BE%AA%E7%8E%AF/</link>
+      <pubDate>Sun, 20 Dec 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://chenjiesong.github.io/posts/java%E5%A2%9E%E5%8A%A0%E5%9E%8Bfor%E5%BE%AA%E7%8E%AF/</guid>
+      <description>For-Each 循环  For-Each循环也叫增强型的for循环，或者叫foreach循环。 For-Each循环是JDK5.0的新特性（其他新特性比如泛型、自动装箱等）。 For-Each循环的加入简化了集合的遍历。  其语法如下：
+ 　for(type element: array)
+　{
+　System.out.println(element);
+　}
+ import java.util.ArrayList; import java.util.Iterator; import java.util.List; public class ForeachTest { public static void main(String[] args) { int[] arr = {1, 2, 3, 4, 5}; System.out.println(&amp;#34;----------旧方式遍历------------&amp;#34;); //旧式方式  for(int i=0; i&amp;lt;arr.length; i++) { System.out.println(arr[i]); } System.out.println(&amp;#34;---------新方式遍历-------------&amp;#34;); //新式写法,增强的for循环  for(int element:arr) { System.out.println(element); } System.out.println(&amp;#34;---------遍历二维数组-------------&amp;#34;); //遍历二维数组  int[][] arr2 = {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}} ; for(int[] row : arr2) { for(int element : row) { System.</description>
+    </item>
+    
+    <item>
       <title>Java求各位数字</title>
       <link>https://chenjiesong.github.io/posts/java%E6%B1%82%E5%90%84%E4%BD%8D%E6%95%B0%E5%AD%97/</link>
       <pubDate>Sun, 20 Dec 2020 00:00:00 +0000</pubDate>
