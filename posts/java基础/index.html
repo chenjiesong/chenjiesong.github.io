@@ -85,7 +85,7 @@
   <title>clock</title>
   <circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline>
 </svg>
-          4 min read
+          5 min read
         </div>
         <div>
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
@@ -696,10 +696,146 @@
    <span style="color:#f92672">}</span>
 <span style="color:#f92672">}</span>
 </code></pre></div></li>
-</ol>
-<h3 id="2四大特性">2.四大特性</h3>
+<li>
+<p>内存解析：</p>
+<p>代码说明:</p>
 <ol>
-<li>继承</li>
+<li>当Person p1= new Person();第一次被调用时需要做两件事：
+<ol>
+<li>先判断类加载器是否加载过Person类，如果没有则加载到Person类型到方法区</li>
+<li>在堆中开辟内存空间，在栈中对象名引用（指向）堆的相应内存空间</li>
+</ol>
+</li>
+<li>p1.name = &lsquo;皓皓&rsquo;:将堆中name赋值为&rsquo;皓皓'；</li>
+<li>Person p2 = new Person():此时方法区已经存在Person类，所以不需要再次加载</li>
+<li>p2.name = &lsquo;john’；将堆中name赋值为&rsquo;john&rsquo;；</li>
+</ol>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#75715e">// 创建类
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Person</span><span style="color:#f92672">{</span>
+ <span style="color:#75715e">// 编写属性
+</span><span style="color:#75715e"></span> String name<span style="color:#f92672">;</span>
+ <span style="color:#66d9ef">int</span> age<span style="color:#f92672">;</span>
+ doubel height<span style="color:#f92672">;</span>
+ <span style="color:#75715e">// 编写方法
+</span><span style="color:#75715e"></span> <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">eat</span><span style="color:#f92672">(){</span>
+   
+ <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span> 
+   
+   
+<span style="color:#75715e">// 类的实例化
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span><span style="color:#f92672">(</span>String<span style="color:#f92672">[]</span> args<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+ Person p1 <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Person<span style="color:#f92672">();</span>
+ p1<span style="color:#f92672">.</span><span style="color:#a6e22e">name</span> <span style="color:#f92672">=</span> <span style="color:#960050;background-color:#1e0010">&#39;</span>皓皓<span style="color:#960050;background-color:#1e0010">&#39;：</span>
+ Person p2 <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Person<span style="color:#f92672">():</span>
+ p2<span style="color:#f92672">.</span><span style="color:#a6e22e">name</span> <span style="color:#f92672">=</span> <span style="color:#960050;background-color:#1e0010">&#39;</span>john<span style="color:#960050;background-color:#1e0010">&#39;</span><span style="color:#f92672">;</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p><img src="https://raw.githubusercontent.com/chenjiesong/img_study/main/img/JAVA%E5%9F%BA%E7%A1%80/%E7%B1%BB%E5%92%8C%E5%AF%B9%E8%B1%A1%E5%86%85%E5%AD%98%E8%A7%A3%E6%9E%90.png" alt=""></p>
+<p>总结：
+栈：对象的引用、局部变量</p>
+<p>堆：对象、全局变量</p>
+<p>方法区：类信息</p>
+</li>
+</ol>
+<h3 id="2继承">2.继承</h3>
+<ol>
+<li>
+<p>概念：</p>
+<p>继承就是子类继承父类的特征和行为，使得子类对象具有付类的实例域和方法，或子类从父类继承方法，使得子类具有父类相同的行为。</p>
+</li>
+<li>
+<p>格式：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">父类</span> <span style="color:#f92672">{</span>
+<span style="color:#f92672">}</span>
+    
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">子类</span> <span style="color:#66d9ef">extends</span> 父类 <span style="color:#f92672">{</span>
+<span style="color:#f92672">}</span>
+</code></pre></div></li>
+<li>
+<p>继承类型：</p>
+<p><img src="https://raw.githubusercontent.com/chenjiesong/img_study/main/img/JAVA%E5%9F%BA%E7%A1%80/%E7%BB%A7%E6%89%BF%E7%B1%BB%E5%9E%8B.png" alt=""></p>
+</li>
+<li>
+<p>继承的特性：</p>
+<ol>
+<li>子类拥有父类非private的属性、方法。</li>
+<li>子类可以拥有自己的属性和方法，即子类可以对父类进行扩展。</li>
+<li>子类可以用自己的方式实现父类的方法。</li>
+<li>Java的继承是单继承，但是可以多重继承。</li>
+<li>提高了类之间的耦合性，造成到代码之间的联系紧密，代码独立性差。</li>
+</ol>
+</li>
+<li>
+<p>继承关键字：</p>
+<ol>
+<li>
+<p>extends</p>
+<p>extends只能继承一个类</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Animal</span> <span style="color:#f92672">{</span> 
+    <span style="color:#66d9ef">private</span> String name<span style="color:#f92672">;</span>   
+    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">int</span> id<span style="color:#f92672">;</span> 
+    <span style="color:#66d9ef">public</span> <span style="color:#a6e22e">Animal</span><span style="color:#f92672">(</span>String myName<span style="color:#f92672">,</span> String myid<span style="color:#f92672">)</span> <span style="color:#f92672">{</span> 
+        <span style="color:#75715e">//初始化属性值
+</span><span style="color:#75715e"></span>    <span style="color:#f92672">}</span> 
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">eat</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>  <span style="color:#75715e">//吃东西方法的具体实现  } 
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">sleep</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span> <span style="color:#75715e">//睡觉方法的具体实现  } 
+</span><span style="color:#75715e"></span><span style="color:#f92672">}</span> 
+       
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Penguin</span>  <span style="color:#66d9ef">extends</span>  Animal<span style="color:#f92672">{</span> 
+<span style="color:#f92672">}</span>
+</code></pre></div></li>
+<li>
+<p>implements</p>
+<p>implements关键字可以变相的使Java具有多继承的特性，使用范围为类继承接口的情况，可以同时继承多个接口。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">interface</span> <span style="color:#a6e22e">A</span> <span style="color:#f92672">{</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">eat</span><span style="color:#f92672">();</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">sleep</span><span style="color:#f92672">();</span>
+<span style="color:#f92672">}</span>
+       
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">interface</span> <span style="color:#a6e22e">B</span> <span style="color:#f92672">{</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">show</span><span style="color:#f92672">();</span>
+<span style="color:#f92672">}</span>
+       
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">C</span> <span style="color:#66d9ef">implements</span> A<span style="color:#f92672">,</span>B <span style="color:#f92672">{</span>
+<span style="color:#f92672">}</span>
+</code></pre></div></li>
+<li>
+<p>super和this</p>
+<ol>
+<li>super实现对父类成员的访问，用来应用当前对象的父类</li>
+<li>this指向自己的引用</li>
+</ol>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Animal</span> <span style="color:#f92672">{</span>
+  <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">eat</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+    System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;animal : eat&#34;</span><span style="color:#f92672">);</span>
+  <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+       
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Dog</span> <span style="color:#66d9ef">extends</span> Animal <span style="color:#f92672">{</span>
+  <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">eat</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+    System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;dog : eat&#34;</span><span style="color:#f92672">);</span>
+  <span style="color:#f92672">}</span>
+  <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">eatTest</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+    <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">eat</span><span style="color:#f92672">();</span>   <span style="color:#75715e">// this 调用自己的方法
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">super</span><span style="color:#f92672">.</span><span style="color:#a6e22e">eat</span><span style="color:#f92672">();</span>  <span style="color:#75715e">// super 调用父类方法
+</span><span style="color:#75715e"></span>  <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+       
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Test</span> <span style="color:#f92672">{</span>
+  <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span><span style="color:#f92672">(</span>String<span style="color:#f92672">[]</span> args<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+    Animal a <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Animal<span style="color:#f92672">();</span>
+    a<span style="color:#f92672">.</span><span style="color:#a6e22e">eat</span><span style="color:#f92672">();</span>
+    Dog d <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Dog<span style="color:#f92672">();</span>
+    d<span style="color:#f92672">.</span><span style="color:#a6e22e">eatTest</span><span style="color:#f92672">();</span>
+  <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+</code></pre></div></li>
+<li>
+<p>final</p>
+<p>final关键字声明类可以把类定义为不能继承的，即最终类；或用于修饰手法，该方法不能被子类重写</p>
+</li>
+</ol>
+</li>
 </ol>
 
     </div>
