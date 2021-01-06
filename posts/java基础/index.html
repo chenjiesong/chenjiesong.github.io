@@ -475,22 +475,22 @@
 <span style="color:#f92672">}</span>
       
 </code></pre></div></li>
-</ol>
-</li>
 <li>
 <p>do-while</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">   <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Test</span> <span style="color:#f92672">{</span>
        <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span><span style="color:#f92672">(</span>String<span style="color:#f92672">[]</span> args<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
-      
+         
            <span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> 1<span style="color:#f92672">;</span>
            <span style="color:#66d9ef">do</span><span style="color:#f92672">{</span>
                System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span>i<span style="color:#f92672">);</span>
                i<span style="color:#f92672">++;</span>
            <span style="color:#f92672">}</span><span style="color:#66d9ef">while</span><span style="color:#f92672">(</span>i <span style="color:#f92672">&lt;=</span> 100<span style="color:#f92672">);</span>
-      
+         
        <span style="color:#f92672">}</span>
    <span style="color:#f92672">}</span>
 </code></pre></div></li>
+</ol>
+</li>
 <li>
 <p><strong>特殊关键字的使用</strong></p>
 <ol>
@@ -610,7 +610,7 @@
 <h3 id="1对象和类">1.对象和类</h3>
 <ol>
 <li>
-<p>概念：</p>
+<p><strong>概念</strong>：</p>
 <ul>
 <li>对象：对象是类的一个实例，有状态和行为</li>
 <li>类：类是一个模板，它描述一类对象的行为和状态</li>
@@ -624,7 +624,7 @@
 </ul>
 </li>
 <li>
-<p>构造方法：</p>
+<p><strong>构造方法</strong>：</p>
 <ol>
 <li>
 <p>每个类都有构造方法，如果没有显式地为类定义构造方法，Java编译器将会为该类提供一个默认构造方法。</p>
@@ -643,7 +643,7 @@
 </ol>
 </li>
 <li>
-<p>创建对象：</p>
+<p><strong>创建对象</strong>：</p>
 <ol>
 <li>
 <p>声明：声明一个对象，包括对象名称和对象类型。</p>
@@ -667,7 +667,7 @@
 </ol>
 </li>
 <li>
-<p>访问实例变量和方法：</p>
+<p><strong>访问实例变量和方法</strong>：</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Puppy</span><span style="color:#f92672">{</span>
    <span style="color:#66d9ef">int</span> puppyAge<span style="color:#f92672">;</span>
    <span style="color:#66d9ef">public</span> <span style="color:#a6e22e">Puppy</span><span style="color:#f92672">(</span>String name<span style="color:#f92672">){</span>
@@ -697,7 +697,7 @@
 <span style="color:#f92672">}</span>
 </code></pre></div></li>
 <li>
-<p>内存解析：</p>
+<p><strong>内存解析</strong>：</p>
 <p>代码说明:</p>
 <ol>
 <li>当Person p1= new Person();第一次被调用时需要做两件事：
@@ -740,11 +740,11 @@
 <h3 id="2继承">2.继承</h3>
 <ol>
 <li>
-<p>概念：</p>
+<p><strong>概念</strong>：</p>
 <p>继承就是子类继承父类的特征和行为，使得子类对象具有付类的实例域和方法，或子类从父类继承方法，使得子类具有父类相同的行为。</p>
 </li>
 <li>
-<p>格式：</p>
+<p><strong>格式</strong>：</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">父类</span> <span style="color:#f92672">{</span>
 <span style="color:#f92672">}</span>
     
@@ -752,11 +752,11 @@
 <span style="color:#f92672">}</span>
 </code></pre></div></li>
 <li>
-<p>继承类型：</p>
+<p><strong>继承类型</strong>：</p>
 <p><img src="https://raw.githubusercontent.com/chenjiesong/img_study/main/img/JAVA%E5%9F%BA%E7%A1%80/%E7%BB%A7%E6%89%BF%E7%B1%BB%E5%9E%8B.png" alt=""></p>
 </li>
 <li>
-<p>继承的特性：</p>
+<p><strong>继承的特性</strong>：</p>
 <ol>
 <li>子类拥有父类非private的属性、方法。</li>
 <li>子类可以拥有自己的属性和方法，即子类可以对父类进行扩展。</li>
@@ -766,7 +766,7 @@
 </ol>
 </li>
 <li>
-<p>继承关键字：</p>
+<p><strong>继承关键字</strong>：</p>
 <ol>
 <li>
 <p>extends</p>
@@ -836,7 +836,78 @@
 </li>
 </ol>
 </li>
+<li>
+<p><strong>构造器</strong></p>
+<ul>
+<li>
+<p>子类是不继承父类的构造器的，它只是调用。如果父类的构造器带有参数，则必须在子类的构造器中显式地通过<code>super</code>关键字来调用父类地构造器并配以适当地参数列表。</p>
+</li>
+<li>
+<p>如果父类构造器没有参数，则在子类地构造器中不需要使用<code>super</code>关键字调用父类构造器，系统会自动调用父类的无参构造器。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">SuperClass</span> <span style="color:#f92672">{</span>
+  <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">int</span> n<span style="color:#f92672">;</span>
+  SuperClass<span style="color:#f92672">(){</span>
+    System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;SuperClass()&#34;</span><span style="color:#f92672">);</span>
+  <span style="color:#f92672">}</span>
+  SuperClass<span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> n<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+    System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;SuperClass(int n)&#34;</span><span style="color:#f92672">);</span>
+    <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">n</span> <span style="color:#f92672">=</span> n<span style="color:#f92672">;</span>
+  <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+<span style="color:#75715e">// SubClass 类继承
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">SubClass</span> <span style="color:#66d9ef">extends</span> SuperClass<span style="color:#f92672">{</span>
+  <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">int</span> n<span style="color:#f92672">;</span>
+       
+  SubClass<span style="color:#f92672">(){</span> <span style="color:#75715e">// 自动调用父类的无参数构造器
+</span><span style="color:#75715e"></span>    System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;SubClass&#34;</span><span style="color:#f92672">);</span>
+  <span style="color:#f92672">}</span>  
+       
+  <span style="color:#66d9ef">public</span> <span style="color:#a6e22e">SubClass</span><span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> n<span style="color:#f92672">){</span> 
+    <span style="color:#66d9ef">super</span><span style="color:#f92672">(</span>300<span style="color:#f92672">);</span>  <span style="color:#75715e">// 调用父类中带有参数的构造器
+</span><span style="color:#75715e"></span>    System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;SubClass(int n):&#34;</span><span style="color:#f92672">+</span>n<span style="color:#f92672">);</span>
+    <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">n</span> <span style="color:#f92672">=</span> n<span style="color:#f92672">;</span>
+  <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+<span style="color:#75715e">// SubClass2 类继承
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">SubClass2</span> <span style="color:#66d9ef">extends</span> SuperClass<span style="color:#f92672">{</span>
+  <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">int</span> n<span style="color:#f92672">;</span>
+       
+  SubClass2<span style="color:#f92672">(){</span>
+    <span style="color:#66d9ef">super</span><span style="color:#f92672">(</span>300<span style="color:#f92672">);</span>  <span style="color:#75715e">// 调用父类中带有参数的构造器
+</span><span style="color:#75715e"></span>    System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;SubClass2&#34;</span><span style="color:#f92672">);</span>
+  <span style="color:#f92672">}</span>  
+       
+  <span style="color:#66d9ef">public</span> <span style="color:#a6e22e">SubClass2</span><span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> n<span style="color:#f92672">){</span> <span style="color:#75715e">// 自动调用父类的无参数构造器
+</span><span style="color:#75715e"></span>    System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;SubClass2(int n):&#34;</span><span style="color:#f92672">+</span>n<span style="color:#f92672">);</span>
+    <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">n</span> <span style="color:#f92672">=</span> n<span style="color:#f92672">;</span>
+  <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">TestSuperSub</span><span style="color:#f92672">{</span>
+  <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span> <span style="color:#f92672">(</span>String args<span style="color:#f92672">[]){</span>
+    System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;------SubClass 类继承------&#34;</span><span style="color:#f92672">);</span>
+    SubClass sc1 <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> SubClass<span style="color:#f92672">();</span>
+    SubClass sc2 <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> SubClass<span style="color:#f92672">(</span>100<span style="color:#f92672">);</span> 
+    System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;------SubClass2 类继承------&#34;</span><span style="color:#f92672">);</span>
+    SubClass2 sc3 <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> SubClass2<span style="color:#f92672">();</span>
+    SubClass2 sc4 <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> SubClass2<span style="color:#f92672">(</span>200<span style="color:#f92672">);</span> 
+  <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p>输出结果：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-html" data-lang="html">------SubClass 类继承------
+SuperClass()
+SubClass
+SuperClass(int n)
+SubClass(int n):100
+------SubClass2 类继承------
+SuperClass(int n)
+SubClass2
+SuperClass()
+SubClass2(int n):200
+</code></pre></div></li>
+</ul>
+</li>
 </ol>
+<h3 id="3重写和重载">3.重写和重载</h3>
 
     </div>
     <div class="post-footer">
