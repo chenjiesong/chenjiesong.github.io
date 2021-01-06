@@ -7,24 +7,6 @@
     <generator>Hugo -- gohugo.io</generator>
     <lastBuildDate>Sun, 20 Dec 2020 00:00:00 +0000</lastBuildDate><atom:link href="https://chenjiesong.github.io/tags/java/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>Java基础</title>
-      <link>https://chenjiesong.github.io/posts/java%E5%9F%BA%E7%A1%80/</link>
-      <pubDate>Sun, 20 Dec 2020 00:00:00 +0000</pubDate>
-      
-      <guid>https://chenjiesong.github.io/posts/java%E5%9F%BA%E7%A1%80/</guid>
-      <description>一、JAVA开发环境配置   下载java开发工具包JDK，下载地址：http://www.oracle.com/technetwork/java/javase/downloads/index.html ；
-  安装完成后，右击&amp;quot;我的电脑&amp;quot;，点击&amp;quot;属性&amp;quot;，选择&amp;quot;高级系统设置&amp;quot;，选择&amp;quot;高级&amp;quot;选项卡，点击&amp;quot;环境变量&amp;quot;
-在 &amp;ldquo;系统变量&amp;rdquo; 中设置 3 项属性，JAVA_HOME、PATH、CLASSPATH(大小写无所谓),若已存在则点击&amp;quot;编辑&amp;quot;，不存在则点击&amp;quot;新建&amp;quot;。 ；
-变量名：JAVA_HOME 变量值：C:\Program Files (x86)\Java\jdk1.8.0_91 // 要根据自己的实际路径配置 变量名：CLASSPATH 变量值：.;%JAVA_HOME%\lib\dt.jar;%JAVA_HOME%\lib\tools.jar; //记得前面有个&amp;#34;.&amp;#34; 变量名：Path 变量值：%JAVA_HOME%\bin;%JAVA_HOME%\jre\bin;   检测JDK是否安装成功：cmd键入命令: java -version、java、javac ；
-  java开发工具的选择：Eclipse/IDEA ；
-   二、格式要求   java程序编写-编译-运行的过程
- 编写：java代码保存在以“.java”结尾的源文件中 ； 编译：使用javac.exe命令编译我们的java源文件。格式：javac 源文件名.java ； 运行：使用java.exe命令解释运行我们的字节码文件。 格式： java 类名 ；    在一个java源文件中可以声明多个class。但是，只能最多一个类声明为public的。而且要求声明为public的类的类名必须与源文件名相同 ；
-  程序的入口是main()方法。格式是固定的 ；
-  每一行执行语句以；为结尾 ；
-  编译的过程：编译以后，会生成一个或多个字节码文件 ；</description>
-    </item>
-    
-    <item>
       <title>Java增强型for循环 for each</title>
       <link>https://chenjiesong.github.io/posts/java%E5%A2%9E%E5%8A%A0%E5%9E%8Bfor%E5%BE%AA%E7%8E%AF/</link>
       <pubDate>Sun, 20 Dec 2020 00:00:00 +0000</pubDate>
@@ -50,6 +32,24 @@
       
       <guid>https://chenjiesong.github.io/posts/java%E6%B1%82%E5%90%84%E4%BD%8D%E6%95%B0%E5%AD%97/</guid>
       <description></description>
+    </item>
+    
+    <item>
+      <title>Java基础</title>
+      <link>https://chenjiesong.github.io/posts/java%E5%9F%BA%E7%A1%80/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://chenjiesong.github.io/posts/java%E5%9F%BA%E7%A1%80/</guid>
+      <description>一、JAVA开发环境配置   下载java开发工具包JDK，下载地址：http://www.oracle.com/technetwork/java/javase/downloads/index.html ；
+  安装完成后，右击&amp;quot;我的电脑&amp;quot;，点击&amp;quot;属性&amp;quot;，选择&amp;quot;高级系统设置&amp;quot;，选择&amp;quot;高级&amp;quot;选项卡，点击&amp;quot;环境变量&amp;quot;
+在 &amp;ldquo;系统变量&amp;rdquo; 中设置 3 项属性，JAVA_HOME、PATH、CLASSPATH(大小写无所谓),若已存在则点击&amp;quot;编辑&amp;quot;，不存在则点击&amp;quot;新建&amp;quot;。 ；
+变量名：JAVA_HOME 变量值：C:\Program Files (x86)\Java\jdk1.8.0_91 // 要根据自己的实际路径配置 变量名：CLASSPATH 变量值：.;%JAVA_HOME%\lib\dt.jar;%JAVA_HOME%\lib\tools.jar; //记得前面有个&amp;#34;.&amp;#34; 变量名：Path 变量值：%JAVA_HOME%\bin;%JAVA_HOME%\jre\bin;   检测JDK是否安装成功：cmd键入命令: java -version、java、javac ；
+  java开发工具的选择：Eclipse/IDEA ；
+   二、格式要求   java程序编写-编译-运行的过程
+ 编写：java代码保存在以“.java”结尾的源文件中 ； 编译：使用javac.exe命令编译我们的java源文件。格式：javac 源文件名.java ； 运行：使用java.exe命令解释运行我们的字节码文件。 格式： java 类名 ；    在一个java源文件中可以声明多个class。但是，只能最多一个类声明为public的。而且要求声明为public的类的类名必须与源文件名相同 ；
+  程序的入口是main()方法。格式是固定的 ；
+  每一行执行语句以；为结尾 ；
+  编译的过程：编译以后，会生成一个或多个字节码文件 ；</description>
     </item>
     
   </channel>

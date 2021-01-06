@@ -43,11 +43,6 @@
   </url>
   
   <url>
-    <loc>https://chenjiesong.github.io/posts/java%E5%9F%BA%E7%A1%80/</loc>
-    <lastmod>2020-12-20T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
     <loc>https://chenjiesong.github.io/posts/java%E5%A2%9E%E5%8A%A0%E5%9E%8Bfor%E5%BE%AA%E7%8E%AF/</loc>
     <lastmod>2020-12-20T00:00:00+00:00</lastmod>
   </url>
@@ -59,6 +54,10 @@
   
   <url>
     <loc>https://chenjiesong.github.io/categories/</loc>
+  </url>
+  
+  <url>
+    <loc>https://chenjiesong.github.io/posts/java%E5%9F%BA%E7%A1%80/</loc>
   </url>
   
 </urlset>
