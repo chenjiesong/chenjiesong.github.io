@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>api on song</title>
+    <link>https://chenjiesong.github.io/tags/api/</link>
+    <description>Recent content in api on song</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Wed, 23 Dec 2020 00:00:00 +0000</lastBuildDate><atom:link href="https://chenjiesong.github.io/tags/api/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>股票api</title>
+      <link>https://chenjiesong.github.io/posts/%E8%82%A1%E7%A5%A8api/</link>
+      <pubDate>Wed, 23 Dec 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://chenjiesong.github.io/posts/%E8%82%A1%E7%A5%A8api/</guid>
+      <description>很简单，其实就是你的量化程序读取数据，然后生成具体买卖指令，写入到本地文本文件。然后交易软件读取这个文件即可。
+现在不能接入了，不过可以通过一种写文件流的方式来交易
+https://www.alphavantage.co/documentation/#
+Welcome to Alpha Vantage! Your API key is: AZ50TEZFWRKLEROM. Please record this API key at a safe place for future data access.
+ig507.com
+分时数据比不上level2明细数据吧？分时数据因为有加总处理，所以你看不到每一单，没法分析细节。
+https://www.akshare.xyz/zh_CN/latest/introduction.html
+https://github.com/jindaxiang/akshare
+C3624304-F50B-DEF2-47AC-0E098D36C15B</description>
+    </item>
+    
+  </channel>
+</rss>

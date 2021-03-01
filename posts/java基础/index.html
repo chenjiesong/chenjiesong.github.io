@@ -1248,6 +1248,98 @@ SubClass2(int n):200
 </ol>
 </li>
 </ol>
+<h3 id="6封装">6.封装</h3>
+<ol>
+<li>
+<p>概念</p>
+<p>在面向对象程式设计方法中，封装是指将以重抽象性函式接口的实现细节部分包装、隐藏起来的方法。</p>
+</li>
+<li>
+<p>优点</p>
+<ol>
+<li>良好的封装能够减少耦合</li>
+<li>类内部的结构可以自由修改</li>
+<li>可以对成员变量进行更精准的控制</li>
+<li>隐藏信息，实现细节</li>
+</ol>
+</li>
+<li>
+<p>步骤</p>
+<ol>
+<li>
+<p>修改属性的可见性来限制对属性的访问</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Person</span> <span style="color:#f92672">{</span>
+    <span style="color:#66d9ef">private</span> String name<span style="color:#f92672">;</span>
+    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">int</span> age<span style="color:#f92672">;</span>
+<span style="color:#f92672">}</span>
+</code></pre></div></li>
+<li>
+<p>对每个值属性提供对外的公共访问方法，也就是创建一对赋值取值的方法，用于对私有属性的访问</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Person</span><span style="color:#f92672">{</span>
+    <span style="color:#66d9ef">private</span> String name<span style="color:#f92672">;</span>
+    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">int</span> age<span style="color:#f92672">;</span>
+      
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">int</span> <span style="color:#a6e22e">getAge</span><span style="color:#f92672">(){</span>
+      <span style="color:#66d9ef">return</span> age<span style="color:#f92672">;</span>
+    <span style="color:#f92672">}</span>
+      
+    <span style="color:#66d9ef">public</span> String <span style="color:#a6e22e">getName</span><span style="color:#f92672">(){</span>
+      <span style="color:#66d9ef">return</span> name<span style="color:#f92672">;</span>
+    <span style="color:#f92672">}</span>
+      
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">setAge</span><span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> age<span style="color:#f92672">){</span>
+      <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">age</span> <span style="color:#f92672">=</span> age<span style="color:#f92672">;</span>
+    <span style="color:#f92672">}</span>
+      
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">setName</span><span style="color:#f92672">(</span>String name<span style="color:#f92672">){</span>
+      <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">name</span> <span style="color:#f92672">=</span> name<span style="color:#f92672">;</span>
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+</code></pre></div></li>
+</ol>
+</li>
+</ol>
+<h3 id="7接口">7.接口</h3>
+<ol>
+<li>
+<p>概念</p>
+<p>接口，在JAVA编程语言中是一个抽象类型，是抽象方法的集合，接口通常以interface来声明。一个类通过继承接口的方式，从而来继承接口的抽象方法。</p>
+</li>
+<li>
+<p>接口与类相似点：</p>
+<ol>
+<li>一个接口可以有多个方法</li>
+<li>接口文件保存在.java结尾的文件中，文件名使用接口名</li>
+<li>接口的字节码文件保存在.class结尾的文件中</li>
+<li>接口相应的字节码文件必须在与包名称相匹配的目录结构中</li>
+</ol>
+</li>
+<li>
+<p>接口与类的区别：</p>
+<ol>
+<li>接口不能用于实例化对象</li>
+<li>接口没有构造方法</li>
+<li>接口中所有方法必须是抽象方法</li>
+<li>接口不能包含成员变量，出了static和final变量</li>
+<li>接口不是被类继承了，而是被类实现，</li>
+<li>接口支持多继承</li>
+</ol>
+</li>
+<li>
+<p>接口特性</p>
+<ol>
+<li>接口中每一个方式也是隐式抽象的，接口中的方法会被隐式的指定为public abstarct</li>
+<li>接口中可以含有变量，但是接口中的变量会被隐式的指定为public static final变量</li>
+<li>接口中的方法是不能再接口中实现的，只能由实现接口的类来实现接口中的方法</li>
+</ol>
+</li>
+<li>
+<p>抽象类和接口的区别</p>
+<ol>
+<li>抽象类中的方法可以有方法，就是能实现方法的具体功能，</li>
+</ol>
+</li>
+</ol>
 
     </div>
     <div class="post-footer">

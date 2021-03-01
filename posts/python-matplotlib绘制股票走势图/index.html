@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="en-us">
+  <head>
+    <title>Python matplotlib绘制股票走势图 // song</title>
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <meta charset="utf-8" />
+    <meta name="generator" content="Hugo 0.79.1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="author" content="song" />
+    <meta name="description" content="" />
+    <link rel="stylesheet" href="https://chenjiesong.github.io/css/main.min.88e7083eff65effb7485b6e6f38d10afbec25093a6fac42d734ce9024d3defbd.css" />
+
+    
+    <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Python matplotlib绘制股票走势图"/>
+<meta name="twitter:description" content="matplotlib中通过pyplot模块进行图表的绘制。所绘制的图表称为一个绘图对象，在绘图对象之上绘制各种图形。由于K线图主要是基于日期和股票价格的X-Y坐标轴结构，因此本系列文章也主要针对axes坐标轴绘制进行分析。 通过如下语句导入需要绘图的库：
+import matplotlib.pyplot as plt 1. figure对象 figure对象可以看成整个图表。在figure图表之上增加多个子图，然后在子图之上绘制点和线。
+fig = plt.figure() ax = fig.add_subplot(1,1,1) 得到fig对象之后，通过add_subplot增加子图（返回了一个axes坐标轴），该方法需要三个参数，分别为：numrows, numcols, fignum。其中，一共有numrowsnumcols个子图，即：将图表分为N行M列，fignum标识了该子图的顺序，其范围从1到numrowsnumcols。在上例中1,1,1表示了该绘图对象仅有1个子图，也就是11类型。
+2. plot方法绘图 创建子图之后，通过plot方法在子图上绘制。plot方法可以传入两个list，分别表示X和Y坐标，因此x和y的长度要一致。需要注意的是，plot也可以接受一个list参数作为Y坐标的值，默认X坐标的值从0开始到Y的长度。
+plt.plot([1,2,3,4]) 其中X坐标为0到3，个数与Y坐标值的数目相同。
+plt.plot([1,2,3,4], [1,2,3,4]) 设置了X坐标的值。然后通过plot.show()显示该图，示例代码如下：
+def PlotDemo1(): fig = plt.figure() ax = fig.add_subplot(1,1,1) ax.plot([1,2,3,4],[2,3,4,5]) plt.show() 上述图表作为基础，以后我们都是围绕这个基础图表不断添加元素，直到达到我们想要的效果。
+2.1 增加标题和坐标轴说明 如果需要给绘图对象增加标题，可以通过suptitle方法设置，其中可以设置参数：标题、标题字体大小、字体类型等。代码示例如下：
+fig.suptitle(&#39;figure title demo&#39;, fontsize = 14, fontweight=&#39;bold&#39;) 如果需要对给定子图的坐标轴设置标题，可以通过刚才返回的axes对象的set_title进行设置，代码示例如下：
+ax.set_title(&#34;axes title&#34;) 如果需要对于X和Y坐标设置标签，可以通过set_xlabel和set_ylabel方法设置。代码示例如下：
+ax.set_xlabel(&#34;x label&#34;) ax.set_ylabel(&#34;y label&#34;) 通过上述的示例，我们绘制了一个基本的X和Y坐标轴，并增加了针对坐标轴的说明。
+三、股价基本走势图 股票的K线图（以日K为例）由日期和价格组成，形成X-Y坐标轴，按照前面的绘图方案，需要传入日期数组和价格数组即可。 1.numpy数组 numpy是常用的数据处理库，我将000001.SZ的股价数据（时间范围从20150101到20150930）导入到csv中，然后通过numpy读取得到日期和价格数组。csv文件中包含了两列，日期和价格，分割符号为&quot;,&quot;，读取过程代码如下：
+dates, close = np.loadtxt(filename,delimiter=&#34;,&#34;, unpack= True, converters={0:mdates.strpdate2num(&#39;%Y-%m-%d&#39;)}) 　numpy的loadtxt方法：设定了文件中的分隔符号为“，”，unpack是否将数组拆分，True为拆分，即：得到两个数组分别表示日期和收盘价格，converters是将日期类型的字符串转为数组，因为numpy规定其数组中的类型需要一致。 2."/>
+
+    <meta property="og:title" content="Python matplotlib绘制股票走势图" />
+<meta property="og:description" content="matplotlib中通过pyplot模块进行图表的绘制。所绘制的图表称为一个绘图对象，在绘图对象之上绘制各种图形。由于K线图主要是基于日期和股票价格的X-Y坐标轴结构，因此本系列文章也主要针对axes坐标轴绘制进行分析。 通过如下语句导入需要绘图的库：
+import matplotlib.pyplot as plt 1. figure对象 figure对象可以看成整个图表。在figure图表之上增加多个子图，然后在子图之上绘制点和线。
+fig = plt.figure() ax = fig.add_subplot(1,1,1) 得到fig对象之后，通过add_subplot增加子图（返回了一个axes坐标轴），该方法需要三个参数，分别为：numrows, numcols, fignum。其中，一共有numrowsnumcols个子图，即：将图表分为N行M列，fignum标识了该子图的顺序，其范围从1到numrowsnumcols。在上例中1,1,1表示了该绘图对象仅有1个子图，也就是11类型。
+2. plot方法绘图 创建子图之后，通过plot方法在子图上绘制。plot方法可以传入两个list，分别表示X和Y坐标，因此x和y的长度要一致。需要注意的是，plot也可以接受一个list参数作为Y坐标的值，默认X坐标的值从0开始到Y的长度。
+plt.plot([1,2,3,4]) 其中X坐标为0到3，个数与Y坐标值的数目相同。
+plt.plot([1,2,3,4], [1,2,3,4]) 设置了X坐标的值。然后通过plot.show()显示该图，示例代码如下：
+def PlotDemo1(): fig = plt.figure() ax = fig.add_subplot(1,1,1) ax.plot([1,2,3,4],[2,3,4,5]) plt.show() 上述图表作为基础，以后我们都是围绕这个基础图表不断添加元素，直到达到我们想要的效果。
+2.1 增加标题和坐标轴说明 如果需要给绘图对象增加标题，可以通过suptitle方法设置，其中可以设置参数：标题、标题字体大小、字体类型等。代码示例如下：
+fig.suptitle(&#39;figure title demo&#39;, fontsize = 14, fontweight=&#39;bold&#39;) 如果需要对给定子图的坐标轴设置标题，可以通过刚才返回的axes对象的set_title进行设置，代码示例如下：
+ax.set_title(&#34;axes title&#34;) 如果需要对于X和Y坐标设置标签，可以通过set_xlabel和set_ylabel方法设置。代码示例如下：
+ax.set_xlabel(&#34;x label&#34;) ax.set_ylabel(&#34;y label&#34;) 通过上述的示例，我们绘制了一个基本的X和Y坐标轴，并增加了针对坐标轴的说明。
+三、股价基本走势图 股票的K线图（以日K为例）由日期和价格组成，形成X-Y坐标轴，按照前面的绘图方案，需要传入日期数组和价格数组即可。 1.numpy数组 numpy是常用的数据处理库，我将000001.SZ的股价数据（时间范围从20150101到20150930）导入到csv中，然后通过numpy读取得到日期和价格数组。csv文件中包含了两列，日期和价格，分割符号为&quot;,&quot;，读取过程代码如下：
+dates, close = np.loadtxt(filename,delimiter=&#34;,&#34;, unpack= True, converters={0:mdates.strpdate2num(&#39;%Y-%m-%d&#39;)}) 　numpy的loadtxt方法：设定了文件中的分隔符号为“，”，unpack是否将数组拆分，True为拆分，即：得到两个数组分别表示日期和收盘价格，converters是将日期类型的字符串转为数组，因为numpy规定其数组中的类型需要一致。 2." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://chenjiesong.github.io/posts/python-matplotlib%E7%BB%98%E5%88%B6%E8%82%A1%E7%A5%A8%E8%B5%B0%E5%8A%BF%E5%9B%BE/" />
+
+
+
+  </head>
+  <body>
+    <header class="app-header">
+      <a href="https://chenjiesong.github.io/"><img class="app-header-avatar" src="/avatar.jpg" alt="song" /></a>
+      <h1>song</h1>
+      <nav class="app-header-menu">
+          <a class="app-header-menu-item" href="/">主页</a>
+             - 
+          
+          <a class="app-header-menu-item" href="/tags/">标签</a>
+      </nav>
+      <p>一只闲鱼的博客</p>
+      <div class="app-header-social">
+        
+          <a target="_blank" href="https://github.com/gohugoio" rel="noreferrer noopener"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-github">
+  <title>github</title>
+  <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+</svg></a>
+        
+          <a target="_blank" href="https://twitter.com/gohugoio" rel="noreferrer noopener"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-twitter">
+  <title>twitter</title>
+  <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path>
+</svg></a>
+        
+      </div>
+    </header>
+    <main class="app-container">
+      
+  <article class="post">
+    <header class="post-header">
+      <h1 class ="post-title">Python matplotlib绘制股票走势图</h1>
+      <div class="post-meta">
+        <div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-calendar">
+  <title>calendar</title>
+  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line>
+</svg>
+          Jan 1, 0001
+        </div>
+        <div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-clock">
+  <title>clock</title>
+  <circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline>
+</svg>
+          1 min read
+        </div>
+        <div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
+  <title>tag</title>
+  <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line>
+</svg>
+              <a class="tag" href="https://chenjiesong.github.io/tags/matplotlib/">matplotlib</a>
+        </div>
+      </div>
+    </header>
+    <div class="post-content">
+      <h3 id="heading"></h3>
+<p>matplotlib中通过pyplot模块进行图表的绘制。所绘制的图表称为一个绘图对象，在绘图对象之上绘制各种图形。由于K线图主要是基于日期和股票价格的X-Y坐标轴结构，因此本系列文章也主要针对axes坐标轴绘制进行分析。
+通过如下语句导入需要绘图的库：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">import</span> matplotlib.pyplot <span style="color:#f92672">as</span> plt
+</code></pre></div><p><strong>1. figure对象</strong>
+figure对象可以看成整个图表。在figure图表之上增加多个子图，然后在子图之上绘制点和线。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">    fig <span style="color:#f92672">=</span> plt<span style="color:#f92672">.</span>figure()  
+    ax <span style="color:#f92672">=</span> fig<span style="color:#f92672">.</span>add_subplot(<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">1</span>)
+</code></pre></div><p>得到fig对象之后，通过add_subplot增加子图（返回了一个axes坐标轴），该方法需要三个参数，分别为：numrows, numcols, fignum。其中，一共有numrows<em>numcols个子图，即：将图表分为N行</em>M列，fignum标识了该子图的顺序，其范围从1到numrows<em>numcols。在上例中1,1,1表示了该绘图对象仅有1个子图，也就是1</em>1类型。</p>
+<p><strong>2. plot方法绘图</strong>
+创建子图之后，通过plot方法在子图上绘制。plot方法可以传入两个list，分别表示X和Y坐标，因此x和y的长度要一致。需要注意的是，plot也可以接受一个list参数作为Y坐标的值，默认X坐标的值从0开始到Y的长度。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">  plt<span style="color:#f92672">.</span>plot([<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">2</span>,<span style="color:#ae81ff">3</span>,<span style="color:#ae81ff">4</span>])
+</code></pre></div><p>其中X坐标为0到3，个数与Y坐标值的数目相同。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">   plt<span style="color:#f92672">.</span>plot([<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">2</span>,<span style="color:#ae81ff">3</span>,<span style="color:#ae81ff">4</span>], [<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">2</span>,<span style="color:#ae81ff">3</span>,<span style="color:#ae81ff">4</span>])
+</code></pre></div><p>设置了X坐标的值。然后通过plot.show()显示该图，示例代码如下：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">PlotDemo1</span>():
+ fig  <span style="color:#f92672">=</span> plt<span style="color:#f92672">.</span>figure()
+ ax <span style="color:#f92672">=</span> fig<span style="color:#f92672">.</span>add_subplot(<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">1</span>)
+ ax<span style="color:#f92672">.</span>plot([<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">2</span>,<span style="color:#ae81ff">3</span>,<span style="color:#ae81ff">4</span>],[<span style="color:#ae81ff">2</span>,<span style="color:#ae81ff">3</span>,<span style="color:#ae81ff">4</span>,<span style="color:#ae81ff">5</span>])
+ plt<span style="color:#f92672">.</span>show()
+</code></pre></div><p><img src="https://raw.githubusercontent.com/chenjiesong/img_study/main/img/%E5%9B%BE%E8%A1%A8/1.png" alt=""></p>
+<p>上述图表作为基础，以后我们都是围绕这个基础图表不断添加元素，直到达到我们想要的效果。</p>
+<p><strong>2.1 增加标题和坐标轴说明</strong>
+如果需要给绘图对象增加标题，可以通过suptitle方法设置，其中可以设置参数：标题、标题字体大小、字体类型等。代码示例如下：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">fig<span style="color:#f92672">.</span>suptitle(<span style="color:#e6db74">&#39;figure title demo&#39;</span>, fontsize <span style="color:#f92672">=</span> <span style="color:#ae81ff">14</span>, fontweight<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;bold&#39;</span>)
+</code></pre></div><p>如果需要对给定子图的坐标轴设置标题，可以通过刚才返回的axes对象的set_title进行设置，代码示例如下：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">  ax<span style="color:#f92672">.</span>set_title(<span style="color:#e6db74">&#34;axes title&#34;</span>)
+</code></pre></div><p>如果需要对于X和Y坐标设置标签，可以通过set_xlabel和set_ylabel方法设置。代码示例如下：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">    ax<span style="color:#f92672">.</span>set_xlabel(<span style="color:#e6db74">&#34;x label&#34;</span>)      ax<span style="color:#f92672">.</span>set_ylabel(<span style="color:#e6db74">&#34;y label&#34;</span>)
+</code></pre></div><p><img src="https://raw.githubusercontent.com/chenjiesong/img_study/main/img/%E5%9B%BE%E8%A1%A8/2.png" alt=""></p>
+<p>通过上述的示例，我们绘制了一个基本的X和Y坐标轴，并增加了针对坐标轴的说明。</p>
+<p><strong>三、股价基本走势图</strong>
+股票的K线图（以日K为例）由日期和价格组成，形成X-Y坐标轴，按照前面的绘图方案，需要传入日期数组和价格数组即可。
+<strong>1.numpy数组</strong>
+numpy是常用的数据处理库，我将000001.SZ的股价数据（时间范围从20150101到20150930）导入到csv中，然后通过numpy读取得到日期和价格数组。csv文件中包含了两列，日期和价格，分割符号为&quot;,&quot;，读取过程代码如下：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">dates, close <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>loadtxt(filename,delimiter<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;,&#34;</span>, unpack<span style="color:#f92672">=</span> True, converters<span style="color:#f92672">=</span>{<span style="color:#ae81ff">0</span>:mdates<span style="color:#f92672">.</span>strpdate2num(<span style="color:#e6db74">&#39;%Y-%m-</span><span style="color:#e6db74">%d</span><span style="color:#e6db74">&#39;</span>)})
+</code></pre></div><p>　　numpy的loadtxt方法：设定了文件中的分隔符号为“，”，unpack是否将数组拆分，True为拆分，即：得到两个数组分别表示日期和收盘价格，converters是将日期类型的字符串转为数组，因为numpy规定其数组中的类型需要一致。
+<strong>2.绘制基础走势图</strong>
+通过numpy得到日期和收盘价格之后，参照先前的示例，通过plot方法进行绘制：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">ax1<span style="color:#f92672">.</span>plot(dates,close)
+</code></pre></div><p><img src="https://raw.githubusercontent.com/chenjiesong/img_study/main/img/%E5%9B%BE%E8%A1%A8/3.png" alt=""></p>
+<p>在上图中，x轴通过数值标识，而不是日期类型。因为我们通过numpy构造数组时，日期按照数值类型存储，可以通过如下方法转换为日期类型：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">  ax1<span style="color:#f92672">.</span>xaxis<span style="color:#f92672">.</span>set_major_locator(mdates<span style="color:#f92672">.</span>DayLocator(bymonthday<span style="color:#f92672">=</span>range(<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">32</span>), interval<span style="color:#f92672">=</span><span style="color:#ae81ff">15</span>)) 
+    ax1<span style="color:#f92672">.</span>xaxis<span style="color:#f92672">.</span>set_major_formatter(mdates<span style="color:#f92672">.</span>DateFormatter(<span style="color:#e6db74">&#34;%Y-%m-</span><span style="color:#e6db74">%d</span><span style="color:#e6db74">&#34;</span>))
+      <span style="color:#66d9ef">for</span> label <span style="color:#f92672">in</span> ax1<span style="color:#f92672">.</span>xaxis<span style="color:#f92672">.</span>get_ticklabels():   
+       label<span style="color:#f92672">.</span>set_rotation(<span style="color:#ae81ff">45</span>)
+</code></pre></div><p>　X-轴设置主要刻度locator为每日刻度，格式为：DateFormatter(&quot;%Y-%m-%d&quot;)，每日刻度从第1日到第31日，间隔为15日。图表如下所示：</p>
+<p><img src="https://raw.githubusercontent.com/chenjiesong/img_study/main/img/%E5%9B%BE%E8%A1%A8/4.png" alt=""></p>
+<p>其中，对于X-轴上面的每个ticker标签都向右倾斜45度，这样标签不会重叠在一起便于查看。
+也可以按照每月进行显示，X-轴设置主要刻度为每月刻度，格式为：DateFormatter(&quot;%Y-%m&quot;)，转换代码如下：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">    ax1<span style="color:#f92672">.</span>xaxis<span style="color:#f92672">.</span>set_major_locator(mdates<span style="color:#f92672">.</span>MonthLocator()) 
+     ax1<span style="color:#f92672">.</span>xaxis<span style="color:#f92672">.</span>set_major_formatter(mdates<span style="color:#f92672">.</span>DateFormatter(<span style="color:#e6db74">&#34;%Y-%m&#34;</span>))
+</code></pre></div><p><img src="https://raw.githubusercontent.com/chenjiesong/img_study/main/img/%E5%9B%BE%E8%A1%A8/5.png" alt=""></p>
+<p>3.绘制价格平均线**
+在前面的示例中绘制了基本的股票走势图，绘制5日和10日价格平均线。
+ta-lib中提供了方法talib.SMA得到价格简单平均线，timeperiod为时间参数，timeperiod=5为五日均线，基于上图增加五日和十日均线，代码如下：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">    sma5 <span style="color:#f92672">=</span> talib<span style="color:#f92672">.</span>SMA(close, timeperiod <span style="color:#f92672">=</span> <span style="color:#ae81ff">5</span>) 
+     ax1<span style="color:#f92672">.</span>plot(dates,sma5)
+      sma10 <span style="color:#f92672">=</span> talib<span style="color:#f92672">.</span>SMA(close, timeperiod <span style="color:#f92672">=</span> <span style="color:#ae81ff">10</span>) 
+     ax1<span style="color:#f92672">.</span>plot(dates,sma10)
+</code></pre></div><p><img src="https://raw.githubusercontent.com/chenjiesong/img_study/main/img/%E5%9B%BE%E8%A1%A8/6.png" alt=""></p>
+<p>在坐标轴中有三条曲线，matplotlib会自动改变线条颜色，此时如果没有说明并不方便使用，可以在右上角增加图例，表明各线条所代表的含义，并增加图表的网格效果，代码如下：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">plt<span style="color:#f92672">.</span>legend((<span style="color:#e6db74">&#39;daily&#39;</span>, <span style="color:#e6db74">&#39;SMA5&#39;</span>, <span style="color:#e6db74">&#39;SMA10&#39;</span>)) 
+ plt<span style="color:#f92672">.</span>grid(True)
+</code></pre></div><p><img src="https://raw.githubusercontent.com/chenjiesong/img_study/main/img/%E5%9B%BE%E8%A1%A8/7.png" alt=""></p>
+
+    </div>
+    <div class="post-footer">
+      
+    </div>
+  </article>
+
+    </main>
+  </body>
+</html>
