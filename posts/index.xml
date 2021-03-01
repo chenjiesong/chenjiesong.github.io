@@ -123,7 +123,7 @@ C3624304-F50B-DEF2-47AC-0E098D36C15B</description>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>https://chenjiesong.github.io/posts/python-matplotlib%E7%BB%98%E5%88%B6%E8%82%A1%E7%A5%A8%E8%B5%B0%E5%8A%BF%E5%9B%BE/</guid>
-      <description>matplotlib中通过pyplot模块进行图表的绘制。所绘制的图表称为一个绘图对象，在绘图对象之上绘制各种图形。由于K线图主要是基于日期和股票价格的X-Y坐标轴结构，因此本系列文章也主要针对axes坐标轴绘制进行分析。 通过如下语句导入需要绘图的库：
+      <description>matplotlib中通过pyplot模块进行图表的绘制。所绘制的图表称为一个绘图对象，在绘图对象之上绘制各种图形。由于K线图主要是基于日期和股票价格的X-Y坐标轴结构，因此本系列文章也主要针对axes坐标轴绘制进行分析。 通过如下语句导入需要绘图的库：.
 import matplotlib.pyplot as plt 1. figure对象 figure对象可以看成整个图表。在figure图表之上增加多个子图，然后在子图之上绘制点和线。
 fig = plt.figure() ax = fig.add_subplot(1,1,1) 得到fig对象之后，通过add_subplot增加子图（返回了一个axes坐标轴），该方法需要三个参数，分别为：numrows, numcols, fignum。其中，一共有numrowsnumcols个子图，即：将图表分为N行M列，fignum标识了该子图的顺序，其范围从1到numrowsnumcols。在上例中1,1,1表示了该绘图对象仅有1个子图，也就是11类型。
 2. plot方法绘图 创建子图之后，通过plot方法在子图上绘制。plot方法可以传入两个list，分别表示X和Y坐标，因此x和y的长度要一致。需要注意的是，plot也可以接受一个list参数作为Y坐标的值，默认X坐标的值从0开始到Y的长度。

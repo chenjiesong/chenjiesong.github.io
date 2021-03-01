@@ -13,7 +13,7 @@
     
     <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Python matplotlib绘制股票走势图"/>
-<meta name="twitter:description" content="matplotlib中通过pyplot模块进行图表的绘制。所绘制的图表称为一个绘图对象，在绘图对象之上绘制各种图形。由于K线图主要是基于日期和股票价格的X-Y坐标轴结构，因此本系列文章也主要针对axes坐标轴绘制进行分析。 通过如下语句导入需要绘图的库：
+<meta name="twitter:description" content="matplotlib中通过pyplot模块进行图表的绘制。所绘制的图表称为一个绘图对象，在绘图对象之上绘制各种图形。由于K线图主要是基于日期和股票价格的X-Y坐标轴结构，因此本系列文章也主要针对axes坐标轴绘制进行分析。 通过如下语句导入需要绘图的库：.
 import matplotlib.pyplot as plt 1. figure对象 figure对象可以看成整个图表。在figure图表之上增加多个子图，然后在子图之上绘制点和线。
 fig = plt.figure() ax = fig.add_subplot(1,1,1) 得到fig对象之后，通过add_subplot增加子图（返回了一个axes坐标轴），该方法需要三个参数，分别为：numrows, numcols, fignum。其中，一共有numrowsnumcols个子图，即：将图表分为N行M列，fignum标识了该子图的顺序，其范围从1到numrowsnumcols。在上例中1,1,1表示了该绘图对象仅有1个子图，也就是11类型。
 2. plot方法绘图 创建子图之后，通过plot方法在子图上绘制。plot方法可以传入两个list，分别表示X和Y坐标，因此x和y的长度要一致。需要注意的是，plot也可以接受一个list参数作为Y坐标的值，默认X坐标的值从0开始到Y的长度。
@@ -28,7 +28,7 @@ ax.set_xlabel(&#34;x label&#34;) ax.set_ylabel(&#34;y label&#34;) 通过上述�
 dates, close = np.loadtxt(filename,delimiter=&#34;,&#34;, unpack= True, converters={0:mdates.strpdate2num(&#39;%Y-%m-%d&#39;)}) 　numpy的loadtxt方法：设定了文件中的分隔符号为“，”，unpack是否将数组拆分，True为拆分，即：得到两个数组分别表示日期和收盘价格，converters是将日期类型的字符串转为数组，因为numpy规定其数组中的类型需要一致。 2."/>
 
     <meta property="og:title" content="Python matplotlib绘制股票走势图" />
-<meta property="og:description" content="matplotlib中通过pyplot模块进行图表的绘制。所绘制的图表称为一个绘图对象，在绘图对象之上绘制各种图形。由于K线图主要是基于日期和股票价格的X-Y坐标轴结构，因此本系列文章也主要针对axes坐标轴绘制进行分析。 通过如下语句导入需要绘图的库：
+<meta property="og:description" content="matplotlib中通过pyplot模块进行图表的绘制。所绘制的图表称为一个绘图对象，在绘图对象之上绘制各种图形。由于K线图主要是基于日期和股票价格的X-Y坐标轴结构，因此本系列文章也主要针对axes坐标轴绘制进行分析。 通过如下语句导入需要绘图的库：.
 import matplotlib.pyplot as plt 1. figure对象 figure对象可以看成整个图表。在figure图表之上增加多个子图，然后在子图之上绘制点和线。
 fig = plt.figure() ax = fig.add_subplot(1,1,1) 得到fig对象之后，通过add_subplot增加子图（返回了一个axes坐标轴），该方法需要三个参数，分别为：numrows, numcols, fignum。其中，一共有numrowsnumcols个子图，即：将图表分为N行M列，fignum标识了该子图的顺序，其范围从1到numrowsnumcols。在上例中1,1,1表示了该绘图对象仅有1个子图，也就是11类型。
 2. plot方法绘图 创建子图之后，通过plot方法在子图上绘制。plot方法可以传入两个list，分别表示X和Y坐标，因此x和y的长度要一致。需要注意的是，plot也可以接受一个list参数作为Y坐标的值，默认X坐标的值从0开始到Y的长度。
@@ -104,7 +104,7 @@ dates, close = np.loadtxt(filename,delimiter=&#34;,&#34;, unpack= True, converte
     <div class="post-content">
       <hr>
 <p>matplotlib中通过pyplot模块进行图表的绘制。所绘制的图表称为一个绘图对象，在绘图对象之上绘制各种图形。由于K线图主要是基于日期和股票价格的X-Y坐标轴结构，因此本系列文章也主要针对axes坐标轴绘制进行分析。
-通过如下语句导入需要绘图的库：</p>
+通过如下语句导入需要绘图的库：.</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">import</span> matplotlib.pyplot <span style="color:#f92672">as</span> plt
 </code></pre></div><p><strong>1. figure对象</strong>
 figure对象可以看成整个图表。在figure图表之上增加多个子图，然后在子图之上绘制点和线。</p>
