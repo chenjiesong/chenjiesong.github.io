@@ -5,7 +5,16 @@
     <link>https://chenjiesong.github.io/</link>
     <description>Recent content on song</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Thu, 18 Feb 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://chenjiesong.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 02 Mar 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://chenjiesong.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Springboot目录结构</title>
+      <link>https://chenjiesong.github.io/posts/springboot%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84/</link>
+      <pubDate>Tue, 02 Mar 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://chenjiesong.github.io/posts/springboot%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84/</guid>
+      <description> Application类（入口类）  里面的@SpringBootApplication注解是springboot的核心注解，主要作用是开启spring自动配置。使用这个注解相当于加上了下面三个注解：main方法中的SpringApplication.run在启动的时候会启动springboot程序，启动spring容器，启动内嵌的tomcat容器。  @Conifuration 允许将其他@bean注解标识的类加入到spring容器中，相当于spring配置文件中的beans标签 @EnableAutoConfiguration 启动自动配置 ComponentScan 会自动扫描当前包和子包下的标有@Component，@Service，@Repository,@Controller的类。相当于以前spring配置文件中的context：compon-scan   不要创建一个比Application类包级别高的类，需要创建子包，因为spring boot会自动扫描application类的子包或者平级的类。如果是高于application的话就无法扫描了。  </description>
+    </item>
+    
     <item>
       <title>Python matplotlib绘制股票走势图</title>
       <link>https://chenjiesong.github.io/posts/python-matplotlib%E7%BB%98%E5%88%B6%E8%82%A1%E7%A5%A8%E8%B5%B0%E5%8A%BF%E5%9B%BE/</link>
