@@ -13,10 +13,10 @@
     
     <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Springboot目录结构"/>
-<meta name="twitter:description" content=" Application类（入口类）  里面的@SpringBootApplication注解是springboot的核心注解，主要作用是开启spring自动配置。使用这个注解相当于加上了下面三个注解：main方法中的SpringApplication.run在启动的时候会启动springboot程序，启动spring容器，启动内嵌的tomcat容器。  @Conifuration 允许将其他@bean注解标识的类加入到spring容器中，相当于spring配置文件中的beans标签 @EnableAutoConfiguration 启动自动配置 ComponentScan 会自动扫描当前包和子包下的标有@Component，@Service，@Repository,@Controller的类。相当于以前spring配置文件中的context：compon-scan   不要创建一个比Application类包级别高的类，需要创建子包，因为spring boot会自动扫描application类的子包或者平级的类。如果是高于application的话就无法扫描了。  "/>
+<meta name="twitter:description" content="Application类（入口类）  里面的@SpringBootApplication注解是springboot的核心注解，主要作用是开启spring自动配置。使用这个注解相当于加上了下面三个注解：main方法中的SpringApplication.run在启动的时候会启动springboot程序，启动spring容器，启动内嵌的tomcat容器。  @Conifuration 允许将其他@bean注解标识的类加入到spring容器中，相当于spring配置文件中的beans标签 @EnableAutoConfiguration 启动自动配置 ComponentScan 会自动扫描当前包和子包下的标有@Component，@Service，@Repository,@Controller的类。相当于以前spring配置文件中的context：compon-scan   不要创建一个比Application类包级别高的类，需要创建子包，因为spring boot会自动扫描application类的子包或者平级的类。如果是高于application的话就无法扫描了。   resources目录  application.properties是spring boot配置文件 static存放静态资源 templatesspring boot动态的数据不建议使用jsp，而是使用thymeleaf模板语言，跟velocity和freemarker类似，是一个模板引擎。是独立于spring boot的，并不是spring boot的一部分。   pom文件解析 依赖没有版本号，是从父工程中选择继承的。这个依赖叫做起步依赖，这些第三方的依赖是写再了dependencymanagement中，所以我们的项目如果想要使用的话，还需要些依赖，只不过版本号是可以省略的。如果不想使用spring boot的默认版本的话，自己动手添加版本号即可。"/>
 
     <meta property="og:title" content="Springboot目录结构" />
-<meta property="og:description" content=" Application类（入口类）  里面的@SpringBootApplication注解是springboot的核心注解，主要作用是开启spring自动配置。使用这个注解相当于加上了下面三个注解：main方法中的SpringApplication.run在启动的时候会启动springboot程序，启动spring容器，启动内嵌的tomcat容器。  @Conifuration 允许将其他@bean注解标识的类加入到spring容器中，相当于spring配置文件中的beans标签 @EnableAutoConfiguration 启动自动配置 ComponentScan 会自动扫描当前包和子包下的标有@Component，@Service，@Repository,@Controller的类。相当于以前spring配置文件中的context：compon-scan   不要创建一个比Application类包级别高的类，需要创建子包，因为spring boot会自动扫描application类的子包或者平级的类。如果是高于application的话就无法扫描了。  " />
+<meta property="og:description" content="Application类（入口类）  里面的@SpringBootApplication注解是springboot的核心注解，主要作用是开启spring自动配置。使用这个注解相当于加上了下面三个注解：main方法中的SpringApplication.run在启动的时候会启动springboot程序，启动spring容器，启动内嵌的tomcat容器。  @Conifuration 允许将其他@bean注解标识的类加入到spring容器中，相当于spring配置文件中的beans标签 @EnableAutoConfiguration 启动自动配置 ComponentScan 会自动扫描当前包和子包下的标有@Component，@Service，@Repository,@Controller的类。相当于以前spring配置文件中的context：compon-scan   不要创建一个比Application类包级别高的类，需要创建子包，因为spring boot会自动扫描application类的子包或者平级的类。如果是高于application的话就无法扫描了。   resources目录  application.properties是spring boot配置文件 static存放静态资源 templatesspring boot动态的数据不建议使用jsp，而是使用thymeleaf模板语言，跟velocity和freemarker类似，是一个模板引擎。是独立于spring boot的，并不是spring boot的一部分。   pom文件解析 依赖没有版本号，是从父工程中选择继承的。这个依赖叫做起步依赖，这些第三方的依赖是写再了dependencymanagement中，所以我们的项目如果想要使用的话，还需要些依赖，只不过版本号是可以省略的。如果不想使用spring boot的默认版本的话，自己动手添加版本号即可。" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://chenjiesong.github.io/posts/springboot%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84/" />
 <meta property="article:published_time" content="2021-03-02T00:00:00+00:00" />
@@ -91,6 +91,16 @@
 </li>
 <li>不要创建一个比Application类包级别高的类，需要创建子包，因为spring boot会自动扫描application类的子包或者平级的类。如果是高于application的话就无法扫描了。</li>
 </ul>
+<hr>
+<h3 id="resources目录">resources目录</h3>
+<ul>
+<li>application.properties是spring boot配置文件</li>
+<li>static存放静态资源</li>
+<li>templatesspring boot动态的数据不建议使用jsp，而是使用thymeleaf模板语言，跟velocity和freemarker类似，是一个模板引擎。是独立于spring boot的，并不是spring boot的一部分。</li>
+</ul>
+<hr>
+<h3 id="pom文件解析">pom文件解析</h3>
+<p>依赖没有版本号，是从父工程中选择继承的。这个依赖叫做起步依赖，这些第三方的依赖是写再了dependencymanagement中，所以我们的项目如果想要使用的话，还需要些依赖，只不过版本号是可以省略的。如果不想使用spring boot的默认版本的话，自己动手添加版本号即可。</p>
 
     </div>
     <div class="post-footer">
