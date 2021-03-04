@@ -8,6 +8,20 @@
     <lastBuildDate>Tue, 02 Mar 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://chenjiesong.github.io/tags/springboot/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Springboot目录结构</title>
+      <link>https://chenjiesong.github.io/posts/springboot%E5%B7%A5%E7%A8%8B%E7%83%AD%E9%83%A8%E7%BD%B2/</link>
+      <pubDate>Tue, 02 Mar 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://chenjiesong.github.io/posts/springboot%E5%B7%A5%E7%A8%8B%E7%83%AD%E9%83%A8%E7%BD%B2/</guid>
+      <description>添加依赖 下面是热部署的依赖，如果我们在初始化组件的时候就选择devtools就不需要自己添加依赖了。
+&amp;lt;!--热部署配置--&amp;gt; &amp;lt;dependency&amp;gt; &amp;lt;groupId&amp;gt;org.springframework.boot&amp;lt;/groupId&amp;gt; &amp;lt;artifactId&amp;gt;spring-boot-devtools&amp;lt;/artifactId&amp;gt; &amp;lt;/dependency&amp;gt; 配置完还不行，因为默认IDEA是不会自动编译的，所以我们还需要修改一些设置。
+ 修改配置 在设置中，找到编译相关的，然后将Build project automatically勾选上
+接着组合键Shift+Ctrl+Alt+/,选择注册表
+在下面找到，complier.automake.allow.when.app.running 然后勾选，接着推出
+重启服务器即可</description>
+    </item>
+    
+    <item>
+      <title>Springboot目录结构</title>
       <link>https://chenjiesong.github.io/posts/springboot%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84/</link>
       <pubDate>Tue, 02 Mar 2021 00:00:00 +0000</pubDate>
       
