@@ -15,5 +15,19 @@
       <description>Application类（入口类）  里面的@SpringBootApplication注解是springboot的核心注解，主要作用是开启spring自动配置。使用这个注解相当于加上了下面三个注解：main方法中的SpringApplication.run在启动的时候会启动springboot程序，启动spring容器，启动内嵌的tomcat容器。  @Conifuration 允许将其他@bean注解标识的类加入到spring容器中，相当于spring配置文件中的beans标签 @EnableAutoConfiguration 启动自动配置 ComponentScan 会自动扫描当前包和子包下的标有@Component，@Service，@Repository,@Controller的类。相当于以前spring配置文件中的context：compon-scan   不要创建一个比Application类包级别高的类，需要创建子包，因为spring boot会自动扫描application类的子包或者平级的类。如果是高于application的话就无法扫描了。   resources目录  application.properties是spring boot配置文件 static存放静态资源 templatesspring boot动态的数据不建议使用jsp，而是使用thymeleaf模板语言，跟velocity和freemarker类似，是一个模板引擎。是独立于spring boot的，并不是spring boot的一部分。   pom文件解析 依赖没有版本号，是从父工程中选择继承的。这个依赖叫做起步依赖，这些第三方的依赖是写再了dependencymanagement中，所以我们的项目如果想要使用的话，还需要些依赖，只不过版本号是可以省略的。如果不想使用spring boot的默认版本的话，自己动手添加版本号即可。</description>
     </item>
     
+    <item>
+      <title>创建SpringBoot项目</title>
+      <link>https://chenjiesong.github.io/posts/%E5%88%9B%E5%BB%BAspringboot%E9%A1%B9%E7%9B%AE/</link>
+      <pubDate>Tue, 02 Mar 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://chenjiesong.github.io/posts/%E5%88%9B%E5%BB%BAspringboot%E9%A1%B9%E7%9B%AE/</guid>
+      <description>创建一个模块 设置组(group)和工件(artifact)
+勾选web，这里创建一个web项目
+继续下一步完成
+ 添加起步依赖 根据SpringBoot的要求，我们要进行简单的测试还需要添加其起步的依赖
+ 项目要继承SpringBoot的起步依赖spring-boot-starter-parent 为了集成SpringMVC进行Controller的开发，所以项目要导入web的启动依赖spring-boot-starter-web  &amp;lt;?xml version=&amp;#34;1.0&amp;#34; encoding=&amp;#34;UTF-8&amp;#34;?&amp;gt; &amp;lt;project xmlns=&amp;#34;http://maven.apache.org/POM/4.0.0&amp;#34; xmlns:xsi=&amp;#34;http://www.w3.org/2001/XMLSchema-instance&amp;#34; xsi:schemaLocation=&amp;#34;http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd&amp;#34;&amp;gt; &amp;lt;modelVersion&amp;gt;4.0.0&amp;lt;/modelVersion&amp;gt; &amp;lt;parent&amp;gt; &amp;lt;groupId&amp;gt;org.springframework.boot&amp;lt;/groupId&amp;gt; &amp;lt;artifactId&amp;gt;spring-boot-starter-parent&amp;lt;/artifactId&amp;gt; &amp;lt;version&amp;gt;2.4.3&amp;lt;/version&amp;gt; &amp;lt;relativePath/&amp;gt; &amp;lt;!-- lookup parent from repository --&amp;gt; &amp;lt;/parent&amp;gt; &amp;lt;groupId&amp;gt;share&amp;lt;/groupId&amp;gt; &amp;lt;artifactId&amp;gt;api&amp;lt;/artifactId&amp;gt; &amp;lt;version&amp;gt;0.0.1-SNAPSHOT&amp;lt;/version&amp;gt; &amp;lt;name&amp;gt;api&amp;lt;/name&amp;gt; &amp;lt;description&amp;gt;Demo project for Spring Boot&amp;lt;/description&amp;gt; &amp;lt;properties&amp;gt; &amp;lt;java.version&amp;gt;11&amp;lt;/java.version&amp;gt; &amp;lt;/properties&amp;gt; &amp;lt;dependencies&amp;gt; &amp;lt;dependency&amp;gt; &amp;lt;groupId&amp;gt;org.springframework.boot&amp;lt;/groupId&amp;gt; &amp;lt;artifactId&amp;gt;spring-boot-starter-web&amp;lt;/artifactId&amp;gt; &amp;lt;/dependency&amp;gt; &amp;lt;dependency&amp;gt; &amp;lt;groupId&amp;gt;org.springframework.boot&amp;lt;/groupId&amp;gt; &amp;lt;artifactId&amp;gt;spring-boot-starter-test&amp;lt;/artifactId&amp;gt; &amp;lt;scope&amp;gt;test&amp;lt;/scope&amp;gt; &amp;lt;/dependency&amp;gt; &amp;lt;/dependencies&amp;gt; &amp;lt;build&amp;gt; &amp;lt;plugins&amp;gt; &amp;lt;plugin&amp;gt; &amp;lt;groupId&amp;gt;org.springframework.boot&amp;lt;/groupId&amp;gt; &amp;lt;artifactId&amp;gt;spring-boot-maven-plugin&amp;lt;/artifactId&amp;gt; &amp;lt;/plugin&amp;gt; &amp;lt;/plugins&amp;gt; &amp;lt;/build&amp;gt; &amp;lt;/project&amp;gt;  编写SpringBoot启动类 在包名下创建一个类ApiApplication
+package share.api; import org.</description>
+    </item>
+    
   </channel>
 </rss>
