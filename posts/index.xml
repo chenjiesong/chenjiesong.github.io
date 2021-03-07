@@ -5,7 +5,53 @@
     <link>https://chenjiesong.github.io/posts/</link>
     <description>Recent content in Posts on song</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Wed, 03 Mar 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://chenjiesong.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 07 Mar 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://chenjiesong.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Springboot项目目录结构命名规则</title>
+      <link>https://chenjiesong.github.io/posts/springboot%E9%A1%B9%E7%9B%AE%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84%E5%91%BD%E5%90%8D%E8%A7%84%E5%88%99/</link>
+      <pubDate>Sun, 07 Mar 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://chenjiesong.github.io/posts/springboot%E9%A1%B9%E7%9B%AE%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84%E5%91%BD%E5%90%8D%E8%A7%84%E5%88%99/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Springboot-YAML配置</title>
+      <link>https://chenjiesong.github.io/posts/springboot-yaml%E9%85%8D%E7%BD%AE/</link>
+      <pubDate>Wed, 03 Mar 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://chenjiesong.github.io/posts/springboot-yaml%E9%85%8D%E7%BD%AE/</guid>
+      <description>(一) SpringBoot配置文件类型 在前一篇的入门原理讲解中，我们简单有提到过关于自动配置的一些说明，我们演示的时候，仅仅在 src\main\resources 下的 application.properties 中写入 server.port=9090 就可以非常便捷的修改端口号
+也就是说，SpringBoot是基于约定的，很多值都是默认存在的，如果想要进行一定的修改，我们就需要使用 application.properties或者application.yml（application.yaml）进行配置
+properties，我们相对还是熟悉的，在过去 Spring 中的开发我们还算是经常用
+这一篇主要讲解 yaml 这一类型
+(二) yaml 简介 YAM的语法和其他高级语言类似，并且可以简单表达清单、散列表，标量等数据形态,它使用空白符号缩进和大量依赖外观的特色，特别适合用来表达或编辑数据结构、各种配置文件、倾印调试内容、文件大。尽管它比较适合用来表达层次结构式的数据结构，不过也有精致的语法可以表示关系性的数据其让人最容易上手的特色是巧妙避开各种封闭符号，如：引号、各种括号等，这些符号在嵌套结构时会变得复杂而难以辨认
+(三) 基础语法   基本写法
+key: key1: value1 key2: value2   行内写法
+key: {key1: value1,key2: value2} 说明：key1 前面空格个数是没有限定的，虽然默认是两格，但是只要是相同缩进，就代表是同一级别，用默认即可，仅此说明
+  (四) 配置数组、List、Set 数据 这里用 - 代表一个元素，注意 - 和 value1 等之间存在一个空格
+  基本写法
+key: - value1 - value2   行内写法
+key: [value1,value2] 补充：当集合中元素为对象的时候，示例如下
+user: - name: zhangsan age: 20 address: beijing - name: lisi age: 28 address: shanghai - name: wangwu age: 26 address: shenzhen   (五) 配置文件与配置类的属性映射 1.</description>
+    </item>
+    
+    <item>
+      <title>Springboot原理分析</title>
+      <link>https://chenjiesong.github.io/posts/springboot%E5%8E%9F%E7%90%86%E5%88%86%E6%9E%90/</link>
+      <pubDate>Wed, 03 Mar 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://chenjiesong.github.io/posts/springboot%E5%8E%9F%E7%90%86%E5%88%86%E6%9E%90/</guid>
+      <description>一、起步依赖原理分析   spring-boot-starter-parent
+通过Maven创建一个SpringBoot的项目的时候，我们需要在前面使用标签对引入一个spring-boot-starter-parent
+这就是SpringBoot的父级依赖，它就是一个特殊的starter，可以用来提供我们所需Maven的一些依赖，同时管理项目的资源过滤
+简单看一下，首先按下ctrl键单击spring-boot-starter-parent，
+&amp;lt;parent&amp;gt; &amp;lt;groupId&amp;gt;org.springframework.boot&amp;lt;/groupId&amp;gt; &amp;lt;artifactId&amp;gt;spring-boot-starter-parent&amp;lt;/artifactId&amp;gt; &amp;lt;version&amp;gt;2.4.3&amp;lt;/version&amp;gt; &amp;lt;relativePath/&amp;gt; &amp;lt;!-- lookup parent from repository --&amp;gt; &amp;lt;/parent&amp;gt; 进去之后，就是一些资源引入的内容，还有一些插件，接着又看到一个父级标签，我们继续点进去看一看。
+&amp;lt;parent&amp;gt; &amp;lt;groupId&amp;gt;org.springframework.boot&amp;lt;/groupId&amp;gt; &amp;lt;artifactId&amp;gt;spring-boot-dependencies&amp;lt;/artifactId&amp;gt; &amp;lt;version&amp;gt;2.2.7.RELEASE&amp;lt;/version&amp;gt; &amp;lt;relativePath&amp;gt;../../spring-boot-dependencies&amp;lt;/relativePath&amp;gt; &amp;lt;/parent&amp;gt; 到此位置，就看不到别的父级标签了，来观察一些这个文件，纵观一下，这里就是管理SpringBoot应用里面所有依赖版本的地方
+ properties 标签中配置了一些版本信息 dependency 标签内就是各种依赖 plugins 标签内就是一些涉及的插件  Springboot会帮我们根据我们选定的SpringBoot版本，选择出最适合的依赖们。
+&amp;lt;properties&amp;gt; ...... &amp;lt;activemq.version&amp;gt;5.15.12&amp;lt;/activemq.version&amp;gt; &amp;lt;commons-pool.version&amp;gt;1.6&amp;lt;/commons-pool.version&amp;gt; &amp;lt;jackson.version&amp;gt;2.10.4&amp;lt;/jackson.version&amp;gt; &amp;lt;javax-mail.version&amp;gt;1.6.2&amp;lt;/javax-mail.version&amp;gt; &amp;lt;log4j2.version&amp;gt;2.12.1&amp;lt;/log4j2.version&amp;gt; &amp;lt;logback.version&amp;gt;1.2.3&amp;lt;/logback.version&amp;gt; &amp;lt;mssql-jdbc.version&amp;gt;7.4.1.jre8&amp;lt;/mssql-jdbc.version&amp;gt; &amp;lt;mysql.version&amp;gt;8.0.20&amp;lt;/mysql.version&amp;gt; ...... &amp;lt;/properties&amp;gt; &amp;lt;dependencyManagement&amp;gt; &amp;lt;dependencies&amp;gt; &amp;lt;dependency&amp;gt; &amp;lt;groupId&amp;gt;org.springframework.boot&amp;lt;/groupId&amp;gt; &amp;lt;artifactId&amp;gt;spring-boot&amp;lt;/artifactId&amp;gt; &amp;lt;version&amp;gt;2.2.7.RELEASE&amp;lt;/version&amp;gt; &amp;lt;/dependency&amp;gt; &amp;lt;dependency&amp;gt; &amp;lt;groupId&amp;gt;org.springframework.boot&amp;lt;/groupId&amp;gt; &amp;lt;artifactId&amp;gt;spring-boot-test&amp;lt;/artifactId&amp;gt; &amp;lt;version&amp;gt;2.2.7.RELEASE&amp;lt;/version&amp;gt; &amp;lt;/dependency&amp;gt; ...... &amp;lt;dependency&amp;gt; &amp;lt;groupId&amp;gt;commons-pool&amp;lt;/groupId&amp;gt; &amp;lt;artifactId&amp;gt;commons-pool&amp;lt;/artifactId&amp;gt; &amp;lt;version&amp;gt;${commons-pool.version}&amp;lt;/version&amp;gt; &amp;lt;/dependency&amp;gt; ..... &amp;lt;/dependencies&amp;gt; &amp;lt;/dependencyManagement&amp;gt; &amp;lt;build&amp;gt; &amp;lt;pluginManagement&amp;gt; &amp;lt;plugins&amp;gt; .</description>
+    </item>
+    
     <item>
       <title>Springboot项目打包</title>
       <link>https://chenjiesong.github.io/posts/springboot%E9%A1%B9%E7%9B%AE%E6%89%93%E5%8C%85/</link>
