@@ -12,7 +12,8 @@
       <pubDate>Sun, 07 Mar 2021 00:00:00 +0000</pubDate>
       
       <guid>https://chenjiesong.github.io/posts/springboot%E9%A1%B9%E7%9B%AE%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84%E5%91%BD%E5%90%8D%E8%A7%84%E5%88%99/</guid>
-      <description></description>
+      <description>解释：
+ controller：各请求的入口； mapper：各个方法所用的spl的文件，一般为java类或XML文件； service：承载controller方法的业务逻辑的service类 model：方法里锁引用到的实体类。model里还可分为：dto，vo；dto是用于数据交换的类，vo是用于展示数据的类； Application，启动类！springboot由于内嵌容器，因此不需要再安装tomcat等容器去启动。但是需要一个启动的入口，而这个Application正是起到这种作用； application.properties，项目核心配置文件，数据库连接配置、参数配置等等都靠此文件规整； pox.xml，主要描述了项目的maven坐标，依赖关系等；  </description>
     </item>
     
     <item>
