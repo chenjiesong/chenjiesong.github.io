@@ -5,7 +5,17 @@
     <link>https://chenjiesong.github.io/tags/springboot/</link>
     <description>Recent content in Springboot on song</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Sun, 07 Mar 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://chenjiesong.github.io/tags/springboot/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 08 Mar 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://chenjiesong.github.io/tags/springboot/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Springboot-Web静态资源处理</title>
+      <link>https://chenjiesong.github.io/posts/springboot-web%E9%9D%99%E6%80%81%E8%B5%84%E6%BA%90%E5%A4%84%E7%90%86/</link>
+      <pubDate>Mon, 08 Mar 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://chenjiesong.github.io/posts/springboot-web%E9%9D%99%E6%80%81%E8%B5%84%E6%BA%90%E5%A4%84%E7%90%86/</guid>
+      <description>（一）静态资源处理方式 如果要做一个完整的Web项目，需要诸多的静态资源（CSS、JS等），按照以往Spring的开发来说，我们的main下会有一个webapp文件夹，但是我们现在创建的SpringBoot项目却不然，这是因为SpringBoot对于静态资源的放置，有自己的一套规定。
+（1）第一种映射规则 ​	A： 规则分析</description>
+    </item>
+    
     <item>
       <title>Springboot项目目录结构命名规则</title>
       <link>https://chenjiesong.github.io/posts/springboot%E9%A1%B9%E7%9B%AE%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84%E5%91%BD%E5%90%8D%E8%A7%84%E5%88%99/</link>
