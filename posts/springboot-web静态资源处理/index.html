@@ -14,11 +14,27 @@
     <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Springboot-Web静态资源处理"/>
 <meta name="twitter:description" content="（一）静态资源处理方式 如果要做一个完整的Web项目，需要诸多的静态资源（CSS、JS等），按照以往Spring的开发来说，我们的main下会有一个webapp文件夹，但是我们现在创建的SpringBoot项目却不然，这是因为SpringBoot对于静态资源的放置，有自己的一套规定。
-（1）第一种映射规则 ​	A： 规则分析"/>
+（1）第一种映射规则
+A： 规则分析
+首先来看一下 SpringMVC 关于 web 的配置，ctrl &#43; n 查找一下 WebMvcAutoConfiguration 这个配置类，找到 addResourceHandlers，看到一项与资源配置有关，addResourceHandlers，的简单看一下源码，其实就大致能明白，访此 /webjars/** 路径下的内容，就会去 /META-INF/resources/webjars/ 下去找，
+addResourceHandlers
+Duration cachePeriod = this.resourceProperties.getCache().getPeriod(); CacheControl cacheControl = this.resourceProperties.getCache().getCachecontrol().toHttpCacheControl(); if (!registry.hasMappingForPattern(&#34;/webjars/**&#34;)) { customizeResourceHandlerRegistration(registry.addResourceHandler(&#34;/webjars/**&#34;) .addResourceLocations(&#34;classpath:/META-INF/resources/webjars/&#34;)	.setCachePeriod(getSeconds(cachePeriod)).setCacheControl(cacheControl)); } 首先来看一下webjars的概念
+B：Webjars
+以前项目中，如果需要一些静态资源，我们会直接引入文件到项目中，但是Webjars使用过jar包方式引入静态资源的，访问官网：https://www.webjars.org
+官网的说明已经告诉我们，WebJars就是帮助我们把一些web库例如jQuery&amp;Bootstrap等打包到jar中，我们通过依赖就可以快速使用
+ WebJars are client-side web libraries (e.g. jQuery &amp; Bootstrap) packaged into JAR (Java Archive) files. Explicitly and easily manage the client-side dependencies in JVM-based web applications Use JVM-based build tools (e."/>
 
     <meta property="og:title" content="Springboot-Web静态资源处理" />
 <meta property="og:description" content="（一）静态资源处理方式 如果要做一个完整的Web项目，需要诸多的静态资源（CSS、JS等），按照以往Spring的开发来说，我们的main下会有一个webapp文件夹，但是我们现在创建的SpringBoot项目却不然，这是因为SpringBoot对于静态资源的放置，有自己的一套规定。
-（1）第一种映射规则 ​	A： 规则分析" />
+（1）第一种映射规则
+A： 规则分析
+首先来看一下 SpringMVC 关于 web 的配置，ctrl &#43; n 查找一下 WebMvcAutoConfiguration 这个配置类，找到 addResourceHandlers，看到一项与资源配置有关，addResourceHandlers，的简单看一下源码，其实就大致能明白，访此 /webjars/** 路径下的内容，就会去 /META-INF/resources/webjars/ 下去找，
+addResourceHandlers
+Duration cachePeriod = this.resourceProperties.getCache().getPeriod(); CacheControl cacheControl = this.resourceProperties.getCache().getCachecontrol().toHttpCacheControl(); if (!registry.hasMappingForPattern(&#34;/webjars/**&#34;)) { customizeResourceHandlerRegistration(registry.addResourceHandler(&#34;/webjars/**&#34;) .addResourceLocations(&#34;classpath:/META-INF/resources/webjars/&#34;)	.setCachePeriod(getSeconds(cachePeriod)).setCacheControl(cacheControl)); } 首先来看一下webjars的概念
+B：Webjars
+以前项目中，如果需要一些静态资源，我们会直接引入文件到项目中，但是Webjars使用过jar包方式引入静态资源的，访问官网：https://www.webjars.org
+官网的说明已经告诉我们，WebJars就是帮助我们把一些web库例如jQuery&amp;Bootstrap等打包到jar中，我们通过依赖就可以快速使用
+ WebJars are client-side web libraries (e.g. jQuery &amp; Bootstrap) packaged into JAR (Java Archive) files. Explicitly and easily manage the client-side dependencies in JVM-based web applications Use JVM-based build tools (e." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://chenjiesong.github.io/posts/springboot-web%E9%9D%99%E6%80%81%E8%B5%84%E6%BA%90%E5%A4%84%E7%90%86/" />
 <meta property="article:published_time" content="2021-03-08T00:00:00+00:00" />
@@ -69,7 +85,7 @@
   <title>clock</title>
   <circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline>
 </svg>
-          1 min read
+          2 min read
         </div>
         <div>
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
@@ -83,8 +99,86 @@
     <div class="post-content">
       <h3 id="一静态资源处理方式">（一）静态资源处理方式</h3>
 <p>如果要做一个完整的Web项目，需要诸多的静态资源（CSS、JS等），按照以往Spring的开发来说，我们的main下会有一个webapp文件夹，但是我们现在创建的SpringBoot项目却不然，这是因为SpringBoot对于静态资源的放置，有自己的一套规定。</p>
-<h5 id="1第一种映射规则">（1）第一种映射规则</h5>
-<p>​	A： 规则分析</p>
+<p><strong>（1）第一种映射规则</strong></p>
+<p>A： 规则分析</p>
+<p>首先来看一下 SpringMVC 关于 web 的配置，<code>ctrl + n</code> 查找一下 WebMvcAutoConfiguration 这个配置类，找到 addResourceHandlers，看到一项与资源配置有关，<strong>addResourceHandlers</strong>，的简单看一下源码，其实就大致能明白，访此 <code>/webjars/**</code> 路径下的内容，就会去 <code>/META-INF/resources/webjars/</code> 下去找，</p>
+<p><strong>addResourceHandlers</strong></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">Duration cachePeriod <span style="color:#f92672">=</span> <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">resourceProperties</span><span style="color:#f92672">.</span><span style="color:#a6e22e">getCache</span><span style="color:#f92672">().</span><span style="color:#a6e22e">getPeriod</span><span style="color:#f92672">();</span>
+CacheControl cacheControl <span style="color:#f92672">=</span> <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">resourceProperties</span><span style="color:#f92672">.</span><span style="color:#a6e22e">getCache</span><span style="color:#f92672">().</span><span style="color:#a6e22e">getCachecontrol</span><span style="color:#f92672">().</span><span style="color:#a6e22e">toHttpCacheControl</span><span style="color:#f92672">();</span>
+<span style="color:#66d9ef">if</span> <span style="color:#f92672">(!</span>registry<span style="color:#f92672">.</span><span style="color:#a6e22e">hasMappingForPattern</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;/webjars/**&#34;</span><span style="color:#f92672">))</span> <span style="color:#f92672">{</span>
+    
+    customizeResourceHandlerRegistration<span style="color:#f92672">(</span>registry<span style="color:#f92672">.</span><span style="color:#a6e22e">addResourceHandler</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;/webjars/**&#34;</span><span style="color:#f92672">)</span>
+		<span style="color:#f92672">.</span><span style="color:#a6e22e">addResourceLocations</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;classpath:/META-INF/resources/webjars/&#34;</span><span style="color:#f92672">)</span>						<span style="color:#f92672">.</span><span style="color:#a6e22e">setCachePeriod</span><span style="color:#f92672">(</span>getSeconds<span style="color:#f92672">(</span>cachePeriod<span style="color:#f92672">)).</span><span style="color:#a6e22e">setCacheControl</span><span style="color:#f92672">(</span>cacheControl<span style="color:#f92672">));</span>
+
+<span style="color:#f92672">}</span>
+
+</code></pre></div><p>首先来看一下webjars的概念</p>
+<p>B：Webjars</p>
+<p>以前项目中，如果需要一些静态资源，我们会直接引入文件到项目中，但是Webjars使用过jar包方式引入静态资源的，访问官网：https://www.webjars.org</p>
+<p>官网的说明已经告诉我们，WebJars就是帮助我们把一些web库例如jQuery&amp;Bootstrap等打包到jar中，我们通过依赖就可以快速使用</p>
+<blockquote>
+<p>WebJars are client-side web libraries (e.g. jQuery &amp; Bootstrap) packaged into JAR (Java Archive) files. Explicitly and easily manage the client-side dependencies in JVM-based web applications Use JVM-based build tools (e.g. Maven, Gradle, sbt, &hellip;) to download your client-side dependencies</p>
+</blockquote>
+<p>下面我们以jquery为例使用：选择Mavan的依赖</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#f92672">&lt;dependency&gt;</span>
+    <span style="color:#f92672">&lt;groupId&gt;</span>org.webjars<span style="color:#f92672">&lt;/groupId&gt;</span>
+    <span style="color:#f92672">&lt;artifactId&gt;</span>jquery<span style="color:#f92672">&lt;/artifactId&gt;</span>
+    <span style="color:#f92672">&lt;version&gt;</span>3.5.1<span style="color:#f92672">&lt;/version&gt;</span>
+<span style="color:#f92672">&lt;/dependency&gt;</span>
+</code></pre></div><p>引入进 pom 后，我们回顾一下刚才看得源码</p>
+<p>访此 <code>/webjars/**</code> 路径下的内容，就会去 <code>/META-INF/resources/webjars/</code> 下去找</p>
+<p>我们找到这个引入的 jquery 依赖，可以看到我们从 Webjars 网站引入的内容，都是符合 Springboot 默认格式要求的，所以下面直接访问一下看一看</p>
+<p><img src="https://raw.githubusercontent.com/chenjiesong/img_study/main/img/SpringBoot-Web%E9%9D%99%E6%80%81%E8%B5%84%E6%BA%90/jquery.png" alt=""></p>
+<p>访问的格式就是：<code>http://localhost:8080/webjars/**</code> 引入它会自动去 <code>/META-INF/resources/webjars/</code> 下面找，所以直接从 jquery这个文件夹开始写就可以了</p>
+<p>所以访问路径为：<code>http://localhost:8008/webjars/jquery/3.5.1/jquery.js</code></p>
+<p><img src="https://raw.githubusercontent.com/chenjiesong/img_study/main/img/SpringBoot-Web%E9%9D%99%E6%80%81%E8%B5%84%E6%BA%90/jquery2.png" alt=""></p>
+<p><strong>（2）第二种映射规则</strong></p>
+<p>A： 规则分析</p>
+<p>这些第三方的 web 库的问题给出了一种方式，但是说了半天，还没有说自己的页面怎么弄，如果想要使用自己的静态资源又该怎么办呢？</p>
+<p>继续看 <strong>addResourceHandlers</strong> 的源码：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#75715e">//这里是第一种
+</span><span style="color:#75715e"></span>Duration cachePeriod <span style="color:#f92672">=</span> <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">resourceProperties</span><span style="color:#f92672">.</span><span style="color:#a6e22e">getCache</span><span style="color:#f92672">().</span><span style="color:#a6e22e">getPeriod</span><span style="color:#f92672">();</span>
+CacheControl cacheControl <span style="color:#f92672">=</span> <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">resourceProperties</span><span style="color:#f92672">.</span><span style="color:#a6e22e">getCache</span><span style="color:#f92672">().</span><span style="color:#a6e22e">getCachecontrol</span><span style="color:#f92672">().</span><span style="color:#a6e22e">toHttpCacheControl</span><span style="color:#f92672">();</span>
+<span style="color:#66d9ef">if</span> <span style="color:#f92672">(!</span>registry<span style="color:#f92672">.</span><span style="color:#a6e22e">hasMappingForPattern</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;/webjars/**&#34;</span><span style="color:#f92672">))</span> <span style="color:#f92672">{</span>
+   customizeResourceHandlerRegistration<span style="color:#f92672">(</span>registry<span style="color:#f92672">.</span><span style="color:#a6e22e">addResourceHandler</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;/webjars/**&#34;</span><span style="color:#f92672">)</span>
+         <span style="color:#f92672">.</span><span style="color:#a6e22e">addResourceLocations</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;classpath:/META-INF/resources/webjars/&#34;</span><span style="color:#f92672">)</span>
+         <span style="color:#f92672">.</span><span style="color:#a6e22e">setCachePeriod</span><span style="color:#f92672">(</span>getSeconds<span style="color:#f92672">(</span>cachePeriod<span style="color:#f92672">)).</span><span style="color:#a6e22e">setCacheControl</span><span style="color:#f92672">(</span>cacheControl<span style="color:#f92672">));</span>
+<span style="color:#f92672">}</span>
+
+<span style="color:#75715e">//这里是第二种
+</span><span style="color:#75715e"></span>String staticPathPattern <span style="color:#f92672">=</span> <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">mvcProperties</span><span style="color:#f92672">.</span><span style="color:#a6e22e">getStaticPathPattern</span><span style="color:#f92672">();</span>
+<span style="color:#66d9ef">if</span> <span style="color:#f92672">(!</span>registry<span style="color:#f92672">.</span><span style="color:#a6e22e">hasMappingForPattern</span><span style="color:#f92672">(</span>staticPathPattern<span style="color:#f92672">))</span> <span style="color:#f92672">{</span>
+    
+  customizeResourceHandlerRegistration<span style="color:#f92672">(</span>registry<span style="color:#f92672">.</span><span style="color:#a6e22e">addResourceHandler</span><span style="color:#f92672">(</span>staticPathPattern<span style="color:#f92672">)</span>  		<span style="color:#f92672">.</span><span style="color:#a6e22e">addResourceLocations</span><span style="color:#f92672">(</span>getResourceLocations<span style="color:#f92672">(</span><span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">resourceProperties</span>
+	 <span style="color:#f92672">.</span><span style="color:#a6e22e">getStaticLocations</span><span style="color:#f92672">()))</span>                                     		  			      <span style="color:#f92672">.</span><span style="color:#a6e22e">setCachePeriod</span><span style="color:#f92672">(</span>getSeconds<span style="color:#f92672">(</span>cachePeriod<span style="color:#f92672">)).</span><span style="color:#a6e22e">setCacheControl</span><span style="color:#f92672">(</span>cacheControl<span style="color:#f92672">));</span>
+    
+<span style="color:#f92672">}</span>
+
+</code></pre></div><p>刚才我们分析完了上面的第一种，接着下面以几乎相同的方式，又定义了一种映射的规则，第一种的方式为：访此 <code>/webjars/**</code> 路径下的内容，就会去 <code>/META-INF/resources/webjars/</code> 下去找</p>
+<p>对照相同位置，我们去看第二种，也就是：访问 <code>staticPathPattern</code> 此路径下的内容，就会去 <code>getResourceLocations(this.resourceProperties 	 .getStaticLocations()</code> 下去找</p>
+<p>我们顺着线索，继续追过去</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">String staticPathPattern <span style="color:#f92672">=</span> <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">mvcProperties</span><span style="color:#f92672">.</span><span style="color:#a6e22e">getStaticPathPattern</span><span style="color:#f92672">();</span>
+</code></pre></div><p>最终找到了这么一条，我们得到了 <code>/**</code> 这个路径</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">private</span> String staticPathPattern <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;/**&#34;</span><span style="color:#f92672">;</span>
+</code></pre></div><p>我们跳转 <code>this.resourceProperties.getStaticLocations()</code></p>
+<p>得到这样一个定义</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">private</span> String<span style="color:#f92672">[]</span> staticLocations <span style="color:#f92672">=</span> CLASSPATH_RESOURCE_LOCATIONS<span style="color:#f92672">;</span>
+</code></pre></div><p>继续跳转，在ResourceProperties 中又找到了这样一个定义</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">private</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">final</span> String<span style="color:#f92672">[]</span> CLASSPATH_RESOURCE_LOCATIONS <span style="color:#f92672">=</span> <span style="color:#f92672">{</span> 
+    <span style="color:#e6db74">&#34;classpath:/META-INF/resources/&#34;</span><span style="color:#f92672">,</span>
+    <span style="color:#e6db74">&#34;classpath:/resources/&#34;</span><span style="color:#f92672">,</span>
+    <span style="color:#e6db74">&#34;classpath:/static/&#34;</span><span style="color:#f92672">,</span>
+    <span style="color:#e6db74">&#34;classpath:/public/&#34;</span> 
+<span style="color:#f92672">};</span>
+</code></pre></div><p>到现在我们对于第二种方式的映射规则其实就清楚了</p>
+<p>访问 <code>/**</code> 此路径下的内容，就会去 <code>/META-INF/resources/</code>，<code>/resources/</code>，<code>/static/</code> ，<code>/public/</code> 四者中去找</p>
+<p>B: classpath概念补充：</p>
+<ul>
+<li>src 路径下的文件编译后会被放到 WEB-INF/classes 路径下，所以默认classpath 就是指这里</li>
+<li>用maven构建一个项目的时候，resources 目录就是默认的 classpath</li>
+</ul>
+<p>C：测试</p>
+<p>下面测试一下，我们分别将自己定义的一个 js 文件放置于resources文件夹下的 resources、static、public 文件夹下（没有就自己创建，static 是默认有的，现在的新版本直接放在外层的那个 resources 下是不可以的）</p>
 
     </div>
     <div class="post-footer">

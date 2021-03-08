@@ -13,7 +13,15 @@
       
       <guid>https://chenjiesong.github.io/posts/springboot-web%E9%9D%99%E6%80%81%E8%B5%84%E6%BA%90%E5%A4%84%E7%90%86/</guid>
       <description>（一）静态资源处理方式 如果要做一个完整的Web项目，需要诸多的静态资源（CSS、JS等），按照以往Spring的开发来说，我们的main下会有一个webapp文件夹，但是我们现在创建的SpringBoot项目却不然，这是因为SpringBoot对于静态资源的放置，有自己的一套规定。
-（1）第一种映射规则 ​	A： 规则分析</description>
+（1）第一种映射规则
+A： 规则分析
+首先来看一下 SpringMVC 关于 web 的配置，ctrl + n 查找一下 WebMvcAutoConfiguration 这个配置类，找到 addResourceHandlers，看到一项与资源配置有关，addResourceHandlers，的简单看一下源码，其实就大致能明白，访此 /webjars/** 路径下的内容，就会去 /META-INF/resources/webjars/ 下去找，
+addResourceHandlers
+Duration cachePeriod = this.resourceProperties.getCache().getPeriod(); CacheControl cacheControl = this.resourceProperties.getCache().getCachecontrol().toHttpCacheControl(); if (!registry.hasMappingForPattern(&amp;#34;/webjars/**&amp;#34;)) { customizeResourceHandlerRegistration(registry.addResourceHandler(&amp;#34;/webjars/**&amp;#34;) .addResourceLocations(&amp;#34;classpath:/META-INF/resources/webjars/&amp;#34;)	.setCachePeriod(getSeconds(cachePeriod)).setCacheControl(cacheControl)); } 首先来看一下webjars的概念
+B：Webjars
+以前项目中，如果需要一些静态资源，我们会直接引入文件到项目中，但是Webjars使用过jar包方式引入静态资源的，访问官网：https://www.webjars.org
+官网的说明已经告诉我们，WebJars就是帮助我们把一些web库例如jQuery&amp;amp;Bootstrap等打包到jar中，我们通过依赖就可以快速使用
+ WebJars are client-side web libraries (e.g. jQuery &amp;amp; Bootstrap) packaged into JAR (Java Archive) files. Explicitly and easily manage the client-side dependencies in JVM-based web applications Use JVM-based build tools (e.</description>
     </item>
     
     <item>
