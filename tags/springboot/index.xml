@@ -25,6 +25,16 @@ B：Webjars
     </item>
     
     <item>
+      <title>Springboot全局字符编码设置</title>
+      <link>https://chenjiesong.github.io/posts/springboot%E5%85%A8%E5%B1%80%E5%AD%97%E7%AC%A6%E7%BC%96%E7%A0%81%E8%AE%BE%E7%BD%AE/</link>
+      <pubDate>Mon, 08 Mar 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://chenjiesong.github.io/posts/springboot%E5%85%A8%E5%B1%80%E5%AD%97%E7%AC%A6%E7%BC%96%E7%A0%81%E8%AE%BE%E7%BD%AE/</guid>
+      <description>application.yaml设置
+server: port: 8008 servlet: encoding: force: true charset: UTF-8 enabled: true tomcat: uri-encoding: UTF-8 </description>
+    </item>
+    
+    <item>
       <title>Springboot项目目录结构命名规则</title>
       <link>https://chenjiesong.github.io/posts/springboot%E9%A1%B9%E7%9B%AE%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84%E5%91%BD%E5%90%8D%E8%A7%84%E5%88%99/</link>
       <pubDate>Sun, 07 Mar 2021 00:00:00 +0000</pubDate>

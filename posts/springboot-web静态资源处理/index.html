@@ -179,6 +179,43 @@ CacheControl cacheControl <span style="color:#f92672">=</span> <span style="colo
 </ul>
 <p>C：测试</p>
 <p>下面测试一下，我们分别将自己定义的一个 js 文件放置于resources文件夹下的 resources、static、public 文件夹下（没有就自己创建，static 是默认有的，现在的新版本直接放在外层的那个 resources 下是不可以的）</p>
+<p><img src="https://raw.githubusercontent.com/chenjiesong/img_study/main/img/SpringBoot-Web%E9%9D%99%E6%80%81%E8%B5%84%E6%BA%90/js.png" alt=""></p>
+<p>访问优先级：resources&gt;static&gt;public</p>
+<p>D:自定义资源路径</p>
+<p>如果我们还想要自己指定静态资源的存放路径，一个简单的配置就可以了，例如下面配置就是将路径指定到 resources 的 ideal 和 jsjsjs 文件夹中</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">spring<span style="color:#f92672">.</span><span style="color:#a6e22e">resources</span><span style="color:#f92672">.</span><span style="color:#a6e22e">static</span><span style="color:#f92672">-</span>locations<span style="color:#f92672">=</span>classpath<span style="color:#f92672">:/</span>ideal<span style="color:#f92672">/,</span>classpath<span style="color:#f92672">:/</span>jsjsjs<span style="color:#f92672">/</span>
+</code></pre></div><p>注意：一旦自定义配置了路径，原来的自动配置就不会生效了</p>
+<hr>
+<h3 id="二首页文件处理">（二）首页文件处理</h3>
+<p>继续看 WebMvcAutoConfiguration 这个配置类，找到了一个关于欢迎页面相关的方法 welcomePageHandlerMapping，<code>this.mvcProperties.getStaticPathPattern()</code>，代表的是 <code>/**</code> 这个路径继续，看到其中又调用了 getWelcomePage()</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#a6e22e">@Bean</span>
+<span style="color:#66d9ef">public</span> WelcomePageHandlerMapping <span style="color:#a6e22e">welcomePageHandlerMapping</span><span style="color:#f92672">(</span>ApplicationContext applicationContext<span style="color:#f92672">,</span>FormattingConversionService mvcConversionService<span style="color:#f92672">,</span> ResourceUrlProvider mvcResourceUrlProvider<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+ 
+ WelcomePageHandlerMapping welcomePageHandlerMapping <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span>   
+ WelcomePageHandlerMapping<span style="color:#f92672">(</span>neTemplateAvailabilityProviders<span style="color:#f92672">(</span>applicationContext<span style="color:#f92672">),</span>   
+ applicationContext<span style="color:#f92672">,</span>getWelcomePage<span style="color:#f92672">(),</span>
+ <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">mvcProperties</span><span style="color:#f92672">.</span><span style="color:#a6e22e">getStaticPathPattern</span><span style="color:#f92672">());</span>
+ 
+ welcomePageHandlerMapping<span style="color:#f92672">.</span><span style="color:#a6e22e">setInterceptors</span><span style="color:#f92672">(</span>getInterceptors<span style="color:#f92672">(</span>mvcConversionService<span style="color:#f92672">,</span> 		mvcResourceUrlProvider<span style="color:#f92672">));</span>
+ 
+ welcomePageHandlerMapping<span style="color:#f92672">.</span><span style="color:#a6e22e">setCorsConfigurations</span><span style="color:#f92672">(</span>getCorsConfigurations<span style="color:#f92672">());</span>
+ 
+ <span style="color:#66d9ef">return</span> welcomePageHandlerMapping<span style="color:#f92672">;</span>
+<span style="color:#f92672">}</span>
+
+</code></pre></div><p>locations 的定义是获取到 <code>resourceProperties.getStaticLocations() </code>，这也就是刚才我们所探索到的那几个静态资源文件夹，在 getIndexHtml 方法中，又进行了一个拼接，也就是找到 这几个静态资源文件夹下的 index.html</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">private</span> Optional<span style="color:#f92672">&lt;</span>Resource<span style="color:#f92672">&gt;</span> <span style="color:#a6e22e">getWelcomePage</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+   String<span style="color:#f92672">[]</span> locations <span style="color:#f92672">=</span> getResourceLocations<span style="color:#f92672">(</span><span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">resourceProperties</span><span style="color:#f92672">.</span><span style="color:#a6e22e">getStaticLocations</span><span style="color:#f92672">());</span>
+   <span style="color:#66d9ef">return</span> Arrays<span style="color:#f92672">.</span><span style="color:#a6e22e">stream</span><span style="color:#f92672">(</span>locations<span style="color:#f92672">).</span><span style="color:#a6e22e">map</span><span style="color:#f92672">(</span><span style="color:#66d9ef">this</span><span style="color:#f92672">::</span>getIndexHtml<span style="color:#f92672">).</span><span style="color:#a6e22e">filter</span><span style="color:#f92672">(</span><span style="color:#66d9ef">this</span><span style="color:#f92672">::</span>isReadable<span style="color:#f92672">).</span><span style="color:#a6e22e">findFirst</span><span style="color:#f92672">();</span>
+<span style="color:#f92672">}</span>
+
+<span style="color:#66d9ef">private</span> Resource <span style="color:#a6e22e">getIndexHtml</span><span style="color:#f92672">(</span>String location<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+   <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">resourceLoader</span><span style="color:#f92672">.</span><span style="color:#a6e22e">getResource</span><span style="color:#f92672">(</span>location <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;index.html&#34;</span><span style="color:#f92672">);</span>
+<span style="color:#f92672">}</span>
+
+</code></pre></div><p><strong>结论：静态资源文件夹下面的 index.html 就是默认的欢迎页面</strong></p>
+<hr>
+<h3 id="三图标文件处理">（三）图标文件处理</h3>
 
     </div>
     <div class="post-footer">
