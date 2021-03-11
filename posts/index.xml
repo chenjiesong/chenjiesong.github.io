@@ -7,6 +7,18 @@
     <generator>Hugo -- gohugo.io</generator>
     <lastBuildDate>Mon, 08 Mar 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://chenjiesong.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
     <item>
+      <title>Springboot-Thymeleaf模板</title>
+      <link>https://chenjiesong.github.io/posts/springboot-thymeleaf%E6%A8%A1%E6%9D%BF/</link>
+      <pubDate>Mon, 08 Mar 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://chenjiesong.github.io/posts/springboot-thymeleaf%E6%A8%A1%E6%9D%BF/</guid>
+      <description>（一）模板引擎引入 1.pom增加依赖
+&amp;lt;!--thymeleaf--&amp;gt; &amp;lt;dependency&amp;gt; &amp;lt;groupId&amp;gt;org.springframework.boot&amp;lt;/groupId&amp;gt; &amp;lt;artifactId&amp;gt;spring-boot-starter-thymeleaf&amp;lt;/artifactId&amp;gt; &amp;lt;/dependency&amp;gt; 2.模板页面存放位置
+具体路径为：src -- main -- resources -- template
+@ConfigurationProperties(prefix = &amp;#34;spring.thymeleaf&amp;#34;) public class ThymeleafProperties { private static final Charset DEFAULT_ENCODING = StandardCharsets.UTF_8; public static final String DEFAULT_PREFIX = &amp;#34;classpath:/templates/&amp;#34;; public static final String DEFAULT_SUFFIX = &amp;#34;.html&amp;#34;; // 是否在呈现模板之前检查模板是否存在  private boolean checkTemplate = true; // 是否检查模板位置是否存在  private boolean checkTemplateLocation = true; // 在构建URL时以查看名称作为前缀  private String prefix = DEFAULT_PREFIX; // 在构建URL时附加到视图名称的后缀  private String suffix = DEFAULT_SUFFIX; // 要应用于模板的模板模式  private String mode = &amp;#34;HTML&amp;#34;; // 模板文件编码  private Charset encoding = DEFAULT_ENCODING; 3.</description>
+    </item>
+    
+    <item>
       <title>Springboot-Web静态资源处理</title>
       <link>https://chenjiesong.github.io/posts/springboot-web%E9%9D%99%E6%80%81%E8%B5%84%E6%BA%90%E5%A4%84%E7%90%86/</link>
       <pubDate>Mon, 08 Mar 2021 00:00:00 +0000</pubDate>

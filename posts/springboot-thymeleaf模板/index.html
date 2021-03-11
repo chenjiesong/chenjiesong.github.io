@@ -1,0 +1,499 @@
+<!doctype html>
+<html lang="en-us">
+  <head>
+    <title>Springboot-Thymeleaf模板 // song</title>
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <meta charset="utf-8" />
+    <meta name="generator" content="Hugo 0.79.1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="author" content="song" />
+    <meta name="description" content="" />
+    <link rel="stylesheet" href="https://chenjiesong.github.io/css/main.min.88e7083eff65effb7485b6e6f38d10afbec25093a6fac42d734ce9024d3defbd.css" />
+
+    
+    <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Springboot-Thymeleaf模板"/>
+<meta name="twitter:description" content="（一）模板引擎引入 1.pom增加依赖
+&lt;!--thymeleaf--&gt; &lt;dependency&gt; &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt; &lt;artifactId&gt;spring-boot-starter-thymeleaf&lt;/artifactId&gt; &lt;/dependency&gt; 2.模板页面存放位置
+具体路径为：src -- main -- resources -- template
+@ConfigurationProperties(prefix = &#34;spring.thymeleaf&#34;) public class ThymeleafProperties { private static final Charset DEFAULT_ENCODING = StandardCharsets.UTF_8; public static final String DEFAULT_PREFIX = &#34;classpath:/templates/&#34;; public static final String DEFAULT_SUFFIX = &#34;.html&#34;; // 是否在呈现模板之前检查模板是否存在  private boolean checkTemplate = true; // 是否检查模板位置是否存在  private boolean checkTemplateLocation = true; // 在构建URL时以查看名称作为前缀  private String prefix = DEFAULT_PREFIX; // 在构建URL时附加到视图名称的后缀  private String suffix = DEFAULT_SUFFIX; // 要应用于模板的模板模式  private String mode = &#34;HTML&#34;; // 模板文件编码  private Charset encoding = DEFAULT_ENCODING; 3."/>
+
+    <meta property="og:title" content="Springboot-Thymeleaf模板" />
+<meta property="og:description" content="（一）模板引擎引入 1.pom增加依赖
+&lt;!--thymeleaf--&gt; &lt;dependency&gt; &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt; &lt;artifactId&gt;spring-boot-starter-thymeleaf&lt;/artifactId&gt; &lt;/dependency&gt; 2.模板页面存放位置
+具体路径为：src -- main -- resources -- template
+@ConfigurationProperties(prefix = &#34;spring.thymeleaf&#34;) public class ThymeleafProperties { private static final Charset DEFAULT_ENCODING = StandardCharsets.UTF_8; public static final String DEFAULT_PREFIX = &#34;classpath:/templates/&#34;; public static final String DEFAULT_SUFFIX = &#34;.html&#34;; // 是否在呈现模板之前检查模板是否存在  private boolean checkTemplate = true; // 是否检查模板位置是否存在  private boolean checkTemplateLocation = true; // 在构建URL时以查看名称作为前缀  private String prefix = DEFAULT_PREFIX; // 在构建URL时附加到视图名称的后缀  private String suffix = DEFAULT_SUFFIX; // 要应用于模板的模板模式  private String mode = &#34;HTML&#34;; // 模板文件编码  private Charset encoding = DEFAULT_ENCODING; 3." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://chenjiesong.github.io/posts/springboot-thymeleaf%E6%A8%A1%E6%9D%BF/" />
+<meta property="article:published_time" content="2021-03-08T00:00:00+00:00" />
+<meta property="article:modified_time" content="2021-03-08T00:00:00+00:00" />
+
+
+  </head>
+  <body>
+    <header class="app-header">
+      <a href="https://chenjiesong.github.io/"><img class="app-header-avatar" src="/avatar.jpg" alt="song" /></a>
+      <h1>song</h1>
+      <nav class="app-header-menu">
+          <a class="app-header-menu-item" href="/">主页</a>
+             - 
+          
+          <a class="app-header-menu-item" href="/tags/">标签</a>
+      </nav>
+      <p>一只闲鱼的博客</p>
+      <div class="app-header-social">
+        
+          <a target="_blank" href="https://github.com/gohugoio" rel="noreferrer noopener"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-github">
+  <title>github</title>
+  <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+</svg></a>
+        
+          <a target="_blank" href="https://twitter.com/gohugoio" rel="noreferrer noopener"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-twitter">
+  <title>twitter</title>
+  <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path>
+</svg></a>
+        
+      </div>
+    </header>
+    <main class="app-container">
+      
+  <article class="post">
+    <header class="post-header">
+      <h1 class ="post-title">Springboot-Thymeleaf模板</h1>
+      <div class="post-meta">
+        <div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-calendar">
+  <title>calendar</title>
+  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line>
+</svg>
+          Mar 8, 2021
+        </div>
+        <div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-clock">
+  <title>clock</title>
+  <circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline>
+</svg>
+          4 min read
+        </div>
+        <div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
+  <title>tag</title>
+  <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line>
+</svg>
+              <a class="tag" href="https://chenjiesong.github.io/tags/springboot/">Springboot</a>
+        </div>
+      </div>
+    </header>
+    <div class="post-content">
+      <h3 id="一模板引擎引入">（一）模板引擎引入</h3>
+<p>1.pom增加依赖</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#75715e">&lt;!--thymeleaf--&gt;</span>
+<span style="color:#f92672">&lt;dependency&gt;</span>
+    <span style="color:#f92672">&lt;groupId&gt;</span>org.springframework.boot<span style="color:#f92672">&lt;/groupId&gt;</span>
+    <span style="color:#f92672">&lt;artifactId&gt;</span>spring-boot-starter-thymeleaf<span style="color:#f92672">&lt;/artifactId&gt;</span>
+<span style="color:#f92672">&lt;/dependency&gt;</span>
+</code></pre></div><p>2.模板页面存放位置</p>
+<p>具体路径为：<code>src -- main -- resources -- template</code></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#a6e22e">@ConfigurationProperties</span><span style="color:#f92672">(</span>prefix <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;spring.thymeleaf&#34;</span><span style="color:#f92672">)</span>
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">ThymeleafProperties</span> <span style="color:#f92672">{</span>
+
+   <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">final</span> Charset DEFAULT_ENCODING <span style="color:#f92672">=</span> StandardCharsets<span style="color:#f92672">.</span><span style="color:#a6e22e">UTF_8</span><span style="color:#f92672">;</span>
+
+   <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">final</span> String DEFAULT_PREFIX <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;classpath:/templates/&#34;</span><span style="color:#f92672">;</span>
+
+   <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">final</span> String DEFAULT_SUFFIX <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;.html&#34;</span><span style="color:#f92672">;</span>
+
+   <span style="color:#75715e">// 是否在呈现模板之前检查模板是否存在
+</span><span style="color:#75715e"></span>   <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">boolean</span> checkTemplate <span style="color:#f92672">=</span> <span style="color:#66d9ef">true</span><span style="color:#f92672">;</span>
+    
+   <span style="color:#75715e">// 是否检查模板位置是否存在
+</span><span style="color:#75715e"></span>   <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">boolean</span> checkTemplateLocation <span style="color:#f92672">=</span> <span style="color:#66d9ef">true</span><span style="color:#f92672">;</span>
+
+   <span style="color:#75715e">// 在构建URL时以查看名称作为前缀
+</span><span style="color:#75715e"></span>   <span style="color:#66d9ef">private</span> String prefix <span style="color:#f92672">=</span> DEFAULT_PREFIX<span style="color:#f92672">;</span>
+
+   <span style="color:#75715e">// 在构建URL时附加到视图名称的后缀
+</span><span style="color:#75715e"></span>   <span style="color:#66d9ef">private</span> String suffix <span style="color:#f92672">=</span> DEFAULT_SUFFIX<span style="color:#f92672">;</span>
+
+   <span style="color:#75715e">// 要应用于模板的模板模式
+</span><span style="color:#75715e"></span>   <span style="color:#66d9ef">private</span> String mode <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;HTML&#34;</span><span style="color:#f92672">;</span>
+
+   <span style="color:#75715e">// 模板文件编码
+</span><span style="color:#75715e"></span>   <span style="color:#66d9ef">private</span> Charset encoding <span style="color:#f92672">=</span> DEFAULT_ENCODING<span style="color:#f92672">;</span>
+</code></pre></div><p>3.入门程序体验</p>
+<p>(1)编写Controller</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#a6e22e">@Controller</span>
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">TestController</span> <span style="color:#f92672">{</span>
+    <span style="color:#a6e22e">@RequestMapping</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;test&#34;</span><span style="color:#f92672">)</span>
+    <span style="color:#66d9ef">public</span> String <span style="color:#a6e22e">test</span><span style="color:#f92672">(</span>Model model<span style="color:#f92672">){</span>
+        String hello <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Hello Thymeleaf&#34;</span><span style="color:#f92672">;</span>
+        model<span style="color:#f92672">.</span><span style="color:#a6e22e">addAttribute</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;hello&#34;</span><span style="color:#f92672">,</span>hello<span style="color:#f92672">);</span>
+        <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#34;test.html&#34;</span><span style="color:#f92672">;</span>
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p>(2)编写页面</p>
+<p>页面其实可以看到就是一个普通的 html 页面，有几个不同的地方就是，上方引入了一个命名空间的约束，使用了 th:xxx 这样的语法 例如，th:text，然后 <code>${hello}</code> 引入了控制层带来的 hello</p>
+<p>接受到的数据这一行上面的注释可以不加，不过 <code>${hello}</code> 应该会报红，不过也可以运行</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-html" data-lang="html"><span style="color:#75715e">&lt;!DOCTYPE html&gt;</span>
+&lt;<span style="color:#f92672">html</span> <span style="color:#a6e22e">xmlns:th</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;http://www.thymeleaf.org&#34;</span>&gt;
+&lt;<span style="color:#f92672">head</span>&gt;
+    &lt;<span style="color:#f92672">meta</span> <span style="color:#a6e22e">charset</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;UTF-8&#34;</span>&gt;
+    &lt;<span style="color:#f92672">title</span>&gt;Test&lt;/<span style="color:#f92672">title</span>&gt;
+&lt;/<span style="color:#f92672">head</span>&gt;
+&lt;<span style="color:#f92672">body</span>&gt;
+&lt;<span style="color:#f92672">h2</span>&gt;测试成功&lt;/<span style="color:#f92672">h2</span>&gt;
+<span style="color:#75715e">&lt;!--/*@thymesVar id=&#34;hello&#34; type=&#34;java.lang.String&#34;*/--&gt;</span>
+&lt;<span style="color:#f92672">p</span> <span style="color:#a6e22e">th:text</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;&#39;接收到的数据: &#39; + ${hello}&#34;</span>&gt;&lt;/<span style="color:#f92672">p</span>&gt;
+&lt;/<span style="color:#f92672">body</span>&gt;
+&lt;/<span style="color:#f92672">html</span>&gt;
+</code></pre></div><p>(3)测试结果</p>
+<p><img src="https://raw.githubusercontent.com/chenjiesong/img_study/main/img/Thymeleaf/test.png" alt=""></p>
+<hr>
+<h3 id="二基本语法">（二）基本语法</h3>
+<p><strong>（1）引入命名空间约束</strong></p>
+<p>可以看到我们下面都是用 <code>th:*</code> 这种形式书写，如果想要正常使用，就必须在 <code>&lt;head&gt;</code> 前面引入约束</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-html" data-lang="html">&lt;<span style="color:#f92672">html</span> <span style="color:#a6e22e">xmlns:th</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;http://www.thymeleaf.org&#34;</span>&gt;
+</code></pre></div><p><strong>（2）变量语法及th：text</strong></p>
+<p>1.编写实体</p>
+<p>首先创建两个实体，学生类和课程类，在学生类中，引用课程类</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Student</span> <span style="color:#f92672">{</span>
+    <span style="color:#66d9ef">private</span> String name<span style="color:#f92672">;</span>
+    <span style="color:#66d9ef">private</span> Integer age<span style="color:#f92672">;</span>
+    <span style="color:#66d9ef">private</span> Course course<span style="color:#f92672">;</span>
+    <span style="color:#f92672">......</span> 省略 get set toString
+<span style="color:#f92672">}</span>
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Course</span> <span style="color:#f92672">{</span>
+    <span style="color:#66d9ef">private</span> String name<span style="color:#f92672">;</span>
+    <span style="color:#66d9ef">private</span> String teacher<span style="color:#f92672">;</span>
+    <span style="color:#f92672">......</span> 省略 get set toString
+<span style="color:#f92672">}</span>
+</code></pre></div><p>2.编写Controller</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#a6e22e">@Controller</span>
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">TestController</span> <span style="color:#f92672">{</span>
+    <span style="color:#a6e22e">@RequestMapping</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;testStudent&#34;</span><span style="color:#f92672">)</span>
+    <span style="color:#66d9ef">public</span> String <span style="color:#a6e22e">testStudent</span><span style="color:#f92672">(</span>Model model<span style="color:#f92672">){</span>
+        <span style="color:#75715e">// 两个对象 分别赋值
+</span><span style="color:#75715e"></span>        Student stu <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Student<span style="color:#f92672">();</span>
+        Course course <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Course<span style="color:#f92672">();</span>
+
+        course<span style="color:#f92672">.</span><span style="color:#a6e22e">setName</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;JavaEE课程&#34;</span><span style="color:#f92672">);</span>
+        course<span style="color:#f92672">.</span><span style="color:#a6e22e">setTeacher</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;杰克老师&#34;</span><span style="color:#f92672">);</span>
+
+        stu<span style="color:#f92672">.</span><span style="color:#a6e22e">setName</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;张三&#34;</span><span style="color:#f92672">);</span>
+        stu<span style="color:#f92672">.</span><span style="color:#a6e22e">setAge</span><span style="color:#f92672">(</span>25<span style="color:#f92672">);</span>
+        stu<span style="color:#f92672">.</span><span style="color:#a6e22e">setCourse</span><span style="color:#f92672">(</span>course<span style="color:#f92672">);</span>
+
+        model<span style="color:#f92672">.</span><span style="color:#a6e22e">addAttribute</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;student&#34;</span><span style="color:#f92672">,</span>stu<span style="color:#f92672">);</span>
+        <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#34;test.html&#34;</span><span style="color:#f92672">;</span>
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p>3.编写页面</p>
+<ul>
+<li>
+<p>我们存入的是一个学生的对象，名为student我们通过￥{}的格式，来获取model中的变量，代码中所用，例如：student.name就是ognl表达式，可以去了解一下，形式就是xxx.属性名</p>
+</li>
+<li>
+<p>而表达式写在一个名为：th:text的标签属性中，叫做指令</p>
+</li>
+<li>
+<p>一般总会出现th:xxx的形式，这些常见的指令，会在后面把常见的给出，现在用的这个th:text叫做文本替换，作用就是对表达式或变量求值，然后将结果显示在其被包含的html标签内，替换掉原来的文本。</p>
+</li>
+<li>
+<p>所以可以在标签中， 协商一些默认的值，方便静态的时候对比效果，运行后，那些文本就被后台的数据替换了。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#f92672">&lt;</span>p<span style="color:#f92672">&gt;</span>学生姓名<span style="color:#f92672">:</span> <span style="color:#f92672">&lt;</span>span th<span style="color:#f92672">:</span>text<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;${student.name}&#34;</span><span style="color:#f92672">&gt;&lt;/</span>span<span style="color:#f92672">&gt;</span> <span style="color:#f92672">&lt;/</span>p<span style="color:#f92672">&gt;</span>
+<span style="color:#f92672">&lt;</span>p<span style="color:#f92672">&gt;</span>学生年龄<span style="color:#f92672">:</span> <span style="color:#f92672">&lt;</span>span th<span style="color:#f92672">:</span>text<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;${student.age}&#34;</span><span style="color:#f92672">&gt;&lt;/</span>span<span style="color:#f92672">&gt;</span> <span style="color:#f92672">&lt;/</span>p<span style="color:#f92672">&gt;</span>
+<span style="color:#f92672">&lt;</span>p<span style="color:#f92672">&gt;</span>课程名<span style="color:#f92672">:</span> <span style="color:#f92672">&lt;</span>span th<span style="color:#f92672">:</span>text<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;${student.course.name}&#34;</span><span style="color:#f92672">&gt;&lt;/</span>span<span style="color:#f92672">&gt;</span> <span style="color:#f92672">&lt;/</span>p<span style="color:#f92672">&gt;</span>
+<span style="color:#f92672">&lt;</span>p<span style="color:#f92672">&gt;</span>授课老师<span style="color:#f92672">:</span> <span style="color:#f92672">&lt;</span>span th<span style="color:#f92672">:</span>text<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;${student.course.teacher}&#34;</span><span style="color:#f92672">&gt;&lt;/</span>span<span style="color:#f92672">&gt;</span> <span style="color:#f92672">&lt;/</span>p<span style="color:#f92672">&gt;</span>
+  
+</code></pre></div></li>
+</ul>
+<p>4.补充 th：utext</p>
+<p>和th：text的区别就是：</p>
+<ul>
+<li>th：text以纯文本显示且不解析内容里的HTML标签或元素</li>
+<li>th：utext则把整个内容当作是HTML来解析并展示，也就是说，例如取到的值为<!-- raw HTML omitted -->测试<!-- raw HTML omitted -->会按照二级标题来进行显示</li>
+</ul>
+<p>5.减少变量书写次数方式</p>
+<p>当我们涉及到的数据过多的时候，我们每写一个就需要写一次student，我们同样可以将其写成一个自定义的变量</p>
+<ul>
+<li>th:object=&quot;${student}&ldquo;获取到值</li>
+<li>引用时只需要通过*{属性名}的方式，来获取student中的这些属性</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-html" data-lang="html">&lt;<span style="color:#f92672">h5</span> <span style="color:#a6e22e">th:object</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;${student}&#34;</span>&gt;
+  &lt;<span style="color:#f92672">p</span>&gt;学生姓名: &lt;<span style="color:#f92672">span</span> <span style="color:#a6e22e">th:text</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;*{name}&#34;</span>&gt;&lt;/<span style="color:#f92672">span</span>&gt; &lt;/<span style="color:#f92672">p</span>&gt;
+  &lt;<span style="color:#f92672">p</span>&gt;学生年龄: &lt;<span style="color:#f92672">span</span> <span style="color:#a6e22e">th:text</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;*{age}&#34;</span>&gt;&lt;/<span style="color:#f92672">span</span>&gt; &lt;/<span style="color:#f92672">p</span>&gt;
+  &lt;<span style="color:#f92672">p</span>&gt;课程名: &lt;<span style="color:#f92672">span</span> <span style="color:#a6e22e">th:text</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;*{course.name}&#34;</span>&gt;&lt;/<span style="color:#f92672">span</span>&gt; &lt;/<span style="color:#f92672">p</span>&gt;
+  &lt;<span style="color:#f92672">p</span>&gt;授课老师: &lt;<span style="color:#f92672">span</span> <span style="color:#a6e22e">th:text</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;*{course.teacher}&#34;</span>&gt;&lt;/<span style="color:#f92672">span</span>&gt; &lt;/<span style="color:#f92672">p</span>&gt;
+&lt;/<span style="color:#f92672">h5</span>&gt;
+
+</code></pre></div><p><strong>（3）字符串拼接表达式</strong></p>
+<p>上面说完了变量，但是我们还有很多时候，还有一些内容是不希望被当作变量解析的，也就是我们所说的字面值，常见的类型例如：字符串、捉着数值等都是这样的，例如字符串，只需要在书写时加上单引号，就可以了，而数字不需要什么处理，直接就可以用，还可以进行算术运算。</p>
+<p>当然很多时候，我们渠道的数据，要配合页面的一些字符串来进行显示，一种做法就是直接在外面写好内容例如：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-html" data-lang="html">&lt;<span style="color:#f92672">p</span>&gt;学生姓名: &lt;<span style="color:#f92672">span</span> <span style="color:#a6e22e">th:text</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;${student.name}&#34;</span>&gt;&lt;/<span style="color:#f92672">span</span>&gt; &lt;/<span style="color:#f92672">p</span>&gt;
+
+</code></pre></div><p>还有一种常见的，就是字符串与表达式的拼接：</p>
+<ul>
+<li>
+<p>把上面的p标签中的内容移到th：text中来，用单引号引入即可</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-html" data-lang="html">&lt;<span style="color:#f92672">p</span>&gt; &lt;<span style="color:#f92672">span</span> <span style="color:#a6e22e">th:text</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34; &#39;学生姓名: &#39; + ${student.name}&#34;</span>&gt;&lt;/<span style="color:#f92672">span</span>&gt; &lt;/<span style="color:#f92672">p</span>&gt;
+</code></pre></div></li>
+<li>
+<p>如果涉及到大量的拼接，使用单引号拼接，书写以及可读上会很混乱，所以，可以进行简化：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-html" data-lang="html">&lt;<span style="color:#f92672">p</span>&gt; &lt;<span style="color:#f92672">span</span> <span style="color:#a6e22e">th:text</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34; |姓名: ${student.name}|&#34;</span>&gt;&lt;/<span style="color:#f92672">span</span>&gt; &lt;/<span style="color:#f92672">p</span>&gt;
+</code></pre></div><p>这种方式，在静态环境运行的时候，是没有字符串显示的，只有用SpringBoot运行时才可以</p>
+</li>
+</ul>
+<p><strong>（4）运算符</strong></p>
+<p>A：算数运算</p>
+<p>1.支持的运算符</p>
+<ul>
+<li>二元操作：+, - , * , / , %</li>
+<li>一元操作: - （负）</li>
+</ul>
+<p>2.测试代码</p>
+<p>注意：运算符最好放在外面，因为 运算符放在了 {} 内部, 表达式使用的是 ognl 引擎进行计算;，如果运算符放在外部, 那么 表达式使用的是 thymeleaf 引擎进行计算</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-html" data-lang="html">&lt;<span style="color:#f92672">p</span>&gt;学生年龄 = &lt;<span style="color:#f92672">span</span> <span style="color:#a6e22e">th:text</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;${student.age} &#34;</span>&gt;&lt;/<span style="color:#f92672">span</span>&gt; &lt;/<span style="color:#f92672">p</span>&gt;
+&lt;<span style="color:#f92672">p</span>&gt;学生年龄 / 2 = &lt;<span style="color:#f92672">span</span> <span style="color:#a6e22e">th:text</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;${student.age} / 2 &#34;</span>&gt;&lt;/<span style="color:#f92672">span</span>&gt; &lt;/<span style="color:#f92672">p</span>&gt;
+&lt;<span style="color:#f92672">p</span>&gt;学生年龄 % 2 = &lt;<span style="color:#f92672">span</span> <span style="color:#a6e22e">th:text</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;${student.age} % 2 &#34;</span>&gt;&lt;/<span style="color:#f92672">span</span>&gt; &lt;/<span style="color:#f92672">p</span>&gt;
+</code></pre></div><p>B：布尔运算</p>
+<p>1.支持的运算符</p>
+<ul>
+<li>
+<p>一元运算符 : and, or</p>
+</li>
+<li>
+<p>二元运算符 : !, not</p>
+</li>
+</ul>
+<p>C：比较运算</p>
+<p>1.支持的运算符</p>
+<ul>
+<li>比较：&gt; , &lt; , &gt;= , &lt;= ( gt , lt , ge , le )</li>
+<li>等于：== , != ( eq , ne )</li>
+</ul>
+<p>2.说明</p>
+<ul>
+<li><code>&gt; 和 &lt;</code> 会被当做标签，所以不能直接使用，可以用括号内的别名代替使用</li>
+<li><code>== 和 !=</code> 除比较数值外，还有类似 equals 的作用</li>
+</ul>
+<p>3.测试代码</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-html" data-lang="html">&lt;<span style="color:#f92672">p</span>&gt;学生姓名: &lt;<span style="color:#f92672">span</span> <span style="color:#a6e22e">th:text</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;${student.name}&#34;</span>&gt;&lt;/<span style="color:#f92672">span</span>&gt; &lt;/<span style="color:#f92672">p</span>&gt;
+&lt;<span style="color:#f92672">p</span>&gt;学生姓名为张三 = &lt;<span style="color:#f92672">span</span> <span style="color:#a6e22e">th:text</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;${student.name} == &#39;张三&#39;&#34;</span>&gt;&lt;/<span style="color:#f92672">span</span>&gt; &lt;/<span style="color:#f92672">p</span>&gt;
+
+&lt;<span style="color:#f92672">p</span>&gt;学生年龄为 25 = &lt;<span style="color:#f92672">span</span> <span style="color:#a6e22e">th:text</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;${student.age} == 25 &#34;</span>&gt;&lt;/<span style="color:#f92672">span</span>&gt; &lt;/<span style="color:#f92672">p</span>&gt;
+&lt;<span style="color:#f92672">p</span>&gt;学生年龄 % 2 为 0 = &lt;<span style="color:#f92672">span</span> <span style="color:#a6e22e">th:text</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;${student.age} % 2 == 0 &#34;</span>&gt;&lt;/<span style="color:#f92672">span</span>&gt; &lt;/<span style="color:#f92672">p</span>&gt;
+</code></pre></div><p>D：条件运算</p>
+<p>1.支持的运算符</p>
+<ul>
+<li>If-then: (if) ? (then)</li>
+<li>If-then-else: (if) ? (then) : (else)</li>
+<li>Default: (value) ?: (defaultvalue)</li>
+</ul>
+<p>2.测试代码</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-html" data-lang="html">&lt;<span style="color:#f92672">p</span>&gt;学生姓名 = &lt;<span style="color:#f92672">span</span> <span style="color:#a6e22e">th:text</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;${student.name} == &#39;张三&#39; ? &#39;是张三&#39;:&#39;不是张三&#39;&#34;</span>&gt;&lt;/<span style="color:#f92672">span</span>&gt; &lt;/<span style="color:#f92672">p</span>&gt;
+</code></pre></div><p><strong>（5）条件运算再补充</strong></p>
+<p>A：if</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-html" data-lang="html">&lt;<span style="color:#f92672">p</span>&gt;学生是否成年: &lt;<span style="color:#f92672">span</span> <span style="color:#a6e22e">th:if</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;${student.age} &gt;= 18 &#34;</span>&gt;成年&lt;/<span style="color:#f92672">span</span>&gt; &lt;/<span style="color:#f92672">p</span>&gt;
+</code></pre></div><p>B：unless</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-html" data-lang="html">&lt;<span style="color:#f92672">p</span>&gt;学生是否成年: &lt;<span style="color:#f92672">span</span> <span style="color:#a6e22e">th:unless</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;${student.age} &gt;= 18 &#34;</span>&gt;成年&lt;/<span style="color:#f92672">span</span>&gt; &lt;/<span style="color:#f92672">p</span>&gt;
+</code></pre></div><p>C：switch</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-html" data-lang="html">&lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">th:switch</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;${student.name}&#34;</span>&gt;
+  &lt;<span style="color:#f92672">p</span> <span style="color:#a6e22e">th:case</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;张三&#34;</span>&gt;姓名: 张三&lt;/<span style="color:#f92672">p</span>&gt;
+  &lt;<span style="color:#f92672">p</span> <span style="color:#a6e22e">th:case</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;李四&#34;</span>&gt;姓名: 李四&lt;/<span style="color:#f92672">p</span>&gt;
+  &lt;<span style="color:#f92672">p</span> <span style="color:#a6e22e">th:case</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;王五&#34;</span>&gt;姓名: 王五&lt;/<span style="color:#f92672">p</span>&gt;
+  &lt;<span style="color:#f92672">p</span> <span style="color:#a6e22e">th:case</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;*&#34;</span>&gt;姓名: 未找到&lt;/<span style="color:#f92672">p</span>&gt;
+&lt;/<span style="color:#f92672">div</span>&gt;
+</code></pre></div><p><strong>（6）循环语法</strong></p>
+<p>1.创建用户类</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">User</span> <span style="color:#f92672">{</span>
+    <span style="color:#66d9ef">private</span> String nickname<span style="color:#f92672">;</span>
+    <span style="color:#66d9ef">private</span> Integer age<span style="color:#f92672">;</span>
+    <span style="color:#f92672">......</span> get set toString 方法
+<span style="color:#f92672">}</span>
+
+</code></pre></div><p>2.controller添加方法</p>
+<p>返回一个用户的List集合</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#a6e22e">@RequestMapping</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;testUser&#34;</span><span style="color:#f92672">)</span>
+<span style="color:#66d9ef">public</span> String <span style="color:#a6e22e">testUser</span><span style="color:#f92672">(</span>Model model<span style="color:#f92672">){</span>
+    User user1 <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> User<span style="color:#f92672">();</span>
+    user1<span style="color:#f92672">.</span><span style="color:#a6e22e">setNickname</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;飞翔的企鹅&#34;</span><span style="color:#f92672">);</span>
+    user1<span style="color:#f92672">.</span><span style="color:#a6e22e">setAge</span><span style="color:#f92672">(</span>30<span style="color:#f92672">);</span>
+
+    User user2 <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> User<span style="color:#f92672">();</span>
+    user2<span style="color:#f92672">.</span><span style="color:#a6e22e">setNickname</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;伤心小男孩&#34;</span><span style="color:#f92672">);</span>
+    user2<span style="color:#f92672">.</span><span style="color:#a6e22e">setAge</span><span style="color:#f92672">(</span>25<span style="color:#f92672">);</span>
+
+    List<span style="color:#f92672">&lt;</span>User<span style="color:#f92672">&gt;</span> list <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> ArrayList<span style="color:#f92672">&lt;</span>User<span style="color:#f92672">&gt;();</span>
+    list<span style="color:#f92672">.</span><span style="color:#a6e22e">add</span><span style="color:#f92672">(</span>user1<span style="color:#f92672">);</span>
+    list<span style="color:#f92672">.</span><span style="color:#a6e22e">add</span><span style="color:#f92672">(</span>user2<span style="color:#f92672">);</span>
+
+    model<span style="color:#f92672">.</span><span style="color:#a6e22e">addAttribute</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;userList&#34;</span><span style="color:#f92672">,</span>list<span style="color:#f92672">);</span>
+    <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#34;test.html&#34;</span><span style="color:#f92672">;</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p>3.页面代码</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#f92672">&lt;</span>table border<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;1&#34;</span><span style="color:#f92672">&gt;</span>
+  <span style="color:#f92672">&lt;</span>tr<span style="color:#f92672">&gt;</span>
+    <span style="color:#f92672">&lt;</span>th<span style="color:#f92672">&gt;</span>Name<span style="color:#f92672">&lt;/</span>th<span style="color:#f92672">&gt;</span>
+    <span style="color:#f92672">&lt;</span>th<span style="color:#f92672">&gt;</span>Age<span style="color:#f92672">&lt;/</span>th<span style="color:#f92672">&gt;</span>
+  <span style="color:#f92672">&lt;/</span>tr<span style="color:#f92672">&gt;</span>
+  <span style="color:#f92672">&lt;</span>tr th<span style="color:#f92672">:</span>each<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;user : ${userList}&#34;</span><span style="color:#f92672">&gt;</span>
+    <span style="color:#f92672">&lt;</span>td th<span style="color:#f92672">:</span>text<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;${user.nickname}&#34;</span><span style="color:#f92672">&gt;</span>NULL<span style="color:#f92672">&lt;/</span>td<span style="color:#f92672">&gt;</span>
+    <span style="color:#f92672">&lt;</span>td th<span style="color:#f92672">:</span>text<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;${user.age}&#34;</span><span style="color:#f92672">&gt;</span>0<span style="color:#f92672">&lt;/</span>td<span style="color:#f92672">&gt;</span>
+  <span style="color:#f92672">&lt;/</span>tr<span style="color:#f92672">&gt;</span>
+<span style="color:#f92672">&lt;/</span>table<span style="color:#f92672">&gt;</span>
+
+</code></pre></div><p>4.测试结果</p>
+<p><img src="https://raw.githubusercontent.com/chenjiesong/img_study/main/img/Thymeleaf/test2.png" alt=""></p>
+<p><strong>补充说明</strong></p>
+<p>关于要被遍历的值，也就例如我们上面的 <code>${userList}</code> 实际上有很多种可以接受的类型</p>
+<ul>
+<li>Enumeration，枚举</li>
+<li>Map 集合</li>
+<li>List、数组及其它一切符合数组结果的对象</li>
+</ul>
+<p>上面 Demo 的演示，更像 Java 中的增强 for，增强 for 虽然遍历很方便，但是也有比之普通 for 的缺点，那就是没有了例如一些状态量，例如开始结束等等，有了一定的局限，所以 Thymeleaf 给我们提供了 <strong>stat对象</strong>，帮助我们弥补这一点</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-html" data-lang="html">&lt;<span style="color:#f92672">table</span> <span style="color:#a6e22e">border</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;1&#34;</span>&gt;
+  &lt;<span style="color:#f92672">tr</span>&gt;
+    &lt;<span style="color:#f92672">th</span>&gt;昵称&lt;/<span style="color:#f92672">th</span>&gt;
+    &lt;<span style="color:#f92672">th</span>&gt;年龄&lt;/<span style="color:#f92672">th</span>&gt;
+    &lt;<span style="color:#f92672">th</span>&gt;index&lt;/<span style="color:#f92672">th</span>&gt;
+    &lt;<span style="color:#f92672">th</span>&gt;count&lt;/<span style="color:#f92672">th</span>&gt;
+    &lt;<span style="color:#f92672">th</span>&gt;size&lt;/<span style="color:#f92672">th</span>&gt;
+    &lt;<span style="color:#f92672">th</span>&gt;current.nickname&lt;/<span style="color:#f92672">th</span>&gt;
+    &lt;<span style="color:#f92672">th</span>&gt;even&lt;/<span style="color:#f92672">th</span>&gt;
+    &lt;<span style="color:#f92672">th</span>&gt;odd&lt;/<span style="color:#f92672">th</span>&gt;
+    &lt;<span style="color:#f92672">th</span>&gt;first&lt;/<span style="color:#f92672">th</span>&gt;
+    &lt;<span style="color:#f92672">th</span>&gt;last&lt;/<span style="color:#f92672">th</span>&gt;
+  &lt;/<span style="color:#f92672">tr</span>&gt;
+  &lt;<span style="color:#f92672">tr</span> <span style="color:#a6e22e">th:each</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;user,userStat : ${userList}&#34;</span>&gt;
+    &lt;<span style="color:#f92672">td</span> <span style="color:#a6e22e">th:text</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;${user.nickname}&#34;</span>&gt;nickname&lt;/<span style="color:#f92672">td</span>&gt;
+    &lt;<span style="color:#f92672">td</span> <span style="color:#a6e22e">th:text</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;${user.age}&#34;</span>&gt;age&lt;/<span style="color:#f92672">td</span>&gt;
+    &lt;<span style="color:#f92672">th</span> <span style="color:#a6e22e">th:text</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;${userStat.index}&#34;</span>&gt;index&lt;/<span style="color:#f92672">th</span>&gt;
+    &lt;<span style="color:#f92672">th</span> <span style="color:#a6e22e">th:text</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;${userStat.count}&#34;</span>&gt;count&lt;/<span style="color:#f92672">th</span>&gt;
+    &lt;<span style="color:#f92672">th</span> <span style="color:#a6e22e">th:text</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;${userStat.size}&#34;</span>&gt;size&lt;/<span style="color:#f92672">th</span>&gt;
+    &lt;<span style="color:#f92672">th</span> <span style="color:#a6e22e">th:text</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;${userStat.current.nickname}&#34;</span>&gt;current.nickname&lt;/<span style="color:#f92672">th</span>&gt;
+    &lt;<span style="color:#f92672">th</span> <span style="color:#a6e22e">th:text</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;${userStat.even}&#34;</span>&gt;even&lt;/<span style="color:#f92672">th</span>&gt;
+    &lt;<span style="color:#f92672">th</span> <span style="color:#a6e22e">th:text</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;${userStat.odd}&#34;</span>&gt;odd&lt;/<span style="color:#f92672">th</span>&gt;
+    &lt;<span style="color:#f92672">th</span> <span style="color:#a6e22e">th:text</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;${userStat.first}&#34;</span>&gt;first&lt;/<span style="color:#f92672">th</span>&gt;
+    &lt;<span style="color:#f92672">th</span> <span style="color:#a6e22e">th:text</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;${userStat.last}&#34;</span>&gt;last&lt;/<span style="color:#f92672">th</span>&gt;
+  &lt;/<span style="color:#f92672">tr</span>&gt;
+&lt;/<span style="color:#f92672">table</span>&gt;
+
+</code></pre></div><p><img src="https://raw.githubusercontent.com/chenjiesong/img_study/main/img/Thymeleaf/test3.png" alt=""></p>
+<hr>
+<h3 id="三内置方法">（三）内置方法</h3>
+<p><strong>（1）环境、上下文有关</strong></p>
+<p>Thymeleaf还提供了一些内置的方法，供我们调用，不过不推荐过多的使用下列的方法，前端页面中，尽量还是减少逻辑。</p>
+<p><img src="https://raw.githubusercontent.com/chenjiesong/img_study/main/img/Thymeleaf/test4.png" alt=""></p>
+<p><strong>（2）工具类方法</strong></p>
+<p><img src="https://raw.githubusercontent.com/chenjiesong/img_study/main/img/Thymeleaf/test5.png" alt=""></p>
+<p><strong>（3）演示</strong></p>
+<p>1.编写controller方法</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#a6e22e">@RequestMapping</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;testDate&#34;</span><span style="color:#f92672">)</span>
+<span style="color:#66d9ef">public</span> String <span style="color:#a6e22e">testDate</span><span style="color:#f92672">(</span>Model model<span style="color:#f92672">){</span>
+    model<span style="color:#f92672">.</span><span style="color:#a6e22e">addAttribute</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;currentTime&#34;</span><span style="color:#f92672">,</span><span style="color:#66d9ef">new</span> Date<span style="color:#f92672">());</span>
+    <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#34;test.html&#34;</span><span style="color:#f92672">;</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p>2.编写页面</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-html" data-lang="html">&lt;<span style="color:#f92672">p</span>&gt;现在时间: &lt;<span style="color:#f92672">span</span> <span style="color:#a6e22e">th:text</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;${#dates.format(currentTime,&#39;yyyy-MM-dd hh:mm:ss&#39;)}&#34;</span>&gt;2020-05-19 00:00:00&lt;/<span style="color:#f92672">span</span>&gt;&lt;/<span style="color:#f92672">p</span>&gt;
+</code></pre></div><p>3.测试</p>
+<p><img src="https://raw.githubusercontent.com/chenjiesong/img_study/main/img/Thymeleaf/test6.png" alt=""></p>
+<hr>
+<h3 id="四常用标签">（四）常用标签</h3>
+<p><strong>（1）th：text</strong></p>
+<p>文本替换：主要用于文本的显示</p>
+<p>第一种：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-html" data-lang="html">&lt;<span style="color:#f92672">p</span> <span style="color:#a6e22e">th:text</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;&#39;接收到的数据: &#39; + ${hello}&#34;</span>&gt;&lt;/<span style="color:#f92672">p</span>&gt;
+</code></pre></div><p>第二种：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-html" data-lang="html">&lt;<span style="color:#f92672">p</span>&gt;学生姓名: &lt;<span style="color:#f92672">span</span> <span style="color:#a6e22e">th:text</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;${student.name}&#34;</span>&gt;&lt;/<span style="color:#f92672">span</span>&gt; &lt;/<span style="color:#f92672">p</span>&gt;
+</code></pre></div><p><strong>（2）th：utext</strong></p>
+<p>支持 HTML 的文本替换，可以用于富文本编辑器编辑后的内容显示到前端的页面上</p>
+<p><code>th:utext </code>则把整个内容当成是HTML来解析并展示，也就是说，例如取到的值为 <code>&lt;h2&gt;测试&lt;/h2&gt;</code> 会按照二级标题来进行显示</p>
+<p><strong>（3）th：if/th：unless</strong></p>
+<p>th:if 用于判断条件，满足则执行，而 th:unless 与前者正好相反</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-html" data-lang="html">&lt;<span style="color:#f92672">p</span>&gt;学生是否成年: &lt;<span style="color:#f92672">span</span> <span style="color:#a6e22e">th:if</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;${student.age} &gt;= 18 &#34;</span>&gt;成年&lt;/<span style="color:#f92672">span</span>&gt; &lt;/<span style="color:#f92672">p</span>&gt;
+&lt;<span style="color:#f92672">p</span>&gt;学生是否成年: &lt;<span style="color:#f92672">span</span> <span style="color:#a6e22e">th:unless</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;${student.age} &gt;= 18 &#34;</span>&gt;成年&lt;/<span style="color:#f92672">span</span>&gt; &lt;/<span style="color:#f92672">p</span>&gt;
+</code></pre></div><p><strong>（4）th：switch/th：case</strong></p>
+<p>用于多个同等级判断，即多选一</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-html" data-lang="html">&lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">th:switch</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;${student.name}&#34;</span>&gt;
+  &lt;<span style="color:#f92672">p</span> <span style="color:#a6e22e">th:case</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;张三&#34;</span>&gt;姓名: 张三&lt;/<span style="color:#f92672">p</span>&gt;
+  &lt;<span style="color:#f92672">p</span> <span style="color:#a6e22e">th:case</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;李四&#34;</span>&gt;姓名: 李四&lt;/<span style="color:#f92672">p</span>&gt;
+  &lt;<span style="color:#f92672">p</span> <span style="color:#a6e22e">th:case</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;王五&#34;</span>&gt;姓名: 王五&lt;/<span style="color:#f92672">p</span>&gt;
+  &lt;<span style="color:#f92672">p</span> <span style="color:#a6e22e">th:case</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;*&#34;</span>&gt;姓名: 未找到&lt;/<span style="color:#f92672">p</span>&gt;
+&lt;/<span style="color:#f92672">div</span>&gt;
+
+</code></pre></div><p><strong>（5）th：each</strong></p>
+<p>用于遍历集合中的对象，和 JSTL 中的 <code>&lt;c:forEach&gt;</code> 基本是一致的</p>
+<p>除此之外，还能获取到一些状态量 stat ，请翻阅上面关于循环语法的讲解</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-html" data-lang="html">&lt;<span style="color:#f92672">table</span> <span style="color:#a6e22e">border</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;1&#34;</span>&gt;
+  &lt;<span style="color:#f92672">tr</span>&gt;
+    &lt;<span style="color:#f92672">th</span>&gt;Name&lt;/<span style="color:#f92672">th</span>&gt;
+    &lt;<span style="color:#f92672">th</span>&gt;Age&lt;/<span style="color:#f92672">th</span>&gt;
+  &lt;/<span style="color:#f92672">tr</span>&gt;
+  &lt;<span style="color:#f92672">tr</span> <span style="color:#a6e22e">th:each</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;user : ${userList}&#34;</span>&gt;
+    &lt;<span style="color:#f92672">td</span> <span style="color:#a6e22e">th:text</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;${user.nickname}&#34;</span>&gt;NULL&lt;/<span style="color:#f92672">td</span>&gt;
+    &lt;<span style="color:#f92672">td</span> <span style="color:#a6e22e">th:text</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;${user.age}&#34;</span>&gt;0&lt;/<span style="color:#f92672">td</span>&gt;
+      
+  &lt;/<span style="color:#f92672">tr</span>&gt;
+&lt;/<span style="color:#f92672">table</span>&gt;
+
+</code></pre></div><p><strong>（6）th：action</strong></p>
+<p>用于表单的提交时，相当于 <code>&lt;form&gt;</code> 标签的action属性。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-html" data-lang="html">&lt;<span style="color:#f92672">form</span> <span style="color:#a6e22e">th:action</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;@{user/login}&#34;</span> <span style="color:#a6e22e">method</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;post&#34;</span>&gt;&lt;/<span style="color:#f92672">form</span>&gt;
+</code></pre></div><p><strong>（7）th：src</strong></p>
+<p>用于引入例如图片或者 js 等外部资源</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-html" data-lang="html">&lt;<span style="color:#f92672">img</span> <span style="color:#a6e22e">th:src</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;@{../images/test.jpg}&#34;</span>/&gt;
+或者
+&lt;<span style="color:#f92672">script</span> <span style="color:#a6e22e">th:src</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;@{../static/register.js}&#34;</span>&gt;&lt;/<span style="color:#f92672">script</span>&gt;
+</code></pre></div><p><strong>（8）th：href</strong></p>
+<p>用于定义超链接,相当于<code>&lt;a&gt;&lt;/a&gt;</code>标签的href属性</p>
+<p>传统拼接传递</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-html" data-lang="html">&lt;<span style="color:#f92672">a</span> <span style="color:#a6e22e">th:href</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;/showStudent?id=123456&amp;name=张三&#34;</span>&gt;&lt;/<span style="color:#f92672">a</span>&gt;
+</code></pre></div><p>带一个参数传递</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-html" data-lang="html">&lt;<span style="color:#f92672">a</span> <span style="color:#a6e22e">th:href</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;@{/student/details(studentId=${student.id})}&#34;</span> &gt;&lt;/<span style="color:#f92672">a</span>&gt;
+</code></pre></div><p><strong>（9）th：value</strong></p>
+<p>用于属性赋值</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-html" data-lang="html">&lt;<span style="color:#f92672">input</span> <span style="color:#a6e22e">th:value </span><span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;${student.name}&#34;</span> /&gt;
+</code></pre></div><p>##(10) th:object / th:field</p>
+<p>th:object 和 th:field 常搭配之用，用来表单参数绑定，看一个例子就大概明白了</p>
+<p>1.编写实体</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">LoginUser</span> <span style="color:#f92672">{</span>
+    <span style="color:#66d9ef">private</span> String username<span style="color:#f92672">;</span>
+    <span style="color:#66d9ef">private</span> String password<span style="color:#f92672">;</span>
+    <span style="color:#f92672">......</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p>2.编写controller</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#a6e22e">@RequestMapping</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;/testLogin&#34;</span><span style="color:#f92672">)</span>
+<span style="color:#66d9ef">public</span> String <span style="color:#a6e22e">testLogin</span><span style="color:#f92672">(</span><span style="color:#a6e22e">@ModelAttribute</span><span style="color:#f92672">(</span>value <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;loginUser&#34;</span><span style="color:#f92672">)</span>LoginUser loginUser<span style="color:#f92672">,</span> ModelMap modelMap<span style="color:#f92672">){</span>
+
+    String username <span style="color:#f92672">=</span> loginUser<span style="color:#f92672">.</span><span style="color:#a6e22e">getUsername</span><span style="color:#f92672">();</span>
+    String password <span style="color:#f92672">=</span> loginUser<span style="color:#f92672">.</span><span style="color:#a6e22e">getPassword</span><span style="color:#f92672">();</span>
+
+    System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span>username<span style="color:#f92672">);</span>
+    System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span>password<span style="color:#f92672">);</span>
+
+    <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span><span style="color:#e6db74">&#34;admin&#34;</span><span style="color:#f92672">.</span><span style="color:#a6e22e">equals</span><span style="color:#f92672">(</span>username<span style="color:#f92672">)</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#e6db74">&#34;admin888&#34;</span><span style="color:#f92672">.</span><span style="color:#a6e22e">equals</span><span style="color:#f92672">(</span>password<span style="color:#f92672">)){</span>
+        modelMap<span style="color:#f92672">.</span><span style="color:#a6e22e">addAttribute</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;msg&#34;</span><span style="color:#f92672">,</span><span style="color:#e6db74">&#34;登陆成功&#34;</span><span style="color:#f92672">);</span>
+        <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#34;test.html&#34;</span><span style="color:#f92672">;</span>
+    <span style="color:#f92672">}</span>
+    modelMap<span style="color:#f92672">.</span><span style="color:#a6e22e">addAttribute</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;msg&#34;</span><span style="color:#f92672">,</span><span style="color:#e6db74">&#34;登陆失败&#34;</span><span style="color:#f92672">);</span>
+    <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#34;test.html&#34;</span><span style="color:#f92672">;</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p>3.编写页面</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-html" data-lang="html">&lt;<span style="color:#f92672">form</span> <span style="color:#a6e22e">id</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;login&#34;</span> <span style="color:#a6e22e">th:action</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;@{/testLogin}&#34;</span> <span style="color:#a6e22e">th:object</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;${loginUser}&#34;</span>&gt;
+  &lt;<span style="color:#f92672">input</span> <span style="color:#a6e22e">type</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;text&#34;</span> <span style="color:#a6e22e">value</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;&#34;</span> <span style="color:#a6e22e">th:field</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;*{username}&#34;</span>&gt;&lt;/<span style="color:#f92672">input</span>&gt;
+  &lt;<span style="color:#f92672">input</span> <span style="color:#a6e22e">type</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;text&#34;</span> <span style="color:#a6e22e">value</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;&#34;</span> <span style="color:#a6e22e">th:field</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;*{password}&#34;</span>&gt;&lt;/<span style="color:#f92672">input</span>&gt;
+  &lt;<span style="color:#f92672">input</span> <span style="color:#a6e22e">type</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;submit&#34;</span> <span style="color:#a6e22e">value</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;提交&#34;</span> /&gt;
+  &lt;<span style="color:#f92672">span</span> <span style="color:#a6e22e">th:text</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;${msg}&#34;</span>&gt;&lt;/<span style="color:#f92672">span</span>&gt;
+&lt;/<span style="color:#f92672">form</span>&gt;
+</code></pre></div><p><img src="https://raw.githubusercontent.com/chenjiesong/img_study/main/img/Thymeleaf/test7.png" alt=""></p>
+
+    </div>
+    <div class="post-footer">
+      
+    </div>
+  </article>
+
+    </main>
+  </body>
+</html>
