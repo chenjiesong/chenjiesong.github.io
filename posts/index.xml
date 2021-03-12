@@ -12,7 +12,15 @@
       <pubDate>Mon, 08 Mar 2021 00:00:00 +0000</pubDate>
       
       <guid>https://chenjiesong.github.io/posts/springboot-jdbctemplate-druid-mybatis-redis/</guid>
-      <description></description>
+      <description>（一）整合JdbcTemplate （1）引入依赖
+&amp;lt;dependency&amp;gt; &amp;lt;groupId&amp;gt;org.springframework.boot&amp;lt;/groupId&amp;gt; &amp;lt;artifactId&amp;gt;spring-boot-starter-jdbc&amp;lt;/artifactId&amp;gt; &amp;lt;/dependency&amp;gt; &amp;lt;dependency&amp;gt; &amp;lt;groupId&amp;gt;mysql&amp;lt;/groupId&amp;gt; &amp;lt;artifactId&amp;gt;mysql-connector-java&amp;lt;/artifactId&amp;gt; &amp;lt;/dependency&amp;gt; （2）修改配置
+接着，我们需要在配置文件中配置数据库的一些信息，例如用户名密码等等，我们用 yml 配，用 properties 也是一样的
+关于 url 这个选项多说一句，我的表名 springboot_mybatis_test，但是如果不设置时区或者一些编码，不同的版本使用中可能会出现一些错误（5 可以不配置时区，高版本的需要）
+spring: datasource: username: root password: AS518101DF # serverTimezone=Asia/Shanghai 这样解决时区的报错会好一些 url: jdbc:mysql://localhost:3306/customer?serverTimezone=Asia/Shanghai&amp;amp;useUnicode=true&amp;amp;characterEncoding=UTF-8 driver-class-name: com.mysql.cj.jdbc.Driver （3）使用JdbcTemplate 进行CURD
+经过简单的配置，其实已经可以进行原生 JDBC 的增删改查了，原生的确实有点繁琐，Spring 已经给我们进行了一定的简化，也就是 JdbcTemplate，这个我们应该也很早就用过了
+A：查询
+关于查询，我给大家展示两种方式，一种就是如果我们存在实体对应数据库中的内容，还有一种就是没有对应的实体的查询方式，同时别忘记注入 JdbcTemplate
+ 有实体：在query中new 一个 BeanPropertyRowMapper，也就是让 JdbcTemplate 帮我们把查询结果集ResultSet 的每一行结果都使用 BeanPropertyRowMapper.mapRow() 方法，转化成我们想要的Java类对象 没有实体：使用queryForList方法，返回一个集合，集合中是一个个 map  @Controller @RequestMapping(&amp;#34;/jdbc&amp;#34;) public class JdbcTemplateController { @Autowired JdbcTemplate jdbcTemplate; //有对应实体  @RequestMapping(&amp;#34;/userList&amp;#34;) public void userList(){ String sql = &amp;#34;select * from user&amp;#34;; ArrayList&amp;lt;User&amp;gt; users = (ArrayList&amp;lt;User&amp;gt;) jdbcTemplate.</description>
     </item>
     
     <item>

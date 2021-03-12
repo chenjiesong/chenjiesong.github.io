@@ -13,10 +13,26 @@
     
     <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="SpringBoot-JDBCtemplate-Druid-MyBatis-Redis"/>
-<meta name="twitter:description" content=""/>
+<meta name="twitter:description" content="（一）整合JdbcTemplate （1）引入依赖
+&lt;dependency&gt; &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt; &lt;artifactId&gt;spring-boot-starter-jdbc&lt;/artifactId&gt; &lt;/dependency&gt; &lt;dependency&gt; &lt;groupId&gt;mysql&lt;/groupId&gt; &lt;artifactId&gt;mysql-connector-java&lt;/artifactId&gt; &lt;/dependency&gt; （2）修改配置
+接着，我们需要在配置文件中配置数据库的一些信息，例如用户名密码等等，我们用 yml 配，用 properties 也是一样的
+关于 url 这个选项多说一句，我的表名 springboot_mybatis_test，但是如果不设置时区或者一些编码，不同的版本使用中可能会出现一些错误（5 可以不配置时区，高版本的需要）
+spring: datasource: username: root password: AS518101DF # serverTimezone=Asia/Shanghai 这样解决时区的报错会好一些 url: jdbc:mysql://localhost:3306/customer?serverTimezone=Asia/Shanghai&amp;useUnicode=true&amp;characterEncoding=UTF-8 driver-class-name: com.mysql.cj.jdbc.Driver （3）使用JdbcTemplate 进行CURD
+经过简单的配置，其实已经可以进行原生 JDBC 的增删改查了，原生的确实有点繁琐，Spring 已经给我们进行了一定的简化，也就是 JdbcTemplate，这个我们应该也很早就用过了
+A：查询
+关于查询，我给大家展示两种方式，一种就是如果我们存在实体对应数据库中的内容，还有一种就是没有对应的实体的查询方式，同时别忘记注入 JdbcTemplate
+ 有实体：在query中new 一个 BeanPropertyRowMapper，也就是让 JdbcTemplate 帮我们把查询结果集ResultSet 的每一行结果都使用 BeanPropertyRowMapper.mapRow() 方法，转化成我们想要的Java类对象 没有实体：使用queryForList方法，返回一个集合，集合中是一个个 map  @Controller @RequestMapping(&#34;/jdbc&#34;) public class JdbcTemplateController { @Autowired JdbcTemplate jdbcTemplate; //有对应实体  @RequestMapping(&#34;/userList&#34;) public void userList(){ String sql = &#34;select * from user&#34;; ArrayList&lt;User&gt; users = (ArrayList&lt;User&gt;) jdbcTemplate."/>
 
     <meta property="og:title" content="SpringBoot-JDBCtemplate-Druid-MyBatis-Redis" />
-<meta property="og:description" content="" />
+<meta property="og:description" content="（一）整合JdbcTemplate （1）引入依赖
+&lt;dependency&gt; &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt; &lt;artifactId&gt;spring-boot-starter-jdbc&lt;/artifactId&gt; &lt;/dependency&gt; &lt;dependency&gt; &lt;groupId&gt;mysql&lt;/groupId&gt; &lt;artifactId&gt;mysql-connector-java&lt;/artifactId&gt; &lt;/dependency&gt; （2）修改配置
+接着，我们需要在配置文件中配置数据库的一些信息，例如用户名密码等等，我们用 yml 配，用 properties 也是一样的
+关于 url 这个选项多说一句，我的表名 springboot_mybatis_test，但是如果不设置时区或者一些编码，不同的版本使用中可能会出现一些错误（5 可以不配置时区，高版本的需要）
+spring: datasource: username: root password: AS518101DF # serverTimezone=Asia/Shanghai 这样解决时区的报错会好一些 url: jdbc:mysql://localhost:3306/customer?serverTimezone=Asia/Shanghai&amp;useUnicode=true&amp;characterEncoding=UTF-8 driver-class-name: com.mysql.cj.jdbc.Driver （3）使用JdbcTemplate 进行CURD
+经过简单的配置，其实已经可以进行原生 JDBC 的增删改查了，原生的确实有点繁琐，Spring 已经给我们进行了一定的简化，也就是 JdbcTemplate，这个我们应该也很早就用过了
+A：查询
+关于查询，我给大家展示两种方式，一种就是如果我们存在实体对应数据库中的内容，还有一种就是没有对应的实体的查询方式，同时别忘记注入 JdbcTemplate
+ 有实体：在query中new 一个 BeanPropertyRowMapper，也就是让 JdbcTemplate 帮我们把查询结果集ResultSet 的每一行结果都使用 BeanPropertyRowMapper.mapRow() 方法，转化成我们想要的Java类对象 没有实体：使用queryForList方法，返回一个集合，集合中是一个个 map  @Controller @RequestMapping(&#34;/jdbc&#34;) public class JdbcTemplateController { @Autowired JdbcTemplate jdbcTemplate; //有对应实体  @RequestMapping(&#34;/userList&#34;) public void userList(){ String sql = &#34;select * from user&#34;; ArrayList&lt;User&gt; users = (ArrayList&lt;User&gt;) jdbcTemplate." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://chenjiesong.github.io/posts/springboot-jdbctemplate-druid-mybatis-redis/" />
 <meta property="article:published_time" content="2021-03-08T00:00:00+00:00" />
@@ -67,7 +83,7 @@
   <title>clock</title>
   <circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline>
 </svg>
-          0 min read
+          3 min read
         </div>
         <div>
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
@@ -79,7 +95,296 @@
       </div>
     </header>
     <div class="post-content">
-      
+      <h3 id="一整合jdbctemplate">（一）整合JdbcTemplate</h3>
+<p><strong>（1）引入依赖</strong></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#f92672">&lt;dependency&gt;</span>
+  <span style="color:#f92672">&lt;groupId&gt;</span>org.springframework.boot<span style="color:#f92672">&lt;/groupId&gt;</span>
+    <span style="color:#f92672">&lt;artifactId&gt;</span>spring-boot-starter-jdbc<span style="color:#f92672">&lt;/artifactId&gt;</span>
+<span style="color:#f92672">&lt;/dependency&gt;</span>
+
+<span style="color:#f92672">&lt;dependency&gt;</span>
+    <span style="color:#f92672">&lt;groupId&gt;</span>mysql<span style="color:#f92672">&lt;/groupId&gt;</span>
+    <span style="color:#f92672">&lt;artifactId&gt;</span>mysql-connector-java<span style="color:#f92672">&lt;/artifactId&gt;</span>
+<span style="color:#f92672">&lt;/dependency&gt;</span>
+
+</code></pre></div><p><strong>（2）修改配置</strong></p>
+<p>接着，我们需要在配置文件中配置数据库的一些信息，例如用户名密码等等，我们用 yml 配，用 properties 也是一样的</p>
+<p>关于 url 这个选项多说一句，我的表名 springboot_mybatis_test，但是如果不设置时区或者一些编码，不同的版本使用中可能会出现一些错误（5 可以不配置时区，高版本的需要）</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml">spring:
+  datasource:
+    username: root
+    password: AS518101DF
+    # serverTimezone=Asia/Shanghai 这样解决时区的报错会好一些
+    url: jdbc:mysql://localhost:3306/customer?serverTimezone=Asia/Shanghai<span style="color:#960050;background-color:#1e0010">&amp;</span>useUnicode=true<span style="color:#960050;background-color:#1e0010">&amp;</span>characterEncoding=UTF-8
+    driver-class-name: com.mysql.cj.jdbc.Driver
+</code></pre></div><p><strong>（3）使用JdbcTemplate 进行CURD</strong></p>
+<p>经过简单的配置，其实已经可以进行原生 JDBC 的增删改查了，原生的确实有点繁琐，Spring 已经给我们进行了一定的简化，也就是 JdbcTemplate，这个我们应该也很早就用过了</p>
+<p>A：查询</p>
+<p>关于查询，我给大家展示两种方式，一种就是如果我们存在实体对应数据库中的内容，还有一种就是没有对应的实体的查询方式，同时别忘记注入 JdbcTemplate</p>
+<ul>
+<li>有实体：在query中new 一个 BeanPropertyRowMapper，也就是让 JdbcTemplate 帮我们把查询结果集ResultSet 的每一行结果都使用 BeanPropertyRowMapper.mapRow() 方法，转化成我们想要的Java类对象</li>
+<li>没有实体：使用queryForList方法，返回一个集合，集合中是一个个 map</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#a6e22e">@Controller</span>
+<span style="color:#a6e22e">@RequestMapping</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;/jdbc&#34;</span><span style="color:#f92672">)</span>
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">JdbcTemplateController</span> <span style="color:#f92672">{</span>
+    <span style="color:#a6e22e">@Autowired</span>
+    JdbcTemplate jdbcTemplate<span style="color:#f92672">;</span>
+    
+	<span style="color:#75715e">//有对应实体
+</span><span style="color:#75715e"></span>    <span style="color:#a6e22e">@RequestMapping</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;/userList&#34;</span><span style="color:#f92672">)</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">userList</span><span style="color:#f92672">(){</span>
+        String sql <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;select * from user&#34;</span><span style="color:#f92672">;</span>
+        ArrayList<span style="color:#f92672">&lt;</span>User<span style="color:#f92672">&gt;</span> users <span style="color:#f92672">=</span> <span style="color:#f92672">(</span>ArrayList<span style="color:#f92672">&lt;</span>User<span style="color:#f92672">&gt;)</span> jdbcTemplate<span style="color:#f92672">.</span><span style="color:#a6e22e">query</span><span style="color:#f92672">(</span>sql<span style="color:#f92672">,</span>
+                <span style="color:#66d9ef">new</span> BeanPropertyRowMapper<span style="color:#f92672">&lt;</span>User<span style="color:#f92672">&gt;(</span>User<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">));</span>
+        <span style="color:#66d9ef">for</span> <span style="color:#f92672">(</span>User user <span style="color:#f92672">:</span> users<span style="color:#f92672">){</span>
+            System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span>user<span style="color:#f92672">);</span>
+        <span style="color:#f92672">}</span>
+    <span style="color:#f92672">}</span>
+    
+    <span style="color:#75715e">//没有对应实体
+</span><span style="color:#75715e"></span>    <span style="color:#a6e22e">@RequestMapping</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;/userList&#34;</span><span style="color:#f92672">)</span>
+    <span style="color:#a6e22e">@ResponseBody</span>
+    <span style="color:#66d9ef">public</span> List<span style="color:#f92672">&lt;</span>Map<span style="color:#f92672">&lt;</span>String<span style="color:#f92672">,</span> Object<span style="color:#f92672">&gt;&gt;</span> <span style="color:#a6e22e">userList</span><span style="color:#f92672">(){</span>
+        String sql <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;select * from user&#34;</span><span style="color:#f92672">;</span>
+        List<span style="color:#f92672">&lt;</span>Map<span style="color:#f92672">&lt;</span>String<span style="color:#f92672">,</span> Object<span style="color:#f92672">&gt;&gt;</span> maps <span style="color:#f92672">=</span> jdbcTemplate<span style="color:#f92672">.</span><span style="color:#a6e22e">queryForList</span><span style="color:#f92672">(</span>sql<span style="color:#f92672">);</span>
+        <span style="color:#66d9ef">return</span> maps<span style="color:#f92672">;</span>
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p>B：插入</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#a6e22e">@RequestMapping</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;/addUser&#34;</span><span style="color:#f92672">)</span>
+<span style="color:#a6e22e">@ResponseBody</span>
+<span style="color:#66d9ef">public</span> String <span style="color:#a6e22e">addUser</span><span style="color:#f92672">(){</span>
+    <span style="color:#75715e">//插入语句，注意时间问题
+</span><span style="color:#75715e"></span>    String sql <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;insert into user(uid, username,password,nickname) values (NULL,&#39;wangwu&#39;,&#39;888&#39;,&#39;王五昵称&#39;)&#34;</span><span style="color:#f92672">;</span>
+    jdbcTemplate<span style="color:#f92672">.</span><span style="color:#a6e22e">update</span><span style="color:#f92672">(</span>sql<span style="color:#f92672">);</span>
+    <span style="color:#75715e">//查询
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#34;添加用户成功&#34;</span><span style="color:#f92672">;</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p>C：修改</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#75715e">//修改用户信息
+</span><span style="color:#75715e"></span><span style="color:#a6e22e">@RequestMapping</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;/updateUser/{uid}&#34;</span><span style="color:#f92672">)</span>
+<span style="color:#a6e22e">@ResponseBody</span>
+<span style="color:#66d9ef">public</span> String <span style="color:#a6e22e">updateUser</span><span style="color:#f92672">(</span><span style="color:#a6e22e">@PathVariable</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;uid&#34;</span><span style="color:#f92672">)</span> <span style="color:#66d9ef">int</span> uid<span style="color:#f92672">){</span>
+    <span style="color:#75715e">//插入语句
+</span><span style="color:#75715e"></span>    String sql <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;update user set username=?,password=?,nickname=? where uid=&#34;</span><span style="color:#f92672">+</span> uid<span style="color:#f92672">;</span>
+    <span style="color:#75715e">//数据
+</span><span style="color:#75715e"></span>    String<span style="color:#f92672">[]</span> s <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> String<span style="color:#f92672">[</span>3<span style="color:#f92672">];</span>
+    s<span style="color:#f92672">[</span>0<span style="color:#f92672">]</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;jack&#34;</span><span style="color:#f92672">;</span>
+    s<span style="color:#f92672">[</span>1<span style="color:#f92672">]</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;666&#34;</span><span style="color:#f92672">;</span>
+    s<span style="color:#f92672">[</span>2<span style="color:#f92672">]</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;杰克&#34;</span><span style="color:#f92672">;</span>
+    jdbcTemplate<span style="color:#f92672">.</span><span style="color:#a6e22e">update</span><span style="color:#f92672">(</span>sql<span style="color:#f92672">,</span>s<span style="color:#f92672">);</span>
+    <span style="color:#75715e">//查询
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#34;修改用户信息成功&#34;</span><span style="color:#f92672">;</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p>D：删除</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#75715e">//删除用户
+</span><span style="color:#75715e"></span><span style="color:#a6e22e">@RequestMapping</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;/deleteUser/{uid}&#34;</span><span style="color:#f92672">)</span>
+<span style="color:#a6e22e">@ResponseBody</span>
+<span style="color:#66d9ef">public</span> String <span style="color:#a6e22e">delUser</span><span style="color:#f92672">(</span><span style="color:#a6e22e">@PathVariable</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;uid&#34;</span><span style="color:#f92672">)</span> <span style="color:#66d9ef">int</span> uid<span style="color:#f92672">){</span>
+    <span style="color:#75715e">//插入语句
+</span><span style="color:#75715e"></span>    String sql <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;delete from user where uid=?&#34;</span><span style="color:#f92672">;</span>
+    jdbcTemplate<span style="color:#f92672">.</span><span style="color:#a6e22e">update</span><span style="color:#f92672">(</span>sql<span style="color:#f92672">,</span>uid<span style="color:#f92672">);</span>
+    <span style="color:#75715e">//查询
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#34;删除用户成功&#34;</span><span style="color:#f92672">;</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><hr>
+<h3 id="二整合druid">（二）整合Druid</h3>
+<p>（1）SpringBoot默认连接池</p>
+<p>首先要知道 Druid 是阿里的开源的一款数据库连接池，而连接池就是用来解决数据库建立关闭等消耗资源，而影响性能的问题的，我们以前应该用过挺多种的，例如 C3P0，或者 DBCP等等</p>
+<p>而 SpringBoot 默认是有配置数据源的，我们可以简单看一下，就在前面 JDBC 的例子上看，在测试类中看一下</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#a6e22e">@SpringBootTest</span>
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Springboot08JdbcApplicationTests</span> <span style="color:#f92672">{</span>
+
+    <span style="color:#a6e22e">@Autowired</span>
+    DataSource dataSource<span style="color:#f92672">;</span>
+
+    <span style="color:#a6e22e">@Test</span>
+    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">contextLoads</span><span style="color:#f92672">()</span> <span style="color:#66d9ef">throws</span> SQLException <span style="color:#f92672">{</span>
+        <span style="color:#75715e">// 数据源
+</span><span style="color:#75715e"></span>        System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span>dataSource<span style="color:#f92672">.</span><span style="color:#a6e22e">getClass</span><span style="color:#f92672">());</span>
+        <span style="color:#75715e">//获得连接
+</span><span style="color:#75715e"></span>        Connection connection <span style="color:#f92672">=</span> dataSource<span style="color:#f92672">.</span><span style="color:#a6e22e">getConnection</span><span style="color:#f92672">();</span>
+        System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span>connection<span style="color:#f92672">);</span>
+        connection<span style="color:#f92672">.</span><span style="color:#a6e22e">close</span><span style="color:#f92672">();</span>
+    <span style="color:#f92672">}</span>
+
+<span style="color:#f92672">}</span>
+
+</code></pre></div><p>看一下打印的结果</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml">class com.zaxxer.hikari.HikariDataSource
+HikariProxyConnection@118492650 wrapping com.mysql.cj.jdbc.ConnectionImpl@712cfb63
+</code></pre></div><p>可以看到，SpringBoot 默认使用的是 Hikari 连接池，如果想要看一下相关源码，可以去看一下这两个类</p>
+<p>DataSourceAutoConfiguration、DataSourceConfiguration</p>
+<p>这个数据库连接池，现在号称速度最快，不过 Hikari 和 Druid 都是很优秀的数据库连接池，Druid 不过功能也更加多一些，它还有一些例如统计或者 sql 拦截等等功能，后面整合就可以看到</p>
+<p><strong>（2）引入依赖</strong></p>
+<p>首先在 Pom 中添加 Druid 的依赖，可以去下列网址看一下最新的版本</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#f92672">&lt;dependency&gt;</span>
+    <span style="color:#f92672">&lt;groupId&gt;</span>com.alibaba<span style="color:#f92672">&lt;/groupId&gt;</span>
+    <span style="color:#f92672">&lt;artifactId&gt;</span>druid<span style="color:#f92672">&lt;/artifactId&gt;</span>
+    <span style="color:#f92672">&lt;version&gt;</span>1.1.22<span style="color:#f92672">&lt;/version&gt;</span>
+<span style="color:#f92672">&lt;/dependency&gt;</span>
+</code></pre></div><p><strong>（3）修改配置</strong></p>
+<p>接着在配置中使用 spring.datasource.type 指定自定义的数据源类型，值就要用的连接池实现的完全限定名，例如： com.alibaba.druid.pool.DruidDataSource</p>
+<p>我们用接着用上面的 yml 配置，而指定完 Druid 后，进行进行一些默认的配置，例如连接初始化大小、最大最小连接数等等吗，具体内容不展开讲，对着官方文档很好理解</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#f92672">spring</span>:
+  <span style="color:#f92672">datasource</span>:
+    <span style="color:#f92672">username</span>: <span style="color:#ae81ff">root</span>
+    <span style="color:#f92672">password</span>: <span style="color:#ae81ff">root99</span>
+    <span style="color:#f92672">url</span>: <span style="color:#ae81ff">jdbc:mysql://localhost:3306/springboot_mybatis_test?serverTimezone=UTC&amp;useUnicode=true&amp;characterEncoding=utf-8</span>
+    <span style="color:#f92672">driver-class-name</span>: <span style="color:#ae81ff">com.mysql.cj.jdbc.Driver</span>
+    <span style="color:#75715e"># 自定义数据源</span>
+    <span style="color:#f92672">type</span>: <span style="color:#ae81ff">com.alibaba.druid.pool.DruidDataSource </span>
+
+    <span style="color:#75715e">#druid 数据源专有配置</span>
+    <span style="color:#f92672">initialSize</span>: <span style="color:#ae81ff">5</span>
+    <span style="color:#f92672">minIdle</span>: <span style="color:#ae81ff">5</span>
+    <span style="color:#f92672">maxActive</span>: <span style="color:#ae81ff">20</span>
+    <span style="color:#f92672">maxWait</span>: <span style="color:#ae81ff">60000</span>
+    <span style="color:#f92672">timeBetweenEvictionRunsMillis</span>: <span style="color:#ae81ff">60000</span>
+    <span style="color:#f92672">minEvictableIdleTimeMillis</span>: <span style="color:#ae81ff">300000</span>
+    <span style="color:#f92672">validationQuery</span>: <span style="color:#ae81ff">SELECT 1 FROM DUAL</span>
+    <span style="color:#f92672">testWhileIdle</span>: <span style="color:#66d9ef">true</span>
+    <span style="color:#f92672">testOnBorrow</span>: <span style="color:#66d9ef">false</span>
+    <span style="color:#f92672">testOnReturn</span>: <span style="color:#66d9ef">false</span>
+    <span style="color:#f92672">poolPreparedStatements</span>: <span style="color:#66d9ef">true</span>
+
+    <span style="color:#75715e">#配置监控统计拦截的filters</span>
+    <span style="color:#75715e">#stat:监控统计、log4j：日志记录、wall：防御sql注入</span>
+    <span style="color:#f92672">filters</span>: <span style="color:#ae81ff">stat,wall,log4j</span>
+    <span style="color:#f92672">maxPoolPreparedStatementPerConnectionSize</span>: <span style="color:#ae81ff">20</span>
+    <span style="color:#f92672">useGlobalDataSourceStat</span>: <span style="color:#66d9ef">true</span>
+    <span style="color:#f92672">connectionProperties</span>: <span style="color:#ae81ff">druid.stat.mergeSql=true;druid.stat.slowSqlMillis=500</span>
+
+</code></pre></div><p>如果运行的时候报错 java.lang.ClassNotFoundException: org.apache.log4j.Priority 则导入 log4j 依赖即可</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#f92672">&lt;dependency&gt;</span>
+    <span style="color:#f92672">&lt;groupId&gt;</span>log4j<span style="color:#f92672">&lt;/groupId&gt;</span>
+    <span style="color:#f92672">&lt;artifactId&gt;</span>log4j<span style="color:#f92672">&lt;/artifactId&gt;</span>
+    <span style="color:#f92672">&lt;version&gt;</span>1.2.17<span style="color:#f92672">&lt;/version&gt;</span>
+<span style="color:#f92672">&lt;/dependency&gt;</span>
+
+</code></pre></div><p><strong>（4）绑定自定义配置参数</strong></p>
+<p>写了上面的参数，还是有问题的，例如下面的初始化大小，或者最大最小连接数等一些私有化的配置是不会生效的，因为Spring Boot 默认是不注入这些属性值的，所以我们需要自己进行绑定</p>
+<p>创建一个包为 config ，创建 DruidConfig 类</p>
+<p>我们首先要做的就是将全局配置文件中的那些 Druid 的配置绑定到 com.alibaba.druid.pool.DruidDataSource，这样就可以生效了 （<code>@ConfigurationProperties</code>）</p>
+<p>然后将自定义的 Druid数据源添加到容器中，这样就不需要 SpringBoot 自己创建了</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#a6e22e">@Configuration</span>
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">DruidConfig</span> <span style="color:#f92672">{</span>
+
+    <span style="color:#a6e22e">@ConfigurationProperties</span><span style="color:#f92672">(</span>prefix <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;spring.datasource&#34;</span><span style="color:#f92672">)</span>
+    <span style="color:#a6e22e">@Bean</span>
+    <span style="color:#66d9ef">public</span> DataSource <span style="color:#a6e22e">druidDataSource</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">new</span> DruidDataSource<span style="color:#f92672">();</span>
+    <span style="color:#f92672">}</span>
+
+<span style="color:#f92672">}</span>
+</code></pre></div><p>测试：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#a6e22e">@SpringBootTest</span>
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Springboot08JdbcApplicationTests</span> <span style="color:#f92672">{</span>
+
+    <span style="color:#a6e22e">@Autowired</span>
+    DataSource dataSource<span style="color:#f92672">;</span>
+
+    <span style="color:#a6e22e">@Test</span>
+    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">contextLoads</span><span style="color:#f92672">()</span> <span style="color:#66d9ef">throws</span> SQLException <span style="color:#f92672">{</span>
+        <span style="color:#75715e">// 数据源
+</span><span style="color:#75715e"></span>        System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span>dataSource<span style="color:#f92672">.</span><span style="color:#a6e22e">getClass</span><span style="color:#f92672">());</span>
+        <span style="color:#75715e">//获得连接
+</span><span style="color:#75715e"></span>        Connection connection <span style="color:#f92672">=</span> dataSource<span style="color:#f92672">.</span><span style="color:#a6e22e">getConnection</span><span style="color:#f92672">();</span>
+        System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span>connection<span style="color:#f92672">);</span>
+
+        DruidDataSource druidDataSource <span style="color:#f92672">=</span> <span style="color:#f92672">(</span>DruidDataSource<span style="color:#f92672">)</span> dataSource<span style="color:#f92672">;</span>
+        System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;数据源最大连接数：&#34;</span> <span style="color:#f92672">+</span> druidDataSource<span style="color:#f92672">.</span><span style="color:#a6e22e">getMaxActive</span><span style="color:#f92672">());</span>
+        System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;数据源初始化连接数：&#34;</span> <span style="color:#f92672">+</span> druidDataSource<span style="color:#f92672">.</span><span style="color:#a6e22e">getInitialSize</span><span style="color:#f92672">());</span>
+		<span style="color:#75715e">//关闭连接
+</span><span style="color:#75715e"></span>        connection<span style="color:#f92672">.</span><span style="color:#a6e22e">close</span><span style="color:#f92672">();</span>
+    <span style="color:#f92672">}</span>
+
+<span style="color:#f92672">}</span>
+</code></pre></div><p><strong>（5）配置数据源监控</strong></p>
+<p>还有一个非常有特点的功能，那就是 Druid 的数据源监控，提供了一个后台管理页面</p>
+<p>继续在上面新建的 DruidConfig 配置类中增加内容</p>
+<ul>
+<li>这里采用 Spring Boot 注册 Servlet 方式，是因为内置 Servlet 容器时没有web.xml文件，都是一些固定的写法</li>
+<li>关于例如用户名等的参数，可以再Druid下 StatViewServlet 的父类 ResourceServlet 中找到</li>
+<li>还可以设置访问人员与禁止访问人员相关的</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#a6e22e">@Bean</span>
+<span style="color:#66d9ef">public</span> ServletRegistrationBean <span style="color:#a6e22e">statViewServlet</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+    ServletRegistrationBean bean <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> ServletRegistrationBean<span style="color:#f92672">(</span><span style="color:#66d9ef">new</span> StatViewServlet<span style="color:#f92672">(),</span> <span style="color:#e6db74">&#34;/druid/*&#34;</span><span style="color:#f92672">);</span>
+    
+    Map<span style="color:#f92672">&lt;</span>String<span style="color:#f92672">,</span> String<span style="color:#f92672">&gt;</span> initParams <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> HashMap<span style="color:#f92672">&lt;&gt;();</span>
+    initParams<span style="color:#f92672">.</span><span style="color:#a6e22e">put</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;loginUsername&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;admin&#34;</span><span style="color:#f92672">);</span> <span style="color:#75715e">//后台管理界面的登录账号
+</span><span style="color:#75715e"></span>    initParams<span style="color:#f92672">.</span><span style="color:#a6e22e">put</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;loginPassword&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;admin888&#34;</span><span style="color:#f92672">);</span> <span style="color:#75715e">//后台管理界面的登录密码
+</span><span style="color:#75715e"></span>
+    <span style="color:#75715e">//initParams.put(&#34;allow&#34;, &#34;localhost&#34;)：表示只有本机可以访问
+</span><span style="color:#75715e"></span>    <span style="color:#75715e">//initParams.put(&#34;allow&#34;, &#34;&#34;):表示后台允许所有访问
+</span><span style="color:#75715e"></span>    initParams<span style="color:#f92672">.</span><span style="color:#a6e22e">put</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;allow&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;&#34;</span><span style="color:#f92672">);</span>
+
+    <span style="color:#75715e">//设置初始化参数
+</span><span style="color:#75715e"></span>    bean<span style="color:#f92672">.</span><span style="color:#a6e22e">setInitParameters</span><span style="color:#f92672">(</span>initParams<span style="color:#f92672">);</span>
+    <span style="color:#66d9ef">return</span> bean<span style="color:#f92672">;</span>
+<span style="color:#f92672">}</span>
+
+</code></pre></div><hr>
+<h3 id="三整合mybatis">（三）整合MyBatis</h3>
+<p><strong>（1）引入依赖</strong></p>
+<p>引入 mybatis 启动器，以及连接 MySQL 驱动</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#75715e">&lt;!--mybatis起步依赖--&gt;</span>
+<span style="color:#f92672">&lt;dependency&gt;</span>
+    <span style="color:#f92672">&lt;groupId&gt;</span>org.mybatis.spring.boot<span style="color:#f92672">&lt;/groupId&gt;</span>
+    <span style="color:#f92672">&lt;artifactId&gt;</span>mybatis-spring-boot-starter<span style="color:#f92672">&lt;/artifactId&gt;</span>
+    <span style="color:#f92672">&lt;version&gt;</span>2.0.1<span style="color:#f92672">&lt;/version&gt;</span>
+<span style="color:#f92672">&lt;/dependency&gt;</span>
+
+<span style="color:#75715e">&lt;!-- MySQL连接驱动 --&gt;</span>
+<span style="color:#f92672">&lt;dependency&gt;</span>
+    <span style="color:#f92672">&lt;groupId&gt;</span>mysql<span style="color:#f92672">&lt;/groupId&gt;</span>
+    <span style="color:#f92672">&lt;artifactId&gt;</span>mysql-connector-java<span style="color:#f92672">&lt;/artifactId&gt;</span>
+<span style="color:#f92672">&lt;/dependency&gt;</span>
+</code></pre></div><p><strong>（2）配置数据库</strong></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#f92672">mybatis</span>:
+  <span style="color:#f92672">mapper-locations</span>: <span style="color:#ae81ff">classpath:mapper/*Mapper.xml</span>
+  <span style="color:#f92672">type-aliases-package</span>: <span style="color:#ae81ff">cn.ideal.pojo</span>
+</code></pre></div><p><strong>（3）创建实体</strong></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#a6e22e">@Component</span>
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">User</span> <span style="color:#f92672">{</span>
+    <span style="color:#66d9ef">private</span> String nickname<span style="color:#f92672">;</span>
+    <span style="color:#66d9ef">private</span> Integer age<span style="color:#f92672">;</span>
+
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">setNickname</span><span style="color:#f92672">(</span>String nickname<span style="color:#f92672">){</span> <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">nickname</span> <span style="color:#f92672">=</span> nickname<span style="color:#f92672">;</span> <span style="color:#f92672">}</span>
+    <span style="color:#66d9ef">public</span> String <span style="color:#a6e22e">getNickname</span><span style="color:#f92672">(){</span> <span style="color:#66d9ef">return</span> nickname<span style="color:#f92672">;</span> <span style="color:#f92672">}</span>
+
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">setAge</span><span style="color:#f92672">(</span>Integer age<span style="color:#f92672">){</span> <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">age</span> <span style="color:#f92672">=</span> age<span style="color:#f92672">;</span> <span style="color:#f92672">}</span>
+    <span style="color:#66d9ef">public</span> Integer <span style="color:#a6e22e">getAge</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span> <span style="color:#66d9ef">return</span> age<span style="color:#f92672">;</span> <span style="color:#f92672">}</span>
+
+<span style="color:#f92672">}</span>
+</code></pre></div><p><strong>（4）编写Mapper和Mapper.xml</strong></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#a6e22e">@Mapper</span>
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">interface</span> <span style="color:#a6e22e">UserMapper</span> <span style="color:#f92672">{</span>
+    <span style="color:#66d9ef">public</span> List<span style="color:#f92672">&lt;</span>User<span style="color:#f92672">&gt;</span> <span style="color:#a6e22e">queryAllUser</span><span style="color:#f92672">();</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#75715e">&lt;?xml version=&#34;1.0&#34; encoding=&#34;utf-8&#34; ?&gt;</span>
+<span style="color:#75715e">&lt;!DOCTYPE mapper PUBLIC &#34;-//mybatis.org//DTD Mapper 3.0//EN&#34; &#34;http://mybatis.org/dtd/mybatis-3-mapper.dtd&#34; &gt;</span>
+<span style="color:#f92672">&lt;mapper</span> <span style="color:#a6e22e">namespace=</span><span style="color:#e6db74">&#34;share.api.mapper.UserMapper&#34;</span><span style="color:#f92672">&gt;</span>
+    <span style="color:#f92672">&lt;select</span> <span style="color:#a6e22e">id=</span><span style="color:#e6db74">&#34;queryAllUser&#34;</span> <span style="color:#a6e22e">resultType=</span><span style="color:#e6db74">&#34;share.api.model.vo.User&#34;</span><span style="color:#f92672">&gt;</span>
+        select * from user
+    <span style="color:#f92672">&lt;/select&gt;</span>
+<span style="color:#f92672">&lt;/mapper&gt;</span>
+</code></pre></div><hr>
+<h3 id="四整合redis">（四）整合Redis</h3>
+<p><strong>（1）引入依赖</strong></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#f92672">&lt;!--</span> 配置使用redis启动器 <span style="color:#f92672">--&gt;</span>
+<span style="color:#f92672">&lt;</span>dependency<span style="color:#f92672">&gt;</span>
+    <span style="color:#f92672">&lt;</span>groupId<span style="color:#f92672">&gt;</span>org<span style="color:#f92672">.</span><span style="color:#a6e22e">springframework</span><span style="color:#f92672">.</span><span style="color:#a6e22e">boot</span><span style="color:#f92672">&lt;/</span>groupId<span style="color:#f92672">&gt;</span>
+    <span style="color:#f92672">&lt;</span>artifactId<span style="color:#f92672">&gt;</span>spring<span style="color:#f92672">-</span>boot<span style="color:#f92672">-</span>starter<span style="color:#f92672">-</span>data<span style="color:#f92672">-</span>redis<span style="color:#f92672">&lt;/</span>artifactId<span style="color:#f92672">&gt;</span>
+<span style="color:#f92672">&lt;/</span>dependency<span style="color:#f92672">&gt;</span>
+</code></pre></div><p><strong>（2）修改配置</strong></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#f92672">spring</span>:
+  <span style="color:#f92672">redis</span>:
+    <span style="color:#f92672">host</span>: <span style="color:#ae81ff">127.0.0.1</span>
+    <span style="color:#f92672">port</span>: <span style="color:#ae81ff">6379</span>
+</code></pre></div>
     </div>
     <div class="post-footer">
       
