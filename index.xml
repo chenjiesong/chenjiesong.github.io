@@ -5,7 +5,18 @@
     <link>https://chenjiesong.github.io/</link>
     <description>Recent content on song</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Mon, 08 Mar 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://chenjiesong.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 09 Mar 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://chenjiesong.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Springboot整合SpringSecurity</title>
+      <link>https://chenjiesong.github.io/posts/springboot%E6%95%B4%E5%90%88springsecurity/</link>
+      <pubDate>Tue, 09 Mar 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://chenjiesong.github.io/posts/springboot%E6%95%B4%E5%90%88springsecurity/</guid>
+      <description>（一）环境搭建 A：引入依赖
+&amp;lt;dependency&amp;gt; &amp;lt;groupId&amp;gt;org.springframework.boot&amp;lt;/groupId&amp;gt; &amp;lt;artifactId&amp;gt;spring-boot-starter-security&amp;lt;/artifactId&amp;gt; &amp;lt;/dependency&amp;gt; B：页面跳转Controller
+@Controller public class PageController { @RequestMapping({&amp;#34;/&amp;#34;, &amp;#34;index&amp;#34;}) public String index() { return &amp;#34;index&amp;#34;; } @RequestMapping(&amp;#34;/about&amp;#34;) public String toAboutPage() { return &amp;#34;redirect:https://chenjiesong.github.io/&amp;#34;; } @RequestMapping(&amp;#34;/toLoginPage&amp;#34;) public String toLoginPage() { return &amp;#34;views/login&amp;#34;; } @RequestMapping(&amp;#34;/levelA/{name}&amp;#34;) public String toLevelAPage(@PathVariable(&amp;#34;name&amp;#34;) String name) { return &amp;#34;views/L-A/&amp;#34; + name; } @RequestMapping(&amp;#34;/levelB/{name}&amp;#34;) public String toLevelBPage(@PathVariable(&amp;#34;name&amp;#34;) String name) { return &amp;#34;views/L-B/&amp;#34; + name; } @RequestMapping(&amp;#34;/levelC/{name}&amp;#34;) public String toLevelCPage(@PathVariable(&amp;#34;name&amp;#34;) String name) { return &amp;#34;views/L-C/&amp;#34; + name; } }  （二）整合Spring Security（内存中） （1）配置授权内容</description>
+    </item>
+    
     <item>
       <title>SpringBoot-JDBCtemplate-Druid-MyBatis-Redis</title>
       <link>https://chenjiesong.github.io/posts/springboot-jdbctemplate-druid-mybatis-redis/</link>
@@ -234,7 +245,9 @@ ig507.com
 分时数据比不上level2明细数据吧？分时数据因为有加总处理，所以你看不到每一单，没法分析细节。
 https://www.akshare.xyz/zh_CN/latest/introduction.html
 https://github.com/jindaxiang/akshare
-C3624304-F50B-DEF2-47AC-0E098D36C15B</description>
+C3624304-F50B-DEF2-47AC-0E098D36C15B
+DPhm8pAxVBq9dB8yS8rAUmYa7aN62TEM
+https://finnhub.io/</description>
     </item>
     
     <item>
@@ -269,6 +282,30 @@ C3624304-F50B-DEF2-47AC-0E098D36C15B</description>
 　System.out.println(element);
 　}
  import java.util.ArrayList; import java.util.Iterator; import java.util.List; public class ForeachTest { public static void main(String[] args) { int[] arr = {1, 2, 3, 4, 5}; System.out.println(&amp;#34;----------旧方式遍历------------&amp;#34;); //旧式方式  for(int i=0; i&amp;lt;arr.length; i++) { System.out.println(arr[i]); } System.out.println(&amp;#34;---------新方式遍历-------------&amp;#34;); //新式写法,增强的for循环  for(int element:arr) { System.</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://chenjiesong.github.io/posts/springboot/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://chenjiesong.github.io/posts/springboot/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Python-grpc</title>
+      <link>https://chenjiesong.github.io/posts/python-grpc/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://chenjiesong.github.io/posts/python-grpc/</guid>
+      <description>（一）grpc的基础：protobuf grpc 使用 protobuf 进行数据传输. protobuf 是一种数据交换格式, 由三部分组成:
+ proto文件：使用proto语法的文本文件，用来定义数据格式 protoc：prorobuf编译器（compile），将proto文件编译成不同语言的实现，这样不同语言中的数据就可以和protobuf格式的数据进行交互 protobuf运行时（runtime）：protobuf运行时所需要的库，和protoc编译生成的代码进行交互  使用protobuf的过程：
+编写proto文件 -&amp;gt; 使用protoc编译 -&amp;gt; 添加protobuf运行时 -&amp;gt; 项目中继承
+ （二）grpc helloworld：python实战grpc环境配置   protobuf运行时（runtime）
+安装grpc相关的python模块即可
+pip install grpcio   使用protoc编译proto文件，生成python语言的实现
+// [python quickstart](https://grpc.io/docs/quickstart/python.html#run-a-grpc-application) // python -m grpc_tools.protoc --python_out=. --grpc_python_out=. -I. helloworld.proto  // helloworld.proto syntax = &amp;#34;proto3&amp;#34;; service Greeter { rpc SayHello(HelloRequest) returns (HelloReply) {} rpc SayHelloAgain(HelloRequest) returns (HelloReply) {}} message HelloRequest { string name = 1;} message HelloReply { string message = 1;}# 安装 python 下的 protoc 编译器 pip install grpcio-tools # 编译 proto 文件 python -m grpc_tools.</description>
     </item>
     
   </channel>

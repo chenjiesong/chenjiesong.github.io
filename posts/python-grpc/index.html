@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="en-us">
+  <head>
+    <title>Python-grpc // song</title>
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <meta charset="utf-8" />
+    <meta name="generator" content="Hugo 0.79.1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="author" content="song" />
+    <meta name="description" content="" />
+    <link rel="stylesheet" href="https://chenjiesong.github.io/css/main.min.88e7083eff65effb7485b6e6f38d10afbec25093a6fac42d734ce9024d3defbd.css" />
+
+    
+    <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Python-grpc"/>
+<meta name="twitter:description" content="（一）grpc的基础：protobuf grpc 使用 protobuf 进行数据传输. protobuf 是一种数据交换格式, 由三部分组成:
+ proto文件：使用proto语法的文本文件，用来定义数据格式 protoc：prorobuf编译器（compile），将proto文件编译成不同语言的实现，这样不同语言中的数据就可以和protobuf格式的数据进行交互 protobuf运行时（runtime）：protobuf运行时所需要的库，和protoc编译生成的代码进行交互  使用protobuf的过程：
+编写proto文件 -&gt; 使用protoc编译 -&gt; 添加protobuf运行时 -&gt; 项目中继承
+ （二）grpc helloworld：python实战grpc环境配置   protobuf运行时（runtime）
+安装grpc相关的python模块即可
+pip install grpcio   使用protoc编译proto文件，生成python语言的实现
+// [python quickstart](https://grpc.io/docs/quickstart/python.html#run-a-grpc-application) // python -m grpc_tools.protoc --python_out=. --grpc_python_out=. -I. helloworld.proto  // helloworld.proto syntax = &#34;proto3&#34;; service Greeter { rpc SayHello(HelloRequest) returns (HelloReply) {} rpc SayHelloAgain(HelloRequest) returns (HelloReply) {}} message HelloRequest { string name = 1;} message HelloReply { string message = 1;}# 安装 python 下的 protoc 编译器 pip install grpcio-tools # 编译 proto 文件 python -m grpc_tools."/>
+
+    <meta property="og:title" content="Python-grpc" />
+<meta property="og:description" content="（一）grpc的基础：protobuf grpc 使用 protobuf 进行数据传输. protobuf 是一种数据交换格式, 由三部分组成:
+ proto文件：使用proto语法的文本文件，用来定义数据格式 protoc：prorobuf编译器（compile），将proto文件编译成不同语言的实现，这样不同语言中的数据就可以和protobuf格式的数据进行交互 protobuf运行时（runtime）：protobuf运行时所需要的库，和protoc编译生成的代码进行交互  使用protobuf的过程：
+编写proto文件 -&gt; 使用protoc编译 -&gt; 添加protobuf运行时 -&gt; 项目中继承
+ （二）grpc helloworld：python实战grpc环境配置   protobuf运行时（runtime）
+安装grpc相关的python模块即可
+pip install grpcio   使用protoc编译proto文件，生成python语言的实现
+// [python quickstart](https://grpc.io/docs/quickstart/python.html#run-a-grpc-application) // python -m grpc_tools.protoc --python_out=. --grpc_python_out=. -I. helloworld.proto  // helloworld.proto syntax = &#34;proto3&#34;; service Greeter { rpc SayHello(HelloRequest) returns (HelloReply) {} rpc SayHelloAgain(HelloRequest) returns (HelloReply) {}} message HelloRequest { string name = 1;} message HelloReply { string message = 1;}# 安装 python 下的 protoc 编译器 pip install grpcio-tools # 编译 proto 文件 python -m grpc_tools." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://chenjiesong.github.io/posts/python-grpc/" />
+
+
+
+  </head>
+  <body>
+    <header class="app-header">
+      <a href="https://chenjiesong.github.io/"><img class="app-header-avatar" src="/avatar.jpg" alt="song" /></a>
+      <h1>song</h1>
+      <nav class="app-header-menu">
+          <a class="app-header-menu-item" href="/">主页</a>
+             - 
+          
+          <a class="app-header-menu-item" href="/tags/">标签</a>
+      </nav>
+      <p>一只闲鱼的博客</p>
+      <div class="app-header-social">
+        
+          <a target="_blank" href="https://github.com/gohugoio" rel="noreferrer noopener"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-github">
+  <title>github</title>
+  <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+</svg></a>
+        
+          <a target="_blank" href="https://twitter.com/gohugoio" rel="noreferrer noopener"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-twitter">
+  <title>twitter</title>
+  <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path>
+</svg></a>
+        
+      </div>
+    </header>
+    <main class="app-container">
+      
+  <article class="post">
+    <header class="post-header">
+      <h1 class ="post-title">Python-grpc</h1>
+      <div class="post-meta">
+        <div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-calendar">
+  <title>calendar</title>
+  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line>
+</svg>
+          Jan 1, 0001
+        </div>
+        <div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-clock">
+  <title>clock</title>
+  <circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline>
+</svg>
+          2 min read
+        </div>
+        <div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
+  <title>tag</title>
+  <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line>
+</svg>
+              <a class="tag" href="https://chenjiesong.github.io/tags/python/">Python</a>
+        </div>
+      </div>
+    </header>
+    <div class="post-content">
+      <hr>
+<h3 id="一grpc的基础protobuf">（一）grpc的基础：protobuf</h3>
+<p>grpc 使用 protobuf 进行数据传输. protobuf 是一种数据交换格式, 由三部分组成:</p>
+<ul>
+<li>proto文件：使用proto语法的文本文件，用来定义数据格式</li>
+<li>protoc：prorobuf编译器（compile），将proto文件编译成不同语言的实现，这样不同语言中的数据就可以和protobuf格式的数据进行交互</li>
+<li>protobuf运行时（runtime）：protobuf运行时所需要的库，和protoc编译生成的代码进行交互</li>
+</ul>
+<p>使用protobuf的过程：</p>
+<p>编写proto文件 -&gt; 使用protoc编译 -&gt; 添加protobuf运行时 -&gt; 项目中继承</p>
+<hr>
+<h3 id="二grpc-helloworldpython实战grpc环境配置">（二）grpc helloworld：python实战grpc环境配置</h3>
+<ul>
+<li>
+<p>protobuf运行时（runtime）</p>
+<p>安装grpc相关的python模块即可</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">pip install grpcio
+</code></pre></div></li>
+<li>
+<p>使用protoc编译proto文件，生成python语言的实现</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-protobuf" data-lang="protobuf"><span style="color:#75715e">// [python quickstart](https://grpc.io/docs/quickstart/python.html#run-a-grpc-application)
+</span><span style="color:#75715e">// python -m grpc_tools.protoc --python_out=. --grpc_python_out=. -I. helloworld.proto
+</span><span style="color:#75715e"></span>  <span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#75715e">// helloworld.proto
+</span><span style="color:#75715e"></span>syntax <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;proto3&#34;</span>;<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span>  <span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">service</span> Greeter {<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span>    <span style="color:#66d9ef">rpc</span> SayHello(HelloRequest) <span style="color:#66d9ef">returns</span> (HelloReply) {}<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span>    <span style="color:#66d9ef">rpc</span> SayHelloAgain(HelloRequest) <span style="color:#66d9ef">returns</span> (HelloReply) {}<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span>}<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span>  <span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">message</span> <span style="color:#a6e22e">HelloRequest</span> {<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span>    <span style="color:#66d9ef">string</span> name <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span>}<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span>  <span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">message</span> <span style="color:#a6e22e">HelloReply</span> {<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span>    <span style="color:#66d9ef">string</span> <span style="color:#66d9ef">message</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span>}<span style="color:#960050;background-color:#1e0010">
+</span></code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># 安装 python 下的 protoc 编译器</span>
+pip install grpcio<span style="color:#f92672">-</span>tools
+  
+<span style="color:#75715e"># 编译 proto 文件</span>
+python <span style="color:#f92672">-</span>m grpc_tools<span style="color:#f92672">.</span>protoc <span style="color:#f92672">--</span>python_out<span style="color:#f92672">=.</span> <span style="color:#f92672">--</span>grpc_python_out<span style="color:#f92672">=.</span> <span style="color:#f92672">-</span>I<span style="color:#f92672">.</span> helloworld<span style="color:#f92672">.</span>proto
+  
+python <span style="color:#f92672">-</span>m grpc_tools<span style="color:#f92672">.</span>protoc: python <span style="color:#960050;background-color:#1e0010">下的</span> protoc <span style="color:#960050;background-color:#1e0010">编译器通过</span> python <span style="color:#960050;background-color:#1e0010">模块</span>(module) <span style="color:#960050;background-color:#1e0010">实现</span>, <span style="color:#960050;background-color:#1e0010">所以说这一步非常省心</span>
+<span style="color:#f92672">--</span>python_out<span style="color:#f92672">=.</span> : <span style="color:#960050;background-color:#1e0010">编译生成处理</span> protobuf <span style="color:#960050;background-color:#1e0010">相关的代码的路径</span>, <span style="color:#960050;background-color:#1e0010">这里生成到当前目录</span>
+<span style="color:#f92672">--</span>grpc_python_out<span style="color:#f92672">=.</span> : <span style="color:#960050;background-color:#1e0010">编译生成处理</span> grpc <span style="color:#960050;background-color:#1e0010">相关的代码的路径</span>, <span style="color:#960050;background-color:#1e0010">这里生成到当前目录</span>
+<span style="color:#f92672">-</span>I<span style="color:#f92672">.</span> helloworld<span style="color:#f92672">.</span>proto : proto <span style="color:#960050;background-color:#1e0010">文件的路径</span>, <span style="color:#960050;background-color:#1e0010">这里的</span> proto <span style="color:#960050;background-color:#1e0010">文件在当前目录</span>
+</code></pre></div><p>编译后生成的代码：</p>
+<ol>
+<li>helloworld_pd2.py：用来和protobuf数据进行交互</li>
+<li>helloworld_pd2_grpc.py：用来和grpc进行交互</li>
+</ol>
+</li>
+<li>
+<p>最后一步，编写helloworld的grpc实现：</p>
+<p>服务端：helloworld_grpc_server.py</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">from</span> concurrent <span style="color:#f92672">import</span> futures
+<span style="color:#f92672">import</span> time
+<span style="color:#f92672">import</span> grpc
+<span style="color:#f92672">import</span> helloworld_pb2
+<span style="color:#f92672">import</span> helloworld_pb2_grpc
+  
+<span style="color:#75715e"># 实现 proto 文件中定义的 GreeterServicer</span>
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Greeter</span>(helloworld_pb2_grpc<span style="color:#f92672">.</span>GreeterServicer):
+    <span style="color:#75715e"># 实现 proto 文件中定义的 rpc 调用</span>
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">SayHello</span>(self, request, context):
+        <span style="color:#66d9ef">return</span> helloworld_pb2<span style="color:#f92672">.</span>HelloReply(message <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;hello {msg}&#39;</span><span style="color:#f92672">.</span>format(msg <span style="color:#f92672">=</span> request<span style="color:#f92672">.</span>name))
+  
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">SayHelloAgain</span>(self, request, context):
+        <span style="color:#66d9ef">return</span> helloworld_pb2<span style="color:#f92672">.</span>HelloReply(message<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;hello {msg}&#39;</span><span style="color:#f92672">.</span>format(msg <span style="color:#f92672">=</span> request<span style="color:#f92672">.</span>name))
+  
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">serve</span>():
+    <span style="color:#75715e"># 启动 rpc 服务</span>
+    server <span style="color:#f92672">=</span> grpc<span style="color:#f92672">.</span>server(futures<span style="color:#f92672">.</span>ThreadPoolExecutor(max_workers<span style="color:#f92672">=</span><span style="color:#ae81ff">10</span>))
+    helloworld_pb2_grpc<span style="color:#f92672">.</span>add_GreeterServicer_to_server(Greeter(), server)
+    server<span style="color:#f92672">.</span>add_insecure_port(<span style="color:#e6db74">&#39;[::]:50051&#39;</span>)
+    server<span style="color:#f92672">.</span>start()
+    <span style="color:#66d9ef">try</span>:
+        <span style="color:#66d9ef">while</span> True:
+            time<span style="color:#f92672">.</span>sleep(<span style="color:#ae81ff">60</span><span style="color:#f92672">*</span><span style="color:#ae81ff">60</span><span style="color:#f92672">*</span><span style="color:#ae81ff">24</span>) <span style="color:#75715e"># one day in seconds</span>
+    <span style="color:#66d9ef">except</span> <span style="color:#a6e22e">KeyboardInterrupt</span>:
+        server<span style="color:#f92672">.</span>stop(<span style="color:#ae81ff">0</span>)
+  
+<span style="color:#66d9ef">if</span> __name__ <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;__main__&#39;</span>:
+    serve()
+</code></pre></div><p>客户端：helloworld_grpc_client.py</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">import</span> grpc
+<span style="color:#f92672">import</span> helloworld_pb2
+<span style="color:#f92672">import</span> helloworld_pb2_grpc
+  
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">run</span>():
+    <span style="color:#75715e"># 连接 rpc 服务器</span>
+    channel <span style="color:#f92672">=</span> grpc<span style="color:#f92672">.</span>insecure_channel(<span style="color:#e6db74">&#39;localhost:50051&#39;</span>)
+    <span style="color:#75715e"># 调用 rpc 服务</span>
+    stub <span style="color:#f92672">=</span> helloworld_pb2_grpc<span style="color:#f92672">.</span>GreeterStub(channel)
+    response <span style="color:#f92672">=</span> stub<span style="color:#f92672">.</span>SayHello(helloworld_pb2<span style="color:#f92672">.</span>HelloRequest(name<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;czl&#39;</span>))
+    <span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#34;Greeter client received: &#34;</span> <span style="color:#f92672">+</span> response<span style="color:#f92672">.</span>message)
+    response <span style="color:#f92672">=</span> stub<span style="color:#f92672">.</span>SayHelloAgain(helloworld_pb2<span style="color:#f92672">.</span>HelloRequest(name<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;daydaygo&#39;</span>))
+    <span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#34;Greeter client received: &#34;</span> <span style="color:#f92672">+</span> response<span style="color:#f92672">.</span>message)
+  
+<span style="color:#66d9ef">if</span> __name__ <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;__main__&#39;</span>:
+    run()
+</code></pre></div><p>运行 python helloworld_grpc_server.py和 python helloworld_grpc_client.py，就可以看到效果了。</p>
+</li>
+</ul>
+
+    </div>
+    <div class="post-footer">
+      
+    </div>
+  </article>
+
+    </main>
+  </body>
+</html>

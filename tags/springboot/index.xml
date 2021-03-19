@@ -5,7 +5,18 @@
     <link>https://chenjiesong.github.io/tags/springboot/</link>
     <description>Recent content in Springboot on song</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Mon, 08 Mar 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://chenjiesong.github.io/tags/springboot/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 09 Mar 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://chenjiesong.github.io/tags/springboot/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Springboot整合SpringSecurity</title>
+      <link>https://chenjiesong.github.io/posts/springboot%E6%95%B4%E5%90%88springsecurity/</link>
+      <pubDate>Tue, 09 Mar 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://chenjiesong.github.io/posts/springboot%E6%95%B4%E5%90%88springsecurity/</guid>
+      <description>（一）环境搭建 A：引入依赖
+&amp;lt;dependency&amp;gt; &amp;lt;groupId&amp;gt;org.springframework.boot&amp;lt;/groupId&amp;gt; &amp;lt;artifactId&amp;gt;spring-boot-starter-security&amp;lt;/artifactId&amp;gt; &amp;lt;/dependency&amp;gt; B：页面跳转Controller
+@Controller public class PageController { @RequestMapping({&amp;#34;/&amp;#34;, &amp;#34;index&amp;#34;}) public String index() { return &amp;#34;index&amp;#34;; } @RequestMapping(&amp;#34;/about&amp;#34;) public String toAboutPage() { return &amp;#34;redirect:https://chenjiesong.github.io/&amp;#34;; } @RequestMapping(&amp;#34;/toLoginPage&amp;#34;) public String toLoginPage() { return &amp;#34;views/login&amp;#34;; } @RequestMapping(&amp;#34;/levelA/{name}&amp;#34;) public String toLevelAPage(@PathVariable(&amp;#34;name&amp;#34;) String name) { return &amp;#34;views/L-A/&amp;#34; + name; } @RequestMapping(&amp;#34;/levelB/{name}&amp;#34;) public String toLevelBPage(@PathVariable(&amp;#34;name&amp;#34;) String name) { return &amp;#34;views/L-B/&amp;#34; + name; } @RequestMapping(&amp;#34;/levelC/{name}&amp;#34;) public String toLevelCPage(@PathVariable(&amp;#34;name&amp;#34;) String name) { return &amp;#34;views/L-C/&amp;#34; + name; } }  （二）整合Spring Security（内存中） （1）配置授权内容</description>
+    </item>
+    
     <item>
       <title>SpringBoot-JDBCtemplate-Druid-MyBatis-Redis</title>
       <link>https://chenjiesong.github.io/posts/springboot-jdbctemplate-druid-mybatis-redis/</link>

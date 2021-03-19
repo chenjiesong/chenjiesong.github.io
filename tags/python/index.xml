@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Python on song</title>
+    <link>https://chenjiesong.github.io/tags/python/</link>
+    <description>Recent content in Python on song</description>
+    <generator>Hugo -- gohugo.io</generator><atom:link href="https://chenjiesong.github.io/tags/python/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Python-grpc</title>
+      <link>https://chenjiesong.github.io/posts/python-grpc/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://chenjiesong.github.io/posts/python-grpc/</guid>
+      <description>（一）grpc的基础：protobuf grpc 使用 protobuf 进行数据传输. protobuf 是一种数据交换格式, 由三部分组成:
+ proto文件：使用proto语法的文本文件，用来定义数据格式 protoc：prorobuf编译器（compile），将proto文件编译成不同语言的实现，这样不同语言中的数据就可以和protobuf格式的数据进行交互 protobuf运行时（runtime）：protobuf运行时所需要的库，和protoc编译生成的代码进行交互  使用protobuf的过程：
+编写proto文件 -&amp;gt; 使用protoc编译 -&amp;gt; 添加protobuf运行时 -&amp;gt; 项目中继承
+ （二）grpc helloworld：python实战grpc环境配置   protobuf运行时（runtime）
+安装grpc相关的python模块即可
+pip install grpcio   使用protoc编译proto文件，生成python语言的实现
+// [python quickstart](https://grpc.io/docs/quickstart/python.html#run-a-grpc-application) // python -m grpc_tools.protoc --python_out=. --grpc_python_out=. -I. helloworld.proto  // helloworld.proto syntax = &amp;#34;proto3&amp;#34;; service Greeter { rpc SayHello(HelloRequest) returns (HelloReply) {} rpc SayHelloAgain(HelloRequest) returns (HelloReply) {}} message HelloRequest { string name = 1;} message HelloReply { string message = 1;}# 安装 python 下的 protoc 编译器 pip install grpcio-tools # 编译 proto 文件 python -m grpc_tools.</description>
+    </item>
+    
+  </channel>
+</rss>

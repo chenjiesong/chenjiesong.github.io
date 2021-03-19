@@ -1,0 +1,585 @@
+<!doctype html>
+<html lang="en-us">
+  <head>
+    <title>Springboot整合SpringSecurity // song</title>
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <meta charset="utf-8" />
+    <meta name="generator" content="Hugo 0.79.1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="author" content="song" />
+    <meta name="description" content="" />
+    <link rel="stylesheet" href="https://chenjiesong.github.io/css/main.min.88e7083eff65effb7485b6e6f38d10afbec25093a6fac42d734ce9024d3defbd.css" />
+
+    
+    <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Springboot整合SpringSecurity"/>
+<meta name="twitter:description" content="（一）环境搭建 A：引入依赖
+&lt;dependency&gt; &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt; &lt;artifactId&gt;spring-boot-starter-security&lt;/artifactId&gt; &lt;/dependency&gt; B：页面跳转Controller
+@Controller public class PageController { @RequestMapping({&#34;/&#34;, &#34;index&#34;}) public String index() { return &#34;index&#34;; } @RequestMapping(&#34;/about&#34;) public String toAboutPage() { return &#34;redirect:https://chenjiesong.github.io/&#34;; } @RequestMapping(&#34;/toLoginPage&#34;) public String toLoginPage() { return &#34;views/login&#34;; } @RequestMapping(&#34;/levelA/{name}&#34;) public String toLevelAPage(@PathVariable(&#34;name&#34;) String name) { return &#34;views/L-A/&#34; &#43; name; } @RequestMapping(&#34;/levelB/{name}&#34;) public String toLevelBPage(@PathVariable(&#34;name&#34;) String name) { return &#34;views/L-B/&#34; &#43; name; } @RequestMapping(&#34;/levelC/{name}&#34;) public String toLevelCPage(@PathVariable(&#34;name&#34;) String name) { return &#34;views/L-C/&#34; &#43; name; } }  （二）整合Spring Security（内存中） （1）配置授权内容"/>
+
+    <meta property="og:title" content="Springboot整合SpringSecurity" />
+<meta property="og:description" content="（一）环境搭建 A：引入依赖
+&lt;dependency&gt; &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt; &lt;artifactId&gt;spring-boot-starter-security&lt;/artifactId&gt; &lt;/dependency&gt; B：页面跳转Controller
+@Controller public class PageController { @RequestMapping({&#34;/&#34;, &#34;index&#34;}) public String index() { return &#34;index&#34;; } @RequestMapping(&#34;/about&#34;) public String toAboutPage() { return &#34;redirect:https://chenjiesong.github.io/&#34;; } @RequestMapping(&#34;/toLoginPage&#34;) public String toLoginPage() { return &#34;views/login&#34;; } @RequestMapping(&#34;/levelA/{name}&#34;) public String toLevelAPage(@PathVariable(&#34;name&#34;) String name) { return &#34;views/L-A/&#34; &#43; name; } @RequestMapping(&#34;/levelB/{name}&#34;) public String toLevelBPage(@PathVariable(&#34;name&#34;) String name) { return &#34;views/L-B/&#34; &#43; name; } @RequestMapping(&#34;/levelC/{name}&#34;) public String toLevelCPage(@PathVariable(&#34;name&#34;) String name) { return &#34;views/L-C/&#34; &#43; name; } }  （二）整合Spring Security（内存中） （1）配置授权内容" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://chenjiesong.github.io/posts/springboot%E6%95%B4%E5%90%88springsecurity/" />
+<meta property="article:published_time" content="2021-03-09T00:00:00+00:00" />
+<meta property="article:modified_time" content="2021-03-09T00:00:00+00:00" />
+
+
+  </head>
+  <body>
+    <header class="app-header">
+      <a href="https://chenjiesong.github.io/"><img class="app-header-avatar" src="/avatar.jpg" alt="song" /></a>
+      <h1>song</h1>
+      <nav class="app-header-menu">
+          <a class="app-header-menu-item" href="/">主页</a>
+             - 
+          
+          <a class="app-header-menu-item" href="/tags/">标签</a>
+      </nav>
+      <p>一只闲鱼的博客</p>
+      <div class="app-header-social">
+        
+          <a target="_blank" href="https://github.com/gohugoio" rel="noreferrer noopener"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-github">
+  <title>github</title>
+  <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+</svg></a>
+        
+          <a target="_blank" href="https://twitter.com/gohugoio" rel="noreferrer noopener"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-twitter">
+  <title>twitter</title>
+  <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path>
+</svg></a>
+        
+      </div>
+    </header>
+    <main class="app-container">
+      
+  <article class="post">
+    <header class="post-header">
+      <h1 class ="post-title">Springboot整合SpringSecurity</h1>
+      <div class="post-meta">
+        <div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-calendar">
+  <title>calendar</title>
+  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line>
+</svg>
+          Mar 9, 2021
+        </div>
+        <div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-clock">
+  <title>clock</title>
+  <circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline>
+</svg>
+          6 min read
+        </div>
+        <div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
+  <title>tag</title>
+  <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line>
+</svg>
+              <a class="tag" href="https://chenjiesong.github.io/tags/springboot/">Springboot</a>
+        </div>
+      </div>
+    </header>
+    <div class="post-content">
+      <h3 id="一环境搭建">（一）环境搭建</h3>
+<p><strong>A：引入依赖</strong></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#f92672">&lt;dependency&gt;</span>
+    <span style="color:#f92672">&lt;groupId&gt;</span>org.springframework.boot<span style="color:#f92672">&lt;/groupId&gt;</span>
+    <span style="color:#f92672">&lt;artifactId&gt;</span>spring-boot-starter-security<span style="color:#f92672">&lt;/artifactId&gt;</span>
+<span style="color:#f92672">&lt;/dependency&gt;</span>
+</code></pre></div><p><strong>B：页面跳转Controller</strong></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#a6e22e">@Controller</span>
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">PageController</span> <span style="color:#f92672">{</span>
+
+    <span style="color:#a6e22e">@RequestMapping</span><span style="color:#f92672">({</span><span style="color:#e6db74">&#34;/&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;index&#34;</span><span style="color:#f92672">})</span>
+    <span style="color:#66d9ef">public</span> String <span style="color:#a6e22e">index</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#34;index&#34;</span><span style="color:#f92672">;</span>
+    <span style="color:#f92672">}</span>
+
+    <span style="color:#a6e22e">@RequestMapping</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;/about&#34;</span><span style="color:#f92672">)</span>
+    <span style="color:#66d9ef">public</span> String <span style="color:#a6e22e">toAboutPage</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#34;redirect:https://chenjiesong.github.io/&#34;</span><span style="color:#f92672">;</span>
+    <span style="color:#f92672">}</span>
+
+    <span style="color:#a6e22e">@RequestMapping</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;/toLoginPage&#34;</span><span style="color:#f92672">)</span>
+    <span style="color:#66d9ef">public</span> String <span style="color:#a6e22e">toLoginPage</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#34;views/login&#34;</span><span style="color:#f92672">;</span>
+    <span style="color:#f92672">}</span>
+
+    <span style="color:#a6e22e">@RequestMapping</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;/levelA/{name}&#34;</span><span style="color:#f92672">)</span>
+    <span style="color:#66d9ef">public</span> String <span style="color:#a6e22e">toLevelAPage</span><span style="color:#f92672">(</span><span style="color:#a6e22e">@PathVariable</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;name&#34;</span><span style="color:#f92672">)</span> String name<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#34;views/L-A/&#34;</span> <span style="color:#f92672">+</span> name<span style="color:#f92672">;</span>
+    <span style="color:#f92672">}</span>
+
+    <span style="color:#a6e22e">@RequestMapping</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;/levelB/{name}&#34;</span><span style="color:#f92672">)</span>
+    <span style="color:#66d9ef">public</span> String <span style="color:#a6e22e">toLevelBPage</span><span style="color:#f92672">(</span><span style="color:#a6e22e">@PathVariable</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;name&#34;</span><span style="color:#f92672">)</span> String name<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#34;views/L-B/&#34;</span> <span style="color:#f92672">+</span> name<span style="color:#f92672">;</span>
+    <span style="color:#f92672">}</span>
+
+    <span style="color:#a6e22e">@RequestMapping</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;/levelC/{name}&#34;</span><span style="color:#f92672">)</span>
+    <span style="color:#66d9ef">public</span> String <span style="color:#a6e22e">toLevelCPage</span><span style="color:#f92672">(</span><span style="color:#a6e22e">@PathVariable</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;name&#34;</span><span style="color:#f92672">)</span> String name<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#34;views/L-C/&#34;</span> <span style="color:#f92672">+</span> name<span style="color:#f92672">;</span>
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+
+</code></pre></div><hr>
+<h3 id="二整合spring-security内存中">（二）整合Spring Security（内存中）</h3>
+<p><strong>（1）配置授权内容</strong></p>
+<p><strong>A：源码了解用户授权方式</strong></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#a6e22e">@EnableWebSecurity</span>
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Config</span> <span style="color:#66d9ef">extends</span> WebSecurityConfigurerAdapter <span style="color:#f92672">{</span>
+    <span style="color:#a6e22e">@Override</span>
+    <span style="color:#66d9ef">protected</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">configure</span><span style="color:#f92672">(</span>HttpSecurity http<span style="color:#f92672">)</span> <span style="color:#66d9ef">throws</span> Exception <span style="color:#f92672">{</span>
+        http
+            <span style="color:#f92672">.</span><span style="color:#a6e22e">apply</span><span style="color:#f92672">(</span>customDsl<span style="color:#f92672">())</span>
+                <span style="color:#f92672">.</span><span style="color:#a6e22e">flag</span><span style="color:#f92672">(</span><span style="color:#66d9ef">true</span><span style="color:#f92672">)</span>
+                <span style="color:#f92672">.</span><span style="color:#a6e22e">and</span><span style="color:#f92672">()</span>
+            <span style="color:#f92672">...;</span>
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+
+</code></pre></div><p><strong>1.创建 config&ndash;&gt;SecurityConfig配置类</strong></p>
+<ul>
+<li>创建一个配置类，像官网中一样，继承 WebSecurityConfigurerAdapter</li>
+<li>类上添加 @EnableWebSecurity 注解，代表开启WebSecurity模式</li>
+<li>重写 configure(HttpSecurity http) 方法</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#a6e22e">@EnableWebSecurity</span>
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">SecurityConfig</span> <span style="color:#66d9ef">extends</span> WebSecurityConfigurerAdapter <span style="color:#f92672">{</span>
+	<span style="color:#a6e22e">@Override</span>
+    <span style="color:#66d9ef">protected</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">configure</span><span style="color:#f92672">(</span>HttpSecurity http<span style="color:#f92672">)</span> <span style="color:#66d9ef">throws</span> Exception <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">super</span><span style="color:#f92672">.</span><span style="color:#a6e22e">configure</span><span style="color:#f92672">(</span>http<span style="color:#f92672">);</span>
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p>既然是重写，那么我们可以点进去，看一下父类中关于 configure(HttpSecurity http) 方法的源码注释，它有很多有用的信息</p>
+<p>我摘选出这么两小段，第一段的意思就是 ，我们想要使用 HttpSecurity ，要通过重写，不能通过 super 调用，否则会有覆盖问题，第二段就是给出了一个默认的配置方式</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#f92672">*</span> Override <span style="color:#66d9ef">this</span> method to configure the <span style="color:#f92672">{</span><span style="color:#a6e22e">@link</span> HttpSecurity<span style="color:#f92672">}.</span> Typically subclasses
+<span style="color:#f92672">*</span> should not invoke <span style="color:#66d9ef">this</span> method by calling <span style="color:#66d9ef">super</span> as it may override their
+
+<span style="color:#f92672">*</span> configuration<span style="color:#f92672">.</span> The <span style="color:#66d9ef">default</span> configuration is<span style="color:#f92672">:</span>
+<span style="color:#f92672">*</span> http<span style="color:#f92672">.</span><span style="color:#a6e22e">authorizeRequests</span><span style="color:#f92672">().</span><span style="color:#a6e22e">anyRequest</span><span style="color:#f92672">().</span><span style="color:#a6e22e">authenticated</span><span style="color:#f92672">().</span><span style="color:#a6e22e">and</span><span style="color:#f92672">().</span><span style="color:#a6e22e">formLogin</span><span style="color:#f92672">().</span><span style="color:#a6e22e">and</span><span style="color:#f92672">().</span><span style="color:#a6e22e">httpBasic</span><span style="color:#f92672">();</span>
+</code></pre></div><p><strong>2.按照源代码的注释分析</strong></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#a6e22e">@Override</span>
+<span style="color:#66d9ef">protected</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">configure</span><span style="color:#f92672">(</span>HttpSecurity http<span style="color:#f92672">)</span> <span style="color:#66d9ef">throws</span> Exception <span style="color:#f92672">{</span>
+    http<span style="color:#f92672">.</span><span style="color:#a6e22e">authorizeRequests</span><span style="color:#f92672">()</span>
+            <span style="color:#f92672">.</span><span style="color:#a6e22e">anyRequest</span><span style="color:#f92672">().</span><span style="color:#a6e22e">authenticated</span><span style="color:#f92672">()</span>
+            <span style="color:#f92672">.</span><span style="color:#a6e22e">and</span><span style="color:#f92672">().</span><span style="color:#a6e22e">formLogin</span><span style="color:#f92672">()</span>
+            <span style="color:#f92672">.</span><span style="color:#a6e22e">and</span><span style="color:#f92672">().</span><span style="color:#a6e22e">httpBasic</span><span style="color:#f92672">();</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><ul>
+<li>通过字面意思也很好理解，authorizeRequests 是关于请求授权的，所以要涉及到关于请求授权（允许指定身份用户访问不同权限的资源）的问题就需要调用了</li>
+<li>其次，anyRequest().authenticated() 也就是说所有HTTP请求都需要被认证</li>
+<li>接着看，通过 and() 连接了一些新的内容，例如选择表单登录还是 HTTPBasic 的方式（这里认证的过程就是让你输入用户名密码，检测你的身份，两种方式表单或者那种弹窗）</li>
+</ul>
+<blockquote>
+<p>Basic认证是一种较为简单的HTTP认证方式，客户端通过明文（Base64编码格式）传输用户名和密码到服务端进行认证，通常需要配合HTTPS来保证信息传输的安全</p>
+</blockquote>
+<p><strong>B：自定制用户授权</strong></p>
+<p><strong>1.先看源码注释</strong></p>
+<p>默认配置，设定了所有 HTTP 请求 都需要进行认证，所以我们在访问首页等的时候也会被拦截，但是实际情况下，有一些页面是可以被任何人访问的，例如首页，或者自定义的登陆的等页面，这时候需要用自己定义一些用户授权的规则</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#f92672">*</span> 		http
+<span style="color:#f92672">*</span> 			<span style="color:#f92672">.</span><span style="color:#a6e22e">authorizeRequests</span><span style="color:#f92672">(</span>authorizeRequests <span style="color:#f92672">-&gt;</span>
+<span style="color:#f92672">*</span> 				authorizeRequests
+<span style="color:#f92672">*</span> 					<span style="color:#f92672">.</span><span style="color:#a6e22e">antMatchers</span><span style="color:#f92672">(&amp;</span>quot<span style="color:#f92672">;/**&amp;</span>quot<span style="color:#f92672">;).</span><span style="color:#a6e22e">hasRole</span><span style="color:#f92672">(&amp;</span>quot<span style="color:#f92672">;</span>USER<span style="color:#f92672">&amp;</span>quot<span style="color:#f92672">;)</span>
+<span style="color:#f92672">*</span> 			<span style="color:#f92672">)</span>
+
+</code></pre></div><p>这就是我们想要找的，自定义的配置，通过一个一个 antMatchers 进行匹配，通过 hasRole 来规定其合法的身份，也就是说只有满足这个身份的用户才能访问前面规定的路径资源</p>
+<p>Matchers 前面的 ant 前缀代表着，他可以用 ant 风格的路径表达式（举例的时候就能看懂了）</p>
+<ul>
+<li><strong>？</strong>：匹配任何单字符</li>
+<li>*****：匹配0或者任意数量的字符</li>
+<li>******：匹配0或者更多的目录</li>
+</ul>
+<p>补充： 如果想用正则表达式的方式，可以用这个方法 <code>.regexMatchers()</code></p>
+<p>当然了，有很多情况下，你想要让任何人都可以访问某个路径，例如首页，permitAll() 方法 就可以达到这种效果，在这里补充一些常用的方法</p>
+<ul>
+<li><code>permitAll() </code>：允许任何访问</li>
+<li><code>denyAll()</code>：拒绝所有访问</li>
+<li><code>anonymous()</code>：允许匿名用户访问</li>
+<li><code>authenticated() </code>：允许认证的用户进行访问</li>
+<li><code>hasRole(String)</code> ：如果用户具备给定角色(用户组)的话,就允许访问/</li>
+<li><code>hasAnyRole(String…)</code> ：如果用户具有给定角色(用户组)中的一个的话,允许访问.</li>
+<li><code>rememberMe()</code>  ：如果用户是通过Remember-me功能认证的，就允许访问</li>
+<li><code>fullyAuthenticated()</code>：如果用户是完整认证的话（不是通过Remember-me功能认证的），就允许访问</li>
+<li><code>hasAuthority(String)</code>：如果用户具备给定权限的话就允许访问</li>
+<li><code>hasAnyAuthority(String…)</code> ：如果用户具备给定权限中的某一个的话，就允许访问</li>
+<li><code>hasIpAddress(String) </code>：如果请求来自给定ip地址的话,就允许访问.</li>
+<li><code>not()</code> ：对其他访问结果求反</li>
+</ul>
+<p>说明：hasAnyAuthority(&ldquo;ROLE_ADMIN&rdquo;) 和 hasRole(&ldquo;ADMIN&rdquo;) 的区别就是，后者会自动使用 它会自动使用 “ROLE_” 前缀</p>
+<p><strong>2.定制用户授权</strong></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#a6e22e">@Override</span>
+<span style="color:#66d9ef">protected</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">configure</span><span style="color:#f92672">(</span>HttpSecurity http<span style="color:#f92672">)</span> <span style="color:#66d9ef">throws</span> Exception <span style="color:#f92672">{</span>
+	http<span style="color:#f92672">.</span><span style="color:#a6e22e">authorizeRequests</span><span style="color:#f92672">()</span>
+        	<span style="color:#f92672">.</span><span style="color:#a6e22e">antMatchers</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;/&#34;</span><span style="color:#f92672">).</span><span style="color:#a6e22e">permitAll</span><span style="color:#f92672">()</span>
+        	<span style="color:#f92672">.</span><span style="color:#a6e22e">antMatchers</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;/levelA/**&#34;</span><span style="color:#f92672">).</span><span style="color:#a6e22e">hasRole</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;vip1&#34;</span><span style="color:#f92672">)</span>
+        	<span style="color:#f92672">.</span><span style="color:#a6e22e">antMatchers</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;/levelB/**&#34;</span><span style="color:#f92672">).</span><span style="color:#a6e22e">hasRole</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;vip2&#34;</span><span style="color:#f92672">)</span>
+        	<span style="color:#f92672">.</span><span style="color:#a6e22e">antMatchers</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;/levelC/**&#34;</span><span style="color:#f92672">).</span><span style="color:#a6e22e">hasRole</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;vip3&#34;</span><span style="color:#f92672">)</span>
+        	<span style="color:#f92672">.</span><span style="color:#a6e22e">and</span><span style="color:#f92672">().</span><span style="color:#a6e22e">formLogin</span><span style="color:#f92672">();</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p>我们上面代码的意思就是，当访问 /levelA/ /levelB/ /levelC/ 这三个路径下面的任意文件（这里有 a/b/c.html）都需要认证，身份分别是对应 vip1、vip2、vip3，而其他页面，就可以随便访问了</p>
+<p>很显然，虽然说规定了授权的内容，也就是哪些权限的用户，可以访问哪些资源，但是我们由于并没有配置用户的信息（合法的或者非法的），所以自然，前面的登录页面，都是会直接报错的，下面我们来分析一下，如何进行认证</p>
+<p><strong>（2）配置认证内容</strong></p>
+<p><strong>A：源码了解用户认证方式</strong></p>
+<p>刚才的授权部分，我们重写了 configure(HttpSecurity http) 方法，我们继续看看重写方法中，有没有可能帮助我们验证身份，进行用户认证的方法，我们首先来看这个方法 configure(AuthenticationManagerBuilder auth)</p>
+<p><img src="https://raw.githubusercontent.com/chenjiesong/img_study/main/img/security/1.png" alt=""></p>
+<p>这是其中他局举的一个例子，其实这个就是我们想要的，看注释也可以看出来，他就是用来在内存中启用基于用户名的身份验证的</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#f92672">*</span> <span style="color:#66d9ef">protected</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">configure</span><span style="color:#f92672">(</span>AuthenticationManagerBuilder auth<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+<span style="color:#f92672">*</span>  auth
+<span style="color:#f92672">*</span>  <span style="color:#75715e">// enable in memory based authentication with a user named
+</span><span style="color:#75715e"></span><span style="color:#f92672">*</span>  <span style="color:#75715e">// &amp;quot;user&amp;quot; and &amp;quot;admin&amp;quot;
+</span><span style="color:#75715e"></span><span style="color:#f92672">*</span>  		<span style="color:#f92672">.</span><span style="color:#a6e22e">inMemoryAuthentication</span><span style="color:#f92672">()</span>
+<span style="color:#f92672">*</span>   		<span style="color:#f92672">.</span><span style="color:#a6e22e">withUser</span><span style="color:#f92672">(&amp;</span>quot<span style="color:#f92672">;</span>user<span style="color:#f92672">&amp;</span>quot<span style="color:#f92672">;)</span>
+<span style="color:#f92672">*</span>    			<span style="color:#f92672">.</span><span style="color:#a6e22e">password</span><span style="color:#f92672">(&amp;</span>quot<span style="color:#f92672">;</span>password<span style="color:#f92672">&amp;</span>quot<span style="color:#f92672">;)</span>
+<span style="color:#f92672">*</span>    			<span style="color:#f92672">.</span><span style="color:#a6e22e">roles</span><span style="color:#f92672">(&amp;</span>quot<span style="color:#f92672">;</span>USER<span style="color:#f92672">&amp;</span>quot<span style="color:#f92672">;).</span><span style="color:#a6e22e">and</span><span style="color:#f92672">()</span>
+<span style="color:#f92672">*</span>        	<span style="color:#f92672">.</span><span style="color:#a6e22e">withUser</span><span style="color:#f92672">(&amp;</span>quot<span style="color:#f92672">;</span>admin<span style="color:#f92672">&amp;</span>quot<span style="color:#f92672">;)</span>
+<span style="color:#f92672">*</span>    			<span style="color:#f92672">.</span><span style="color:#a6e22e">password</span><span style="color:#f92672">(&amp;</span>quot<span style="color:#f92672">;</span>password<span style="color:#f92672">&amp;</span>quot<span style="color:#f92672">;)</span>
+<span style="color:#f92672">*</span>    			<span style="color:#f92672">.</span><span style="color:#a6e22e">roles</span><span style="color:#f92672">(&amp;</span>quot<span style="color:#f92672">;</span>USER<span style="color:#f92672">&amp;</span>quot<span style="color:#f92672">;,</span> <span style="color:#f92672">&amp;</span>quot<span style="color:#f92672">;</span>ADMIN<span style="color:#f92672">&amp;</span>quot<span style="color:#f92672">;);</span>
+<span style="color:#f92672">*</span> <span style="color:#f92672">}</span>
+</code></pre></div><p><strong>B：自定制用户认证</strong></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#75715e">//定义认证规则
+</span><span style="color:#75715e"></span><span style="color:#a6e22e">@Override</span>
+<span style="color:#66d9ef">protected</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">configure</span><span style="color:#f92672">(</span>AuthenticationManagerBuilder auth<span style="color:#f92672">)</span> <span style="color:#66d9ef">throws</span> Exception <span style="color:#f92672">{</span>
+    auth<span style="color:#f92672">.</span><span style="color:#a6e22e">inMemoryAuthentication</span><span style="color:#f92672">().</span><span style="color:#a6e22e">passwordEncoder</span><span style="color:#f92672">(</span><span style="color:#66d9ef">new</span> BCryptPasswordEncoder<span style="color:#f92672">())</span>
+            <span style="color:#f92672">.</span><span style="color:#a6e22e">withUser</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;admin&#34;</span><span style="color:#f92672">)</span>
+        		<span style="color:#f92672">.</span><span style="color:#a6e22e">password</span><span style="color:#f92672">(</span><span style="color:#66d9ef">new</span> BCryptPasswordEncoder<span style="color:#f92672">().</span><span style="color:#a6e22e">encode</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;666&#34;</span><span style="color:#f92672">))</span>
+        		<span style="color:#f92672">.</span><span style="color:#a6e22e">roles</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;vip1&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;vip2&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;vip3&#34;</span><span style="color:#f92672">)</span>
+            <span style="color:#f92672">.</span><span style="color:#a6e22e">and</span><span style="color:#f92672">()</span>
+            <span style="color:#f92672">.</span><span style="color:#a6e22e">withUser</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;ideal-20&#34;</span><span style="color:#f92672">)</span>
+        		<span style="color:#f92672">.</span><span style="color:#a6e22e">password</span><span style="color:#f92672">(</span><span style="color:#66d9ef">new</span> BCryptPasswordEncoder<span style="color:#f92672">().</span><span style="color:#a6e22e">encode</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;666&#34;</span><span style="color:#f92672">))</span>
+        		<span style="color:#f92672">.</span><span style="color:#a6e22e">roles</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;vip1&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;vip2&#34;</span><span style="color:#f92672">)</span>
+            <span style="color:#f92672">.</span><span style="color:#a6e22e">and</span><span style="color:#f92672">()</span>
+            <span style="color:#f92672">.</span><span style="color:#a6e22e">withUser</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;jack&#34;</span><span style="color:#f92672">)</span>
+        		<span style="color:#f92672">.</span><span style="color:#a6e22e">password</span><span style="color:#f92672">(</span><span style="color:#66d9ef">new</span> BCryptPasswordEncoder<span style="color:#f92672">().</span><span style="color:#a6e22e">encode</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;666&#34;</span><span style="color:#f92672">))</span>
+        		<span style="color:#f92672">.</span><span style="color:#a6e22e">roles</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;vip1&#34;</span><span style="color:#f92672">);</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p>我们就是照着例子打的，但是，其中我们又加入了编码的问题，它要求<strong>必须进行编码，否则会报错</strong>，官方推荐的是bcrypt加密方式，我们这里就用这种，当然自己用常见的 MD5 等等都是可以的，可以自己写一个工具类</p>
+<p>到这里，测试一下，实际上就可以按照身份的不同，从而拥有访问不同路径资源你的权限了，主要的功能已经实现了，下面补充一些，更加友好的功能，例如登录注销按钮的显示，以及记住密码等等</p>
+<p><strong>（3）注销问题</strong></p>
+<p>当然了，前面因为已经有很多配置了，所以可以通过 <code>.and()</code> 进行连接，例如 .and().xxx，或者像下面给出的，单独再写一个 http.xxx</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#a6e22e">@Override</span>
+<span style="color:#66d9ef">protected</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">configure</span><span style="color:#f92672">(</span>HttpSecurity http<span style="color:#f92672">)</span> <span style="color:#66d9ef">throws</span> Exception <span style="color:#f92672">{</span>
+   <span style="color:#f92672">......</span>
+    <span style="color:#75715e">// 注销配置
+</span><span style="color:#75715e"></span>	http<span style="color:#f92672">.</span><span style="color:#a6e22e">logout</span><span style="color:#f92672">().</span><span style="color:#a6e22e">logoutSuccessUrl</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;/&#34;</span><span style="color:#f92672">)</span>
+<span style="color:#f92672">}</span>
+
+</code></pre></div><p>上面短短一句的代码， logout() 代表开启了注销的配置，logoutSuccessUrl(&quot;/&quot;)，代表注销成功后，返回的页面，我们令其注销后回到首页</p>
+<p>前台的页面中，我已经给出了注销的按钮的代码，当然这不是固定的，不同的 ui 框架，不同的模板引擎都是不一样的，但是路径是  <code>/logout</code></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-html" data-lang="html">&lt;<span style="color:#f92672">a</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;item&#34;</span> <span style="color:#a6e22e">th:href</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;@{/logout}&#34;</span>&gt;
+  &lt;<span style="color:#f92672">i</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;address card icon&#34;</span>&gt;&lt;/<span style="color:#f92672">i</span>&gt; 注销
+&lt;/<span style="color:#f92672">a</span>&gt;
+</code></pre></div><p><strong>（4）根据身份权限显示组件</strong></p>
+<p><strong>A：登录、注销的显示</strong></p>
+<p>还有这样一种问题，右上角，未登录的时候，应该显示登陆按钮，登录后，应该显示用户信息，以及注销等等，这一部分，主要是页面这边的问题</p>
+<p>显示的条件其实很简单，就是判断是否认证了，认证了就取出一些值，没认证就显示登陆</p>
+<p><strong>1、这时，我们就需要引入一个 Thymeleaf 配合 Spring Security 的一个依赖 （当然了如果是别的技术，就不一样了）</strong></p>
+<p>地址如下：</p>
+<pre><code>https://mvnrepository.com/artifact/org.thymeleaf.extras/thymeleaf-extras-springsecurity5
+</code></pre><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#f92672">&lt;dependency&gt;</span>
+    <span style="color:#f92672">&lt;groupId&gt;</span>org.thymeleaf.extras<span style="color:#f92672">&lt;/groupId&gt;</span>
+    <span style="color:#f92672">&lt;artifactId&gt;</span>thymeleaf-extras-springsecurity5<span style="color:#f92672">&lt;/artifactId&gt;</span>
+    <span style="color:#f92672">&lt;version&gt;</span>3.0.4.RELEASE<span style="color:#f92672">&lt;/version&gt;</span>
+<span style="color:#f92672">&lt;/dependency&gt;</span>
+</code></pre></div><p><strong>2.引入命名空间</strong></p>
+<p>引入这个文件的目的，就是为了在页面写权限判断等相关的内容的时候可以有提示</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#f92672">&lt;html</span> <span style="color:#a6e22e">lang=</span><span style="color:#e6db74">&#34;en&#34;</span> <span style="color:#a6e22e">xmlns:th=</span><span style="color:#e6db74">&#34;http://www.thymeleaf.org&#34;</span>
+      <span style="color:#a6e22e">xmlns:sec=</span><span style="color:#e6db74">&#34;http://www.thymeleaf.org/extras/spring-security&#34;</span><span style="color:#f92672">&gt;</span>
+</code></pre></div><p><strong>3.修改导航栏逻辑</strong></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-html" data-lang="html"><span style="color:#75715e">&lt;!--登录注销--&gt;</span>
+&lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;right menu&#34;</span>&gt;
+
+  <span style="color:#75715e">&lt;!--如果未登录--&gt;</span>
+  &lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">sec:authorize</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;!isAuthenticated()&#34;</span>&gt;
+    &lt;<span style="color:#f92672">a</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;item&#34;</span> <span style="color:#a6e22e">th:href</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;@{/toLoginPage}&#34;</span>&gt;
+      &lt;<span style="color:#f92672">i</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;address card icon&#34;</span>&gt;&lt;/<span style="color:#f92672">i</span>&gt; 登录
+    &lt;/<span style="color:#f92672">a</span>&gt;
+  &lt;/<span style="color:#f92672">div</span>&gt;
+
+  <span style="color:#75715e">&lt;!--如果已登录--&gt;</span>
+  &lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">sec:authorize</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;isAuthenticated()&#34;</span>&gt;
+    &lt;<span style="color:#f92672">a</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;item&#34;</span>&gt;
+      &lt;<span style="color:#f92672">i</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;address card icon&#34;</span>&gt;&lt;/<span style="color:#f92672">i</span>&gt;
+      用户名：&lt;<span style="color:#f92672">span</span> <span style="color:#a6e22e">sec:authentication</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;principal.username&#34;</span>&gt;&lt;/<span style="color:#f92672">span</span>&gt;
+      <span style="color:#75715e">&lt;!--角色：&lt;span sec:authentication=&#34;principal.authorities&#34;&gt;&lt;/span&gt;--&gt;</span>
+    &lt;/<span style="color:#f92672">a</span>&gt;
+  &lt;/<span style="color:#f92672">div</span>&gt;
+
+  &lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">sec:authorize</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;isAuthenticated()&#34;</span>&gt;
+    &lt;<span style="color:#f92672">a</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;item&#34;</span> <span style="color:#a6e22e">th:href</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;@{/logout}&#34;</span>&gt;
+      &lt;<span style="color:#f92672">i</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;address card icon&#34;</span>&gt;&lt;/<span style="color:#f92672">i</span>&gt; 注销
+    &lt;/<span style="color:#f92672">a</span>&gt;
+  &lt;/<span style="color:#f92672">div</span>&gt;
+&lt;/<span style="color:#f92672">div</span>&gt;
+</code></pre></div><p><strong>B：组件面板的显示</strong></p>
+<p>上面的代码，解决了导航栏的问题，但是例如我们首页中，一些板块，对于不同的用户的显示也是不同的吗</p>
+<p>正如上面的例子，没有登录的用户，是不能访问了 /levelA/、 /levelB/、 /levelC/ 下面的任何文件的，只有登录的用户，根据权限的大小，才能访问某一个，或者所有</p>
+<p>而我们首页部分的三个面板就是用来显示这三块的链接，对于没有足够身份的人，实际上显示这个面板就已经是多余了，当然，你可以选择显示，但是如果想要根据身份显示面板怎么做呢？</p>
+<p>关键就是在 div 中添加了这样一句权限的代码，没有这个指定的身份，这个面板就不会显示</p>
+<p>sec:authorize=&ldquo;hasRole(&lsquo;vip1&rsquo;)&rdquo;</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-html" data-lang="html">&lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;column&#34;</span> <span style="color:#a6e22e">sec:authorize</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;hasRole(&#39;vip1&#39;)&#34;</span>&gt;
+  &lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;ui raised segments&#34;</span>&gt;
+    &lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;ui segment&#34;</span>&gt;
+      &lt;<span style="color:#f92672">a</span> <span style="color:#a6e22e">th:href</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;@{/levelA/a}&#34;</span>&gt;L-A-a&lt;/<span style="color:#f92672">a</span>&gt;
+    &lt;/<span style="color:#f92672">div</span>&gt;
+    &lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;ui segment&#34;</span>&gt;
+      &lt;<span style="color:#f92672">a</span> <span style="color:#a6e22e">th:href</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;@{/levelA/b}&#34;</span>&gt;L-A-b&lt;/<span style="color:#f92672">a</span>&gt;
+    &lt;/<span style="color:#f92672">div</span>&gt;
+    &lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;ui segment&#34;</span>&gt;
+      &lt;<span style="color:#f92672">a</span> <span style="color:#a6e22e">th:href</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;@{/levelA/c}&#34;</span>&gt;L-A-c&lt;/<span style="color:#f92672">a</span>&gt;
+    &lt;/<span style="color:#f92672">div</span>&gt;
+  &lt;/<span style="color:#f92672">div</span>&gt;
+&lt;/<span style="color:#f92672">div</span>&gt;
+&lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;column&#34;</span> <span style="color:#a6e22e">sec:authorize</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;hasRole(&#39;vip2&#39;)&#34;</span>&gt;
+  &lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;ui raised segments&#34;</span>&gt;
+    &lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;ui segment&#34;</span>&gt;
+      &lt;<span style="color:#f92672">a</span> <span style="color:#a6e22e">th:href</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;@{/levelB/a}&#34;</span>&gt;L-B-a&lt;/<span style="color:#f92672">a</span>&gt;
+    &lt;/<span style="color:#f92672">div</span>&gt;
+    &lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;ui segment&#34;</span>&gt;
+      &lt;<span style="color:#f92672">a</span> <span style="color:#a6e22e">th:href</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;@{/levelB/b}&#34;</span>&gt;L-B-b&lt;/<span style="color:#f92672">a</span>&gt;
+    &lt;/<span style="color:#f92672">div</span>&gt;
+    &lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;ui segment&#34;</span>&gt;
+      &lt;<span style="color:#f92672">a</span> <span style="color:#a6e22e">th:href</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;@{/levelB/c}&#34;</span>&gt;L-B-c&lt;/<span style="color:#f92672">a</span>&gt;
+    &lt;/<span style="color:#f92672">div</span>&gt;
+  &lt;/<span style="color:#f92672">div</span>&gt;
+&lt;/<span style="color:#f92672">div</span>&gt;
+&lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;column&#34;</span> <span style="color:#a6e22e">sec:authorize</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;hasRole(&#39;vip3&#39;)&#34;</span>&gt;
+  &lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;ui raised segments&#34;</span>&gt;
+    &lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;ui segment&#34;</span>&gt;
+      &lt;<span style="color:#f92672">a</span> <span style="color:#a6e22e">th:href</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;@{/levelC/a}&#34;</span>&gt;L-A-a&lt;/<span style="color:#f92672">a</span>&gt;
+    &lt;/<span style="color:#f92672">div</span>&gt;
+    &lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;ui segment&#34;</span>&gt;
+      &lt;<span style="color:#f92672">a</span> <span style="color:#a6e22e">th:href</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;@{/levelC/b}&#34;</span>&gt;L-C-b&lt;/<span style="color:#f92672">a</span>&gt;
+    &lt;/<span style="color:#f92672">div</span>&gt;
+    &lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;ui segment&#34;</span>&gt;
+      &lt;<span style="color:#f92672">a</span> <span style="color:#a6e22e">th:href</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;@{/levelC/c}&#34;</span>&gt;L-C-c&lt;/<span style="color:#f92672">a</span>&gt;
+    &lt;/<span style="color:#f92672">div</span>&gt;
+  &lt;/<span style="color:#f92672">div</span>&gt;
+&lt;/<span style="color:#f92672">div</span>&gt;
+</code></pre></div><p><strong>（5）记住用户</strong></p>
+<p>如果重启浏览器后，就需要重新登录，对于一部分用户来说，他们认为是麻烦的，所以很多网站登录时都提供记住用户这种选项</p>
+<p>1、一个简单的配置就可以达到目的，这种情况下，默认的登陆页面，就会多出一个记住用户的单选框</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#a6e22e">@Override</span>
+<span style="color:#66d9ef">protected</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">configure</span><span style="color:#f92672">(</span>HttpSecurity http<span style="color:#f92672">)</span> <span style="color:#66d9ef">throws</span> Exception <span style="color:#f92672">{</span>
+	<span style="color:#f92672">......</span>
+	<span style="color:#75715e">//记住用户
+</span><span style="color:#75715e"></span>    http<span style="color:#f92672">.</span><span style="color:#a6e22e">rememberMe</span><span style="color:#f92672">();</span>
+<span style="color:#f92672">}</span>
+
+</code></pre></div><p>2、但是如果，登陆页面是自定义（下面讲）的怎么办呢？，其实只要修改为如下配置即可，</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#75715e">//定制记住我的参数！
+</span><span style="color:#75715e"></span>http<span style="color:#f92672">.</span><span style="color:#a6e22e">rememberMe</span><span style="color:#f92672">().</span><span style="color:#a6e22e">rememberMeParameter</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;remember&#34;</span><span style="color:#f92672">);</span>
+</code></pre></div><p>上面的 remember 对应 input 中的 name 属性值</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-html" data-lang="html">&lt;<span style="color:#f92672">input</span> <span style="color:#a6e22e">type</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;checkbox&#34;</span> <span style="color:#a6e22e">name</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;remember&#34;</span>/&gt;
+&lt;<span style="color:#f92672">label</span>&gt;记住密码&lt;/<span style="color:#f92672">label</span>&gt;
+</code></pre></div><p><strong>(6)定制登录页面</strong></p>
+<p><strong>1.配置</strong></p>
+<p>自带的登陆页面确实，还是比较丑的，版本更低一些的，更是不美观，如果想要使用自己定制的登陆页面，可以加入下面的配置</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#a6e22e">@Override</span>
+<span style="color:#66d9ef">protected</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">configure</span><span style="color:#f92672">(</span>HttpSecurity http<span style="color:#f92672">)</span> <span style="color:#66d9ef">throws</span> Exception <span style="color:#f92672">{</span>
+	<span style="color:#f92672">......</span>
+	<span style="color:#75715e">// 登陆表单提交请求
+</span><span style="color:#75715e"></span>    http<span style="color:#f92672">.</span><span style="color:#a6e22e">formLogin</span><span style="color:#f92672">()</span>
+	<span style="color:#f92672">.</span><span style="color:#a6e22e">usernameParameter</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;username&#34;</span><span style="color:#f92672">)</span>
+	<span style="color:#f92672">.</span><span style="color:#a6e22e">passwordParameter</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;password&#34;</span><span style="color:#f92672">)</span>
+	<span style="color:#f92672">.</span><span style="color:#a6e22e">loginPage</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;/toLoginPage&#34;</span><span style="color:#f92672">)</span>
+	<span style="color:#f92672">.</span><span style="color:#a6e22e">loginProcessingUrl</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;/login&#34;</span><span style="color:#f92672">)</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><ul>
+<li><code>.loginPage(&quot;/toLoginPage&quot;)</code> 就是说，当你访问一些需要用户权限认证的页面时，就会发起这个请求，到你的登录页面</li>
+<li><code>.loginProcessingUrl(&quot;/login&quot;)</code> 就是表单中，真正要提交请求的一个路径</li>
+<li>其余两个就是关于用户名和密码的一个获取，其值和页面中用户名密码的 name 属性值一致</li>
+</ul>
+<p><strong>2.页面跳转</strong></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#a6e22e">@RequestMapping</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;/toLoginPage&#34;</span><span style="color:#f92672">)</span>
+<span style="color:#66d9ef">public</span> String <span style="color:#a6e22e">toLoginPage</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+    <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#34;views/login&#34;</span><span style="color:#f92672">;</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p><strong>3.自定义登陆界面的表单提交action设置</strong></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-html" data-lang="html">&lt;<span style="color:#f92672">form</span> <span style="color:#a6e22e">id</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;login&#34;</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;ui fluid form segment&#34;</span> <span style="color:#a6e22e">th:action</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;@{/login}&#34;</span> <span style="color:#a6e22e">method</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;post&#34;</span>&gt;
+	......
+&lt;/<span style="color:#f92672">form</span>&gt;
+</code></pre></div><p><strong>（7）关闭csrf</strong></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#a6e22e">@Override</span>
+<span style="color:#66d9ef">protected</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">configure</span><span style="color:#f92672">(</span>HttpSecurity http<span style="color:#f92672">)</span> <span style="color:#66d9ef">throws</span> Exception <span style="color:#f92672">{</span>
+	<span style="color:#f92672">......</span>
+	<span style="color:#75715e">//关闭csrf功能:跨站请求伪造,默认只能通过post方式提交logout请求
+</span><span style="color:#75715e"></span>	http<span style="color:#f92672">.</span><span style="color:#a6e22e">csrf</span><span style="color:#f92672">().</span><span style="color:#a6e22e">disable</span><span style="color:#f92672">();</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><hr>
+<h3 id="三整合spring-securityjdbc">（三）整合Spring Security（JDBC）</h3>
+<p><strong>（1）创建表以及数据</strong></p>
+<p>这里创建了三个字段，用户名，密码，还有角色，插入数据的时候密码是使用了 md5 加密（自己写了一个工具类）</p>
+<p>这里更合理了一些，我把权限定义为了普通用户、普通管理员、超级管理员（自己设计都行）</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#75715e">-- ----------------------------
+</span><span style="color:#75715e">-- Table structure for user
+</span><span style="color:#75715e">-- ----------------------------
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">DROP</span> <span style="color:#66d9ef">TABLE</span> <span style="color:#66d9ef">IF</span> <span style="color:#66d9ef">EXISTS</span> <span style="color:#f92672">`</span><span style="color:#66d9ef">user</span><span style="color:#f92672">`</span>;
+<span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">TABLE</span> <span style="color:#f92672">`</span><span style="color:#66d9ef">user</span><span style="color:#f92672">`</span>  (
+  <span style="color:#f92672">`</span>uid<span style="color:#f92672">`</span> int(<span style="color:#ae81ff">11</span>) <span style="color:#66d9ef">NOT</span> <span style="color:#66d9ef">NULL</span> AUTO_INCREMENT,
+  <span style="color:#f92672">`</span>username<span style="color:#f92672">`</span> varchar(<span style="color:#ae81ff">255</span>) <span style="color:#66d9ef">DEFAULT</span> <span style="color:#66d9ef">NULL</span> <span style="color:#66d9ef">COMMENT</span> <span style="color:#e6db74">&#39;用户名&#39;</span>,
+  <span style="color:#f92672">`</span>password<span style="color:#f92672">`</span> varchar(<span style="color:#ae81ff">255</span>) <span style="color:#66d9ef">DEFAULT</span> <span style="color:#66d9ef">NULL</span> <span style="color:#66d9ef">COMMENT</span> <span style="color:#e6db74">&#39;密码&#39;</span>,
+  <span style="color:#f92672">`</span>roles<span style="color:#f92672">`</span> varchar(<span style="color:#ae81ff">255</span>) <span style="color:#66d9ef">DEFAULT</span> <span style="color:#66d9ef">NULL</span> <span style="color:#66d9ef">COMMENT</span> <span style="color:#e6db74">&#39;角色&#39;</span>,
+  <span style="color:#66d9ef">PRIMARY</span> <span style="color:#66d9ef">KEY</span> (<span style="color:#f92672">`</span>uid<span style="color:#f92672">`</span>)
+)
+
+<span style="color:#75715e">-- ----------------------------
+</span><span style="color:#75715e">-- Records of user
+</span><span style="color:#75715e">-- ----------------------------
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">INSERT</span> <span style="color:#66d9ef">INTO</span> <span style="color:#f92672">`</span><span style="color:#66d9ef">user</span><span style="color:#f92672">`</span> <span style="color:#66d9ef">VALUES</span> (<span style="color:#ae81ff">1</span>, <span style="color:#e6db74">&#39;superadmin&#39;</span>, <span style="color:#e6db74">&#39;FAE0B27C451C728867A567E8C1BB4E53&#39;</span>, <span style="color:#e6db74">&#39;ROLE_SUPER_ADMIN&#39;</span>);
+<span style="color:#66d9ef">INSERT</span> <span style="color:#66d9ef">INTO</span> <span style="color:#f92672">`</span><span style="color:#66d9ef">user</span><span style="color:#f92672">`</span> <span style="color:#66d9ef">VALUES</span> (<span style="color:#ae81ff">2</span>, <span style="color:#e6db74">&#39;admin&#39;</span>, <span style="color:#e6db74">&#39;FAE0B27C451C728867A567E8C1BB4E53&#39;</span>, <span style="color:#e6db74">&#39;ROLE_ADMIN&#39;</span>);
+<span style="color:#66d9ef">INSERT</span> <span style="color:#66d9ef">INTO</span> <span style="color:#f92672">`</span><span style="color:#66d9ef">user</span><span style="color:#f92672">`</span> <span style="color:#66d9ef">VALUES</span> (<span style="color:#ae81ff">3</span>, <span style="color:#e6db74">&#39;ideal-20&#39;</span>, <span style="color:#e6db74">&#39;FAE0B27C451C728867A567E8C1BB4E53&#39;</span>, <span style="color:#e6db74">&#39;ROLE_USER&#39;</span>);
+</code></pre></div><p><strong>（2）创建实体</strong></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">User</span> <span style="color:#f92672">{</span>
+    <span style="color:#66d9ef">private</span> Integer uid<span style="color:#f92672">;</span>
+    <span style="color:#66d9ef">private</span> String username<span style="color:#f92672">;</span>
+    <span style="color:#66d9ef">private</span> String password<span style="color:#f92672">;</span>
+    <span style="color:#66d9ef">private</span> String roles<span style="color:#f92672">;</span>
+
+    <span style="color:#66d9ef">public</span> Integer <span style="color:#a6e22e">getUid</span><span style="color:#f92672">(){</span> <span style="color:#66d9ef">return</span> uid<span style="color:#f92672">;</span> <span style="color:#f92672">}</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">setUid</span><span style="color:#f92672">(</span>Integer uid<span style="color:#f92672">){</span> <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">uid</span> <span style="color:#f92672">=</span> uid<span style="color:#f92672">;</span> <span style="color:#f92672">}</span>
+
+    <span style="color:#66d9ef">public</span> String <span style="color:#a6e22e">getUsername</span><span style="color:#f92672">(){</span> <span style="color:#66d9ef">return</span> username<span style="color:#f92672">;</span> <span style="color:#f92672">}</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">setUsername</span><span style="color:#f92672">(</span>String username<span style="color:#f92672">){</span> <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">username</span> <span style="color:#f92672">=</span> username<span style="color:#f92672">;</span> <span style="color:#f92672">}</span>
+
+    <span style="color:#66d9ef">public</span> String <span style="color:#a6e22e">getPassword</span><span style="color:#f92672">(){</span> <span style="color:#66d9ef">return</span> password<span style="color:#f92672">;</span> <span style="color:#f92672">}</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">setPassword</span><span style="color:#f92672">(</span>String password<span style="color:#f92672">){</span> <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">password</span> <span style="color:#f92672">=</span> password<span style="color:#f92672">;</span> <span style="color:#f92672">}</span>
+
+    <span style="color:#66d9ef">public</span> String <span style="color:#a6e22e">getRoles</span><span style="color:#f92672">(){</span> <span style="color:#66d9ef">return</span> roles<span style="color:#f92672">;</span> <span style="color:#f92672">}</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">setRoles</span><span style="color:#f92672">(</span>String roles<span style="color:#f92672">){</span> <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">roles</span> <span style="color:#f92672">=</span> roles<span style="color:#f92672">;</span> <span style="color:#f92672">}</span>
+
+<span style="color:#f92672">}</span>
+</code></pre></div><p><strong>（3）配置授权内容</strong></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#a6e22e">@Override</span>
+<span style="color:#66d9ef">protected</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">configure</span><span style="color:#f92672">(</span>HttpSecurity http<span style="color:#f92672">)</span> <span style="color:#66d9ef">throws</span> Exception <span style="color:#f92672">{</span>
+    http<span style="color:#f92672">.</span><span style="color:#a6e22e">authorizeRequests</span><span style="color:#f92672">()</span>
+            <span style="color:#f92672">.</span><span style="color:#a6e22e">antMatchers</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;/&#34;</span><span style="color:#f92672">).</span><span style="color:#a6e22e">permitAll</span><span style="color:#f92672">()</span>
+            <span style="color:#f92672">.</span><span style="color:#a6e22e">antMatchers</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;/levelA/**&#34;</span><span style="color:#f92672">).</span><span style="color:#a6e22e">hasAnyRole</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;USER&#34;</span><span style="color:#f92672">,</span><span style="color:#e6db74">&#34;ADMIN&#34;</span><span style="color:#f92672">,</span><span style="color:#e6db74">&#34;SUPER_ADMIN&#34;</span><span style="color:#f92672">)</span>
+            <span style="color:#f92672">.</span><span style="color:#a6e22e">antMatchers</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;/levelB/**&#34;</span><span style="color:#f92672">).</span><span style="color:#a6e22e">hasAnyRole</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;ADMIN&#34;</span><span style="color:#f92672">,</span><span style="color:#e6db74">&#34;SUPER_ADMIN&#34;</span><span style="color:#f92672">)</span>
+            <span style="color:#f92672">.</span><span style="color:#a6e22e">antMatchers</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;/levelC/**&#34;</span><span style="color:#f92672">).</span><span style="color:#a6e22e">hasRole</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;SUPER_ADMIN&#34;</span><span style="color:#f92672">)</span>
+            <span style="color:#f92672">.</span><span style="color:#a6e22e">and</span><span style="color:#f92672">().</span><span style="color:#a6e22e">formLogin</span><span style="color:#f92672">()</span>
+
+            <span style="color:#75715e">// 登陆表单提交请求
+</span><span style="color:#75715e"></span>            <span style="color:#f92672">.</span><span style="color:#a6e22e">and</span><span style="color:#f92672">().</span><span style="color:#a6e22e">formLogin</span><span style="color:#f92672">()</span>
+            <span style="color:#f92672">.</span><span style="color:#a6e22e">usernameParameter</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;username&#34;</span><span style="color:#f92672">)</span>
+            <span style="color:#f92672">.</span><span style="color:#a6e22e">passwordParameter</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;password&#34;</span><span style="color:#f92672">)</span>
+            <span style="color:#f92672">.</span><span style="color:#a6e22e">loginPage</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;/toLoginPage&#34;</span><span style="color:#f92672">)</span>
+            <span style="color:#f92672">.</span><span style="color:#a6e22e">loginProcessingUrl</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;/login&#34;</span><span style="color:#f92672">)</span>
+            <span style="color:#75715e">//注销
+</span><span style="color:#75715e"></span>            <span style="color:#f92672">.</span><span style="color:#a6e22e">and</span><span style="color:#f92672">().</span><span style="color:#a6e22e">logout</span><span style="color:#f92672">().</span><span style="color:#a6e22e">logoutSuccessUrl</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;/&#34;</span><span style="color:#f92672">)</span>
+            <span style="color:#75715e">//记住我
+</span><span style="color:#75715e"></span>            <span style="color:#f92672">.</span><span style="color:#a6e22e">and</span><span style="color:#f92672">().</span><span style="color:#a6e22e">rememberMe</span><span style="color:#f92672">().</span><span style="color:#a6e22e">rememberMeParameter</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;remember&#34;</span><span style="color:#f92672">)</span>
+            <span style="color:#75715e">//关闭csrf功能:跨站请求伪造,默认只能通过post方式提交logout请求
+</span><span style="color:#75715e"></span>            <span style="color:#f92672">.</span><span style="color:#a6e22e">and</span><span style="color:#f92672">().</span><span style="color:#a6e22e">csrf</span><span style="color:#f92672">().</span><span style="color:#a6e22e">disable</span><span style="color:#f92672">();</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p><strong>（4）配置认证内容</strong></p>
+<p><strong>A：配置数据库</strong></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript"><span style="color:#a6e22e">spring</span><span style="color:#f92672">:</span>
+  <span style="color:#a6e22e">datasource</span><span style="color:#f92672">:</span>
+    <span style="color:#a6e22e">username</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">root</span>
+    <span style="color:#a6e22e">password</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">root99</span>
+    <span style="color:#a6e22e">url</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">jdbc</span><span style="color:#f92672">:</span><span style="color:#a6e22e">mysql</span><span style="color:#f92672">:</span><span style="color:#75715e">//localhost:3306/springboot_security_test?serverTimezone=Asia/Shanghai&amp;useUnicode=true&amp;characterEncoding=utf-8
+</span><span style="color:#75715e"></span>    <span style="color:#a6e22e">driver</span><span style="color:#f92672">-</span><span style="color:#66d9ef">class</span><span style="color:#f92672">-</span><span style="color:#a6e22e">name</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">com</span>.<span style="color:#a6e22e">mysql</span>.<span style="color:#a6e22e">cj</span>.<span style="color:#a6e22e">jdbc</span>.<span style="color:#a6e22e">Driver</span>
+
+<span style="color:#a6e22e">server</span><span style="color:#f92672">:</span>
+  <span style="color:#a6e22e">port</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">8082</span>
+</code></pre></div><p><strong>B：具体配置</strong></p>
+<p>几个注意的地方：</p>
+<ul>
+<li>查询语句都是通过 username 查询</li>
+<li>usersByUsernameQuery（）方法里的参数一定要有一个 true 的查询结果，所以我直接在查询语句中写了一个 true</li>
+<li>MD5 工具类，是我以前一个项目中整理的，加盐的部分，我给注释掉了，因为我测试的时候简单点</li>
+<li>DataSource dataSource 要在前面注入进来（选择 sql 的）</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#75715e">//定义认证规则
+</span><span style="color:#75715e"></span><span style="color:#a6e22e">@Override</span>
+<span style="color:#66d9ef">protected</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">configure</span><span style="color:#f92672">(</span>AuthenticationManagerBuilder auth<span style="color:#f92672">)</span> <span style="color:#66d9ef">throws</span> Exception <span style="color:#f92672">{</span>
+
+auth<span style="color:#f92672">.</span><span style="color:#a6e22e">jdbcAuthentication</span><span style="color:#f92672">()</span>
+            <span style="color:#f92672">.</span><span style="color:#a6e22e">dataSource</span><span style="color:#f92672">(</span>dataSource<span style="color:#f92672">)</span>
+            <span style="color:#f92672">.</span><span style="color:#a6e22e">usersByUsernameQuery</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;select username,password,true from user where username = ?&#34;</span><span style="color:#f92672">)</span>
+            <span style="color:#f92672">.</span><span style="color:#a6e22e">authoritiesByUsernameQuery</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;select username,roles from user where username = ?&#34;</span><span style="color:#f92672">)</span>
+            <span style="color:#f92672">.</span><span style="color:#a6e22e">passwordEncoder</span><span style="color:#f92672">(</span><span style="color:#66d9ef">new</span> PasswordEncoder<span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+                <span style="color:#a6e22e">@Override</span>
+                <span style="color:#66d9ef">public</span> String <span style="color:#a6e22e">encode</span><span style="color:#f92672">(</span>CharSequence rawPassword<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+                    <span style="color:#66d9ef">return</span> MD5Util<span style="color:#f92672">.</span><span style="color:#a6e22e">MD5EncodeUtf8</span><span style="color:#f92672">((</span>String<span style="color:#f92672">)</span> rawPassword<span style="color:#f92672">);</span>
+                <span style="color:#f92672">}</span>
+
+                <span style="color:#a6e22e">@Override</span>
+                <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">boolean</span> <span style="color:#a6e22e">matches</span><span style="color:#f92672">(</span>CharSequence rawPassword<span style="color:#f92672">,</span> String encodedPassword<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+                    <span style="color:#66d9ef">return</span> encodedPassword<span style="color:#f92672">.</span><span style="color:#a6e22e">equals</span><span style="color:#f92672">(</span>MD5Util<span style="color:#f92672">.</span><span style="color:#a6e22e">MD5EncodeUtf8</span><span style="color:#f92672">((</span>String<span style="color:#f92672">)</span> rawPassword<span style="color:#f92672">));</span>
+                <span style="color:#f92672">}</span>
+            <span style="color:#f92672">});</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p><strong>C：MD5工具类</strong></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#f92672">package</span> cn.ideal.utils<span style="color:#f92672">;</span>
+
+<span style="color:#f92672">import</span> java.security.MessageDigest<span style="color:#f92672">;</span>
+
+<span style="color:#75715e">/**
+</span><span style="color:#75715e"> * @ClassName: MD5Util
+</span><span style="color:#75715e"> * @Description: MD5 加密工具类
+</span><span style="color:#75715e"> * @Author: BWH_Steven
+</span><span style="color:#75715e"> * @Date: 2020/4/27 16:46
+</span><span style="color:#75715e"> * @Version: 1.0
+</span><span style="color:#75715e"> */</span>
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">MD5Util</span> <span style="color:#f92672">{</span>
+
+    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">static</span> String <span style="color:#a6e22e">byteArrayToHexString</span><span style="color:#f92672">(</span><span style="color:#66d9ef">byte</span> b<span style="color:#f92672">[])</span> <span style="color:#f92672">{</span>
+        StringBuffer resultSb <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> StringBuffer<span style="color:#f92672">();</span>
+        <span style="color:#66d9ef">for</span> <span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> 0<span style="color:#f92672">;</span> i <span style="color:#f92672">&lt;</span> b<span style="color:#f92672">.</span><span style="color:#a6e22e">length</span><span style="color:#f92672">;</span> i<span style="color:#f92672">++)</span>
+            resultSb<span style="color:#f92672">.</span><span style="color:#a6e22e">append</span><span style="color:#f92672">(</span>byteToHexString<span style="color:#f92672">(</span>b<span style="color:#f92672">[</span>i<span style="color:#f92672">]));</span>
+
+        <span style="color:#66d9ef">return</span> resultSb<span style="color:#f92672">.</span><span style="color:#a6e22e">toString</span><span style="color:#f92672">();</span>
+    <span style="color:#f92672">}</span>
+
+    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">static</span> String <span style="color:#a6e22e">byteToHexString</span><span style="color:#f92672">(</span><span style="color:#66d9ef">byte</span> b<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">int</span> n <span style="color:#f92672">=</span> b<span style="color:#f92672">;</span>
+        <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>n <span style="color:#f92672">&lt;</span> 0<span style="color:#f92672">)</span>
+            n <span style="color:#f92672">+=</span> 256<span style="color:#f92672">;</span>
+        <span style="color:#66d9ef">int</span> d1 <span style="color:#f92672">=</span> n <span style="color:#f92672">/</span> 16<span style="color:#f92672">;</span>
+        <span style="color:#66d9ef">int</span> d2 <span style="color:#f92672">=</span> n <span style="color:#f92672">%</span> 16<span style="color:#f92672">;</span>
+        <span style="color:#66d9ef">return</span> hexDigits<span style="color:#f92672">[</span>d1<span style="color:#f92672">]</span> <span style="color:#f92672">+</span> hexDigits<span style="color:#f92672">[</span>d2<span style="color:#f92672">];</span>
+    <span style="color:#f92672">}</span>
+
+    <span style="color:#75715e">/**
+</span><span style="color:#75715e">     * 返回大写MD5
+</span><span style="color:#75715e">     *
+</span><span style="color:#75715e">     * @param origin
+</span><span style="color:#75715e">     * @param charsetname
+</span><span style="color:#75715e">     * @return
+</span><span style="color:#75715e">     */</span>
+    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">static</span> String <span style="color:#a6e22e">MD5Encode</span><span style="color:#f92672">(</span>String origin<span style="color:#f92672">,</span> String charsetname<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        String resultString <span style="color:#f92672">=</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">;</span>
+        <span style="color:#66d9ef">try</span> <span style="color:#f92672">{</span>
+            resultString <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> String<span style="color:#f92672">(</span>origin<span style="color:#f92672">);</span>
+            MessageDigest md <span style="color:#f92672">=</span> MessageDigest<span style="color:#f92672">.</span><span style="color:#a6e22e">getInstance</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;MD5&#34;</span><span style="color:#f92672">);</span>
+            <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>charsetname <span style="color:#f92672">==</span> <span style="color:#66d9ef">null</span> <span style="color:#f92672">||</span> <span style="color:#e6db74">&#34;&#34;</span><span style="color:#f92672">.</span><span style="color:#a6e22e">equals</span><span style="color:#f92672">(</span>charsetname<span style="color:#f92672">))</span>
+                resultString <span style="color:#f92672">=</span> byteArrayToHexString<span style="color:#f92672">(</span>md<span style="color:#f92672">.</span><span style="color:#a6e22e">digest</span><span style="color:#f92672">(</span>resultString<span style="color:#f92672">.</span><span style="color:#a6e22e">getBytes</span><span style="color:#f92672">()));</span>
+            <span style="color:#66d9ef">else</span>
+                resultString <span style="color:#f92672">=</span> byteArrayToHexString<span style="color:#f92672">(</span>md<span style="color:#f92672">.</span><span style="color:#a6e22e">digest</span><span style="color:#f92672">(</span>resultString<span style="color:#f92672">.</span><span style="color:#a6e22e">getBytes</span><span style="color:#f92672">(</span>charsetname<span style="color:#f92672">)));</span>
+        <span style="color:#f92672">}</span> <span style="color:#66d9ef">catch</span> <span style="color:#f92672">(</span>Exception exception<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        <span style="color:#f92672">}</span>
+        <span style="color:#66d9ef">return</span> resultString<span style="color:#f92672">.</span><span style="color:#a6e22e">toUpperCase</span><span style="color:#f92672">();</span>
+    <span style="color:#f92672">}</span>
+
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> String <span style="color:#a6e22e">MD5EncodeUtf8</span><span style="color:#f92672">(</span>String origin<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+<span style="color:#75715e">//        origin = origin + PropertiesUtil.getProperty(&#34;password.salt&#34;, &#34;&#34;);
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">return</span> MD5Encode<span style="color:#f92672">(</span>origin<span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;utf-8&#34;</span><span style="color:#f92672">);</span>
+    <span style="color:#f92672">}</span>
+
+    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">final</span> String hexDigits<span style="color:#f92672">[]</span> <span style="color:#f92672">=</span> <span style="color:#f92672">{</span><span style="color:#e6db74">&#34;0&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;1&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;2&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;3&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;4&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;5&#34;</span><span style="color:#f92672">,</span>
+            <span style="color:#e6db74">&#34;6&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;7&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;8&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;9&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;a&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;b&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;c&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;d&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;e&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;f&#34;</span><span style="color:#f92672">};</span>
+<span style="color:#f92672">}</span>
+</code></pre></div>
+    </div>
+    <div class="post-footer">
+      
+    </div>
+  </article>
+
+    </main>
+  </body>
+</html>

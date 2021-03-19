@@ -5,11 +5,11 @@
     <link>https://chenjiesong.github.io/tags/</link>
     <description>Recent content in Tags on song</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Mon, 08 Mar 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://chenjiesong.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 09 Mar 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://chenjiesong.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Springboot</title>
       <link>https://chenjiesong.github.io/tags/springboot/</link>
-      <pubDate>Mon, 08 Mar 2021 00:00:00 +0000</pubDate>
+      <pubDate>Tue, 09 Mar 2021 00:00:00 +0000</pubDate>
       
       <guid>https://chenjiesong.github.io/tags/springboot/</guid>
       <description></description>
@@ -48,6 +48,15 @@
       <pubDate>Wed, 23 Dec 2020 00:00:00 +0000</pubDate>
       
       <guid>https://chenjiesong.github.io/tags/spring5/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Python</title>
+      <link>https://chenjiesong.github.io/tags/python/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://chenjiesong.github.io/tags/python/</guid>
       <description></description>
     </item>
     
